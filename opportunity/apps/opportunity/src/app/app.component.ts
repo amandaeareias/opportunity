@@ -10,7 +10,7 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class AppComponent {
   // check why the type definition is buggy
-  ngos$;
+  ngos$: Observable<any[]>
 
   constructor(private db: AngularFirestore) {
     this.ngos$ = db.collection('ngo').snapshotChanges().pipe(map(actions => actions.map(action=> {
