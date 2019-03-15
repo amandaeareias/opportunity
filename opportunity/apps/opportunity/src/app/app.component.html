@@ -1,5 +1,8 @@
 <div *ngFor="let item of ngos$ | async">
   <div>{{item.name}}</div>
+  <button (click)="update(item)">UPDATE</button>
 </div>
 
 <div>{{ngos$ | async | json}}</div>
+
+
