@@ -1,0 +1,130 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "opportunity": {
+      "root": "apps/opportunity/",
+      "sourceRoot": "apps/opportunity/src",
+      "projectType": "application",
+      "prefix": "opp",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/opportunity",
+            "index": "apps/opportunity/src/index.html",
+            "main": "apps/opportunity/src/main.ts",
+            "polyfills": "apps/opportunity/src/polyfills.ts",
+            "tsConfig": "apps/opportunity/tsconfig.app.json",
+            "assets": [
+              "apps/opportunity/src/favicon.ico",
+              "apps/opportunity/src/assets"
+            ],
+            "styles": ["apps/opportunity/src/styles.css"],
+            "scripts": [],
+            "es5BrowserSupport": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/opportunity/src/environments/environment.ts",
+                  "with": "apps/opportunity/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "opportunity:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "opportunity:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "opportunity:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/opportunity/tsconfig.app.json",
+              "apps/opportunity/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "apps/opportunity/jest.config.js",
+            "tsConfig": "apps/opportunity/tsconfig.spec.json",
+            "setupFile": "apps/opportunity/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "opportunity-e2e": {
+      "root": "apps/opportunity-e2e",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/builders:cypress",
+          "options": {
+            "cypressConfig": "apps/opportunity-e2e/cypress.json",
+            "tsConfig": "apps/opportunity-e2e/tsconfig.e2e.json",
+            "devServerTarget": "opportunity:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "opportunity:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/opportunity-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "warnings": {
+      "typescriptMismatch": false,
+      "versionMismatch": false
+    },
+    "defaultCollection": "@nrwl/schematics"
+  },
+  "schematics": {},
+  "defaultProject": "opportunity"
+}
