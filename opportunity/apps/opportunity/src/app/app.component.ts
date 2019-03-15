@@ -17,7 +17,7 @@ export class AppComponent {
   }
 
   update(item){
-    console.log(item.id, "i am the item")
+    console.log(item, "i am the item")
         this.db.collection('ngo').doc('WM8CPsEg223CeSCMLeit').delete().then(function() {
           console.log("Document successfully deleted!");
       }).catch(function(error) {
