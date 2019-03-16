@@ -42,19 +42,4 @@ export class NgoSignupComponent implements OnInit {
       }
     };
   }
-
-  // constructor(public pokemonService: GetPokemonService) {}
-
-  // ngOnInit() {}
-
-  // onSubmit() {
-  //   const myPokemon = this.pokemonItem.value;
-  //   this.pokemonService
-  //     .createPokemon({
-  //       name: myPokemon.pokemonName,
-  //       id: myPokemon.pokemonId,
-  //       imageUrl: myPokemon.pokemonPicture
-  //     })
-  //     .subscribe();
-  // }
 }
