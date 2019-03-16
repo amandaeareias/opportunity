@@ -28,7 +28,7 @@ import { storeReducer } from './store/store.reducers';
     AngularFireAuthModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatToolbarModule
+    MatToolbarModule,
     StoreModule.forRoot({ store: storeReducer }),
   ],
   providers: [],
