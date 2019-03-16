@@ -1,0 +1,27 @@
+<form class="table-container" [formGroup]="ngoProfile" (ngSubmit)="submitNGO()">
+  <mat-form-field>
+    <input type="text" formControlName="usernameForm" placeholder="username">
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" formControlName="imageForm">
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" formControlName="descriptionForm">
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" formControlName="websiteForm">
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" formControlName="addressForm">
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" formControlName="emailForm">
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" formControlName="phoneForm">
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" formControlName="jobsForm">
+  </mat-form-field>
+  <button type="submit">Submit</button>
+</form>
