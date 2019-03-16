@@ -4,17 +4,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { MatButtonModule } from '@angular/material';
+import { MatButtonModule, MatToolbarModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { LoginComponent } from './auth/login/login.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -24,6 +26,7 @@ import { LoginComponent } from './auth/login/login.component';
     AngularFireAuthModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
