@@ -1,13 +1,13 @@
-import { Action } from "@ngrx/store";
+import { Action } from '@ngrx/store';
 
 export enum ActionTypes {
-  MarkAsNgo = "[Auth] Login as NGO",
-  UpdateUserDetails = "[Auth] Populate User",
+  MarkAsNgo = '[Auth] Login as NGO',
+  UpdateUserDetails = '[Auth] Populate User',
 
-  GoogleLogin = "[Auth] Login with Google Account",
-  Logout = "[Auth] Logout",
-  LoginError = "[Auth] Login Error",
-  GetUser = "[Auth] Get User From DB"
+  GoogleLogin = '[Auth] Login with Google Account',
+  Logout = '[Auth] Logout',
+  LoginError = '[Auth] Login Error',
+  GetUser = '[Auth] Get User From DB'
 }
 
 export class MarkAsNgo implements Action {

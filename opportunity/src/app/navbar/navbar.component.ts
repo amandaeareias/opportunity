@@ -1,14 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { AngularFireAuth } from "@angular/fire/auth";
-import { Store } from "@ngrx/store";
-import { UserState, userSelector } from "../store/user.reducers";
-import { UpdateUserDetails, Logout } from "../store/user.actions";
-import { Observable } from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Store } from '@ngrx/store';
+import { UserState, userSelector } from '../store/user.reducers';
+import { UpdateUserDetails, Logout } from '../store/user.actions';
+import { Observable } from 'rxjs';
 
 @Component({
-  selector: "app-navbar",
-  templateUrl: "./navbar.component.html",
-  styleUrls: ["./navbar.component.css"]
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
   userDetails$: Observable<any>;
@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
       if (!user) {
         this.store.dispatch(new Logout());
       } else {
-        console.log("dispatch UpdateUserDetails");
+        console.log('dispatch UpdateUserDetails');
         const { displayName, email, photoURL } = user;
         this.store.dispatch(
           new UpdateUserDetails({ displayName, email, photoURL })
