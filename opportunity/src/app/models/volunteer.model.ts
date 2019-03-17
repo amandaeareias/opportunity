@@ -14,4 +14,4 @@ export class Volunteer {
   }[];
 }
 
-export const VolunteerCollection = "volunteer";
+export const VolunteerCollection = 'volunteer';

@@ -1,5 +1,5 @@
-import { ActionTypes, ActionsUnion } from "./user.actions";
-import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { ActionTypes, ActionsUnion } from './user.actions';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface UserState {
   user: any;
@@ -50,7 +50,7 @@ export function userReducer(state = initialState, action: ActionsUnion) {
   }
 }
 
-export const getUserState = createFeatureSelector<UserState>("user");
+export const getUserState = createFeatureSelector<UserState>('user');
 
 export const isNgoSelector = createSelector(
   getUserState,

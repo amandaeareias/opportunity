@@ -1,4 +1,4 @@
-import { NGO } from "./ngo.model";
+import { NGO } from './ngo.model';
 
 export class Opportunity {
   id?: string;
@@ -20,4 +20,4 @@ export class Opportunity {
   }[];
 }
 
-export const OpportunityCollection = "opportunity";
+export const OpportunityCollection = 'opportunity';

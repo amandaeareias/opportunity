@@ -1,4 +1,4 @@
-import { Opportunity } from "./opportunity.model";
+import { Opportunity } from './opportunity.model';
 
 export class NGO {
   id?: string;
@@ -16,4 +16,4 @@ export class NGO {
   opportunity?: Opportunity[];
 }
 
-export const NgoCollection = "ngo";
+export const NgoCollection = 'ngo';
