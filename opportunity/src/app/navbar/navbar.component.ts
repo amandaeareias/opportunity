@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { Store } from "@ngrx/store";
 import { UserState, userSelector } from "../store/user.reducers";
-import { UpdateUserDetails } from "../store/user.actions";
+import { UpdateUserDetails, Logout } from "../store/user.actions";
 import { Observable } from "rxjs";
 
 @Component({
@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
     this.userDetails$ = this.store.select(userSelector);
     this.auth.authState.subscribe(user => {
       if (!user) {
-        this.store.dispatch(new UpdateUserDetails(null));
+        this.store.dispatch(new Logout());
       } else {
         console.log("dispatch UpdateUserDetails");
         const { displayName, email, photoURL } = user;

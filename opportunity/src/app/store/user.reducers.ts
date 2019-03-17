@@ -31,6 +31,8 @@ export function userReducer(state = initialState, action: ActionsUnion) {
       }
       return { ...state, user };
 
+    case ActionTypes.Logout:
+      return { ...state, user: null, isNgo: null };
     // case ActionTypes.GetUserDetails:
     // const { displayName, email, photoURL } = action.payload;
     // return {
