@@ -40,8 +40,6 @@ export class GoogleLogin implements Action {
 
 export class Logout implements Action {
   readonly type = ActionTypes.Logout;
-
-  constructor(public payload: any) {}
 }
 
 export class LoginError implements Action {
@@ -49,4 +47,4 @@ export class LoginError implements Action {
 
   constructor(public payload: any) {}
 }
-export type ActionsUnion = MarkAsNgo | GetUser | UpdateUserDetails;
+export type ActionsUnion = MarkAsNgo | GetUser | UpdateUserDetails | Logout;
