@@ -7,6 +7,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { MatButtonModule, MatToolbarModule } from '@angular/material';
 import {MatMenuModule} from '@angular/material/menu';
 import { StoreModule } from '@ngrx/store';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +28,10 @@ import { NgolistComponent } from './homepage/ngolist/ngolist.component';
 import { NgocardComponent } from './homepage/ngolist/ngocard/ngocard.component';
 import { NgoProfileComponent } from './ngo-profile/ngo-profile.component';
 import { OpportunityCardAdminComponent } from './ngo-profile/opportunity-card-admin/opportunity-card-admin.component';
+import { CreateOpportunityComponent } from './ngo-profile/create-opportunity/create-opportunity.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { OpportunityComponent } from './ngo-profile/opportunity/opportunity.component';
+
 
 @NgModule({
   declarations: [
@@ -40,7 +46,13 @@ import { OpportunityCardAdminComponent } from './ngo-profile/opportunity-card-ad
     NgolistComponent,
     NgocardComponent,
     NgoProfileComponent,
-    OpportunityCardAdminComponent
+    OpportunityCardAdminComponent,
+    CreateOpportunityComponent,
+    OpportunityComponent
+  ],
+  entryComponents: [
+    CreateOpportunityComponent,
+    OpportunityComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +69,9 @@ import { OpportunityCardAdminComponent } from './ngo-profile/opportunity-card-ad
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production // Restrict extension to log-only mode
-    })
+    }),
+    MatDialogModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

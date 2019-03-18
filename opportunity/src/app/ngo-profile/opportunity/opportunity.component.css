@@ -1,0 +1,59 @@
+:host {
+  /* width: 9; */
+  height: 250px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border: 1px red solid; */
+  color: #0E3D5E;
+  padding: 20px;
+}
+
+.leftContainer {
+  width: 70%;
+  /* border: 1px green solid; */
+}
+
+h2 {
+  margin-bottom: 5px;
+}
+
+h3 {
+  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.rightContainer {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px green solid; */
+}
+
+.rightContainer {
+  width: 150px;
+}
+
+h4 {
+  font-size: 36px;
+  font-weight: 400;
+}
+
+.rightContainer p {
+  font-weight: 100;
+}
+
+button {
+  background-color: #0E3D5E;
+  color: white;
+  height: 50px;
+  width: 150px;
+  border-radius: 50px;
+  outline: none;
+  margin-top: 20px;
+  font-size: 18px;
+  cursor: pointer;
+}

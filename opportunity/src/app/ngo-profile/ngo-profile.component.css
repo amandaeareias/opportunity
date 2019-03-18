@@ -50,6 +50,18 @@
   text-align: justify;
 }
 
+.createNewOpportunity {
+  height: 50px;
+  width: 50px;
+  background-color: #D6EBEB;
+  color: white;
+  text-align: center;
+  font-size: 40px;
+  align-self: center;
+  margin-right: 50px;
+  cursor: pointer;
+}
+
 .opportunitiesList {
   margin-top: 40px;
   display: flex;
