@@ -1,5 +1,5 @@
 <mat-toolbar color="none">
-  <img class='logo' src="../../assets/logoBlue.png" alt="" >
+  <img class='logo' src="../../assets/logoBlue.png" alt="" routerLink=''>
   <div *ngIf="(userDetails$ | async) as user" class="userNavbar">
     <div [ngStyle]="{'background-image': 'url(' + userDetails$.photoURL + ')'}" class="profilePicNavBar"></div>
     <p>{{ user.displayName }}</p>
