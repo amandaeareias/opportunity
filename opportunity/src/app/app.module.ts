@@ -18,13 +18,23 @@ import { userReducer } from './store/user.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/user.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { NgoProfileComponent } from './ngo-profile/ngo-profile.component';
+import { HomepageComponent } from './homepage/homepage.component';
+import { CoverComponent } from './homepage/cover/cover.component';
+import { OpportunitieslistComponent } from './homepage/opportunitieslist/opportunitieslist.component';
+import { OpportunitycardComponent } from './homepage/opportunitieslist/opportunitycard/opportunitycard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     NavbarComponent,
-    VolunteerProfileComponent
+    VolunteerProfileComponent,
+    NgoProfileComponent,
+    HomepageComponent,
+    CoverComponent,
+    OpportunitieslistComponent,
+    OpportunitycardComponent
   ],
   imports: [
     BrowserModule,
