@@ -12,14 +12,13 @@ import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { LoginComponent } from './auth/login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { storeReducer } from './store/store.reducers';
+import { userReducer } from './store/user.reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { UserEffects } from './store/user.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    NavbarComponent
-  ],
+  declarations: [AppComponent, LoginComponent, NavbarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -29,9 +28,14 @@ import { storeReducer } from './store/store.reducers';
     BrowserAnimationsModule,
     MatButtonModule,
     MatToolbarModule,
-    StoreModule.forRoot({ store: storeReducer }),
+    StoreModule.forRoot({ user: userReducer }),
+    EffectsModule.forRoot([UserEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production // Restrict extension to log-only mode
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
