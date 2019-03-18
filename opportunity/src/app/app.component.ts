@@ -1,17 +1,17 @@
-import { Component, OnInit, Inject } from "@angular/core";
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
-import { NgoSignupComponent } from "./ngo-signup/ngo-signup.component";
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { NgoSignupComponent } from './ngo-signup/ngo-signup.component';
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   fileNameDialogRef: MatDialogRef<NgoSignupComponent>;
   private files = [
-    { name: "foo.js", content: "" },
-    { name: "bar.js", content: "" }
+    { name: 'foo.js', content: '' },
+    { name: 'bar.js', content: '' }
   ];
 
   constructor(public dialog: MatDialog) {}
@@ -21,7 +21,7 @@ export class AppComponent {
   openDialog(registrationData) {
     this.dialog.open(NgoSignupComponent, {
       data: {
-        filename: registrationData ? registrationData.name : ""
+        filename: registrationData ? registrationData.name : ''
       }
     });
   }
