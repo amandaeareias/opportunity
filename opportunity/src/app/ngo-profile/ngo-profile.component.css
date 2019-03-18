@@ -49,3 +49,10 @@
   margin-top: 50px;
   text-align: justify;
 }
+
+.opportunitiesList {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
