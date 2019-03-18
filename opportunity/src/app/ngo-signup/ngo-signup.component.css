@@ -1,4 +1,4 @@
-.table-container {
+.table-container, button {
   display: flex;
   flex-direction: column;
   max-width: 90vw;
