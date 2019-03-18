@@ -25,6 +25,7 @@ import { OpportunitycardComponent } from './homepage/opportunitieslist/opportuni
 import { NgolistComponent } from './homepage/ngolist/ngolist.component';
 import { NgocardComponent } from './homepage/ngolist/ngocard/ngocard.component';
 import { NgoProfileComponent } from './ngo-profile/ngo-profile.component';
+import { OpportunityCardAdminComponent } from './ngo-profile/opportunity-card-admin/opportunity-card-admin.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { NgoProfileComponent } from './ngo-profile/ngo-profile.component';
     OpportunitycardComponent,
     NgolistComponent,
     NgocardComponent,
-    NgoProfileComponent
+    NgoProfileComponent,
+    OpportunityCardAdminComponent
   ],
   imports: [
     BrowserModule,
