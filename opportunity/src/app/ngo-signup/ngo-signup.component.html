@@ -26,6 +26,7 @@
   <mat-form-field>
     <input matInput type="text" placeholder="phone number" formControlName="phoneForm" required/>
   </mat-form-field>
+    <app-form-validator [displayError]="!isValid" [errorMsg]="'Please fill in and check the mandatory fields'"></app-form-validator>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-raised-button color="primary" type="submit">Submit</button>
