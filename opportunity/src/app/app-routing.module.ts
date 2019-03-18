@@ -10,6 +10,7 @@ const routes: Routes = [
   {path: '', component: HomepageComponent},
   {path: 'volunteer', component: VolunteerProfileComponent},
   {path: 'ngo', component: NgoProfileComponent},
+  {path: 'singup-ngo', component: NgoSignupComponent}
 ];
 
 @NgModule({
