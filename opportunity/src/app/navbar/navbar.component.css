@@ -8,6 +8,8 @@ mat-toolbar {
 
 .logo {
   height: 38px;
+  cursor: pointer;
+  outline: none;
 }
 
 .userNavbar {
