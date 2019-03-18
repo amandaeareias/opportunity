@@ -8,7 +8,7 @@ export class NGO {
   about: string;
   rating?: number;
   contact: {
-    website: string;
+    website?: string;
     address: string;
     publicEmail: string;
     phone: string;
