@@ -40,4 +40,4 @@ export class LoginError implements Action {
 
   constructor(public payload: any) {}
 }
-export type ActionsUnion = MarkAsNgo | GetUser | UpdateUserDetails | Logout;
+export type ActionsUnion = MarkAsNgo | UpdateUserDetails | Logout;
