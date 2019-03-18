@@ -1,0 +1,51 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.blueCover {
+  height: 300px;
+  width: 100vw;
+  background-color: #D6EBEB;
+  position: absolute;
+  z-index: -1;
+  top: 0;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  justify-content: center;
+  width: 70vw;
+}
+
+.upperContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.profilePicture {
+  background-color: red;
+  height: 250px;
+  width: 55%;
+  max-width: 400px;
+}
+
+.ngoInfo {
+  text-align: center;
+  width: 45%;
+  padding-top: 150px;
+}
+
+.ngoInfo h2{
+  margin-bottom: 10px;
+}
+
+.description {
+  width: 100%;
+  margin-top: 50px;
+  text-align: justify;
+}
