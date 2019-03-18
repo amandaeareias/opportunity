@@ -2,7 +2,7 @@
   <img class='logo' src="../../assets/logoBlue.png" alt="" >
   <div *ngIf="(userDetails$ | async) as user" class="userNavbar">
     <div [ngStyle]="{'background-image': 'url(' + userDetails$.photoURL + ')'}" class="profilePicNavBar"></div>
-    <p>{{ userDetails$.displayName }}</p>
+    <p>{{ user.displayName }}</p>
     <img mat-button [matMenuTriggerFor]="menu" src="../../assets/icons/down.png" alt="">
     <mat-menu #menu="matMenu">
       <button mat-menu-item routerLink='volunteer'>Profile</button>
@@ -12,3 +12,6 @@
   </div>
   <app-login *ngIf="!(userDetails$ | async)"></app-login>
 </mat-toolbar>
+
+
+
