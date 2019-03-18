@@ -1,0 +1,13 @@
+.volunteer {
+  color: white;
+  background-color: #0E3D5E;
+  box-shadow: 6px 12px 16px -12px rgba(0,0,0,0.35), -6px -6px 16px -12px rgba(0,0,0,0.35);
+}
+
+.ngo {
+  color: white;
+  background-color: #F4A42C;
+  margin-left: 15px;
+  box-shadow: 6px 12px 16px -12px rgba(0,0,0,0.35), -6px -6px 16px -12px rgba(0,0,0,0.35);
+}
+
