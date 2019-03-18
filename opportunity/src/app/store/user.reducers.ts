@@ -33,18 +33,7 @@ export function userReducer(state = initialState, action: ActionsUnion) {
 
     case ActionTypes.Logout:
       return { ...state, user: null, isNgo: null };
-    // case ActionTypes.GetUserDetails:
-    // const { displayName, email, photoURL } = action.payload;
-    // return {
-    //   ...state,
-    //   user: {
-    //     displayName,
-    //     email,
-    //     photoURL
-    //   }
-    // };
-    // const ActionTypes.GoogleLogin :
-    // return {...state, user}
+
     default:
       return state;
   }

@@ -24,13 +24,6 @@ export class UpdateUserDetails implements Action {
   ) {}
 }
 
-export class GetUser implements Action {
-  readonly type = ActionTypes.GetUser;
-
-  constructor(
-    public payload: { email: string; displayName: string; photoURL: string }
-  ) {}
-}
 
 export class GoogleLogin implements Action {
   readonly type = ActionTypes.GoogleLogin;
