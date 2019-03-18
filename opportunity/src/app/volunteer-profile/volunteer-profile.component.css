@@ -1,0 +1,47 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.blueCover {
+  height: 300px;
+  width: 100vw;
+  background-color: #D6EBEB;
+  position: absolute;
+  z-index: -1;
+}
+
+.profile {
+  display: flex;
+  justify-content: flex-start;
+  width: 65vw;
+  margin-top: 180px;
+}
+
+.profilePicture {
+  height: 250px;
+  width: 250px;
+  border-radius: 50%;
+  background-color: red;
+  margin-right: 30px;
+}
+
+.volunteerInfo {
+  margin-top: 80px;
+  width: 70%;
+}
+
+.name {
+  margin-bottom: 20px;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.info {
+  padding: 3px;
+}
+
+.description {
+  margin-top: 40px;
+  width: 100%;
+}

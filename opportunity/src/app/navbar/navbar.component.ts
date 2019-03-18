@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+var firebase = require('firebase');
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +19,6 @@ export class NavbarComponent implements OnInit {
       .subscribe((user) => {
         console.log(user);
         this.user = user;
-        // console.log(isNgo);
       });
   }
 
