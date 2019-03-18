@@ -1,0 +1,36 @@
+.coverContainer {
+  width: 100vw;
+  margin-bottom: 100px;
+}
+
+.coverImage {
+  background-image: url('../../../assets/cover-15.png');
+  background-size: cover;
+  background-position: left 100px bottom;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+}
+
+.slogan {
+  width: 450px;
+  margin-top: 300px;
+  margin-left: 50px;
+}
+
+.slogan h2 {
+  color: #FBD054;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 100;
+  font-size: 70px;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.logo {
+  height: 45px;
+}
