@@ -4,8 +4,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { MatButtonModule, MatToolbarModule, MatFormFieldModule, MatInputModule, MatDialogModule } from '@angular/material';
-import {MatMenuModule} from '@angular/material/menu';
+import {
+  MatButtonModule,
+  MatToolbarModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatDialogModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatIconModule,
+} from '@angular/material';
+import { MatMenuModule } from '@angular/material/menu';
 import { StoreModule } from '@ngrx/store';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,7 +34,6 @@ import { OpportunitycardComponent } from './homepage/opportunitieslist/opportuni
 import { NgolistComponent } from './homepage/ngolist/ngolist.component';
 import { NgocardComponent } from './homepage/ngolist/ngocard/ngocard.component';
 import { NgoProfileComponent } from './ngo-profile/ngo-profile.component';
-import { FormValidatorComponent } from './form-validator/form-validator.component';
 import { VolunteerSignupComponent } from './volunteer-signup/volunteer-signup.component';
 import { NgoSignupComponent } from './ngo-signup/ngo-signup.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -43,7 +51,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     NgolistComponent,
     NgocardComponent,
     NgoProfileComponent,
-    FormValidatorComponent,
     VolunteerSignupComponent,
     NgoSignupComponent
   ],
@@ -60,7 +67,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    MatNativeDateModule,
+    MatIconModule,
     StoreModule.forRoot({ user: userReducer }),
+    MatDatepickerModule,
     EffectsModule.forRoot([UserEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
