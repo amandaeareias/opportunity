@@ -1,34 +1,33 @@
-<form class="table-container" [formGroup]="ngoProfile" (ngSubmit)="submitNGO()">
-  <h1 mat-dialog-title>You are almost our member :)</h1>
-  <mat-dialog-content>
-  <mat-form-field>
-    <input
-      matInput
-      type="text"
-      formControlName="usernameForm"
-      placeholder="username"
-    />
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput type="text" formControlName="imageForm" />
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput type="text" formControlName="descriptionForm" />
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput type="text" formControlName="websiteForm" />
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput type="text" formControlName="addressForm" />
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput type="text" formControlName="emailForm" />
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput type="text" formControlName="phoneForm" />
-  </mat-form-field>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button type="submit">Submit</button>
-</mat-dialog-actions>
-</form>
+<form [formGroup]="ngoProfile" (ngSubmit)="submitNGO()">
+    <h1 mat-dialog-title>You are almost our member :)</h1>
+    <mat-dialog-content class="table-container">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="orgNameForm"
+        placeholder="ONG name" required
+        [ngClass]="{ 'is-invalid': submitted && fields.orgNameForm.errors }"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="about" type="text" formControlName="descriptionForm" required/>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="website" formControlName="websiteForm"/>
+    </mat-form-field>
+    <h3>Your contact data</h3>
+    <mat-form-field>
+      <input matInput type="text" placeholder="address" formControlName="addressForm" required/>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="email" formControlName="emailForm" required/>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="phone number" formControlName="phoneForm" required/>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </mat-dialog-actions>
+  </form>

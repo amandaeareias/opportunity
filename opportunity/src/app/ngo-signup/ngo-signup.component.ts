@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { CdkTextareaAutosize } from "@angular/cdk/text-field";
-import { MatSnackBar } from "@angular/material";
 import { NGO } from "../models/ngo.model";
 import {
   MatDialog,
@@ -22,30 +21,47 @@ export class NgoSignupComponent implements OnInit {
   ) {}
 
   ngoProfile = new FormGroup({
-    usernameForm: new FormControl(""),
-    imageForm: new FormControl(""),
-    descriptionForm: new FormControl(""),
-    websiteForm: new FormControl(""),
-    addressForm: new FormControl(""),
-    emailForm: new FormControl(""),
-    phoneForm: new FormControl("")
+    orgNameForm: new FormControl("",[Validators.required,Validators.minLength(2)]),
+    descriptionForm: new FormControl("",[Validators.required, Validators.minLength(100)]),
+    websiteForm: new FormControl("",[Validators.required]),
+    addressForm: new FormControl("",[Validators.required]),
+    emailForm: new FormControl("",[Validators.required, Validators.email]),
+    phoneForm: new FormControl("", [Validators.required])
   });
 
   ngOnInit() {}
 
+  get fields() { return this.ngoProfile.controls; }
+
+  validateAllFormFields(formGroup: FormGroup) {         //{1}
+  Object.keys(formGroup.controls).forEach(field => {  //{2}
+    const control = formGroup.get(field);             //{3}
+    if (control instanceof FormControl) {             //{4}
+      control.markAsTouched({ onlySelf: true });
+    } else if (control instanceof FormGroup) {        //{5}
+      this.validateAllFormFields(control);            //{6}
+    }
+  });
+}
+
   submitNGO() {
     const newNGO = this.ngoProfile.value;
     const result: any = {
-      username: newNGO.usernameForm,
-      image: newNGO.imageForm,
-      description: newNGO.descriptionForm,
+      name: newNGO.orgNameForm,
+      about: newNGO.descriptionForm,
       contacData: {
         website: newNGO.websiteForm,
         address: newNGO.addressForm,
-        email: newNGO.emailForm,
+        publicEmail: newNGO.emailForm,
         phone: newNGO.phone
       }
     };
+    console.log(this.ngoProfile);
+    if (this.ngoProfile.valid) {
+      console.log('form submitted');
+    } else {
+      this.validateAllFormFields(this.ngoProfile);
+    }
     // this.dialogRef.close(`${this.ngoProfile.value}`);
   }
 }
