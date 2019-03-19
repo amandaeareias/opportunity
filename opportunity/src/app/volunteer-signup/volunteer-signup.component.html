@@ -12,7 +12,7 @@
         placeholder="name"
         #name
       />
-      <mat-error *ngIf="name.minLength(2)"
+      <mat-error *ngIf="name.minLength"
         >Your name has to have minimum 2 characters</mat-error
       >
     </mat-form-field>
@@ -24,7 +24,7 @@
         placeholder="about"
         #description
       />
-      <mat-error *ngIf="description.minLength(2)"
+      <mat-error *ngIf="description.minLength"
       >Your description has to have minimum 20 characters</mat-error
     >
     </mat-form-field>
