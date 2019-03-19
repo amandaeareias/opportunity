@@ -5,7 +5,7 @@ import { ActionTypes, UserActions } from './user.actions';
 export interface UserState {
   isNgo: boolean;
   isLoggedIn: boolean;
-  isRegistered: boolean;
+  isComplete: boolean;
   isAuthed: boolean;
   user: {
     displayName?: string;
@@ -17,7 +17,7 @@ export interface UserState {
 export const initialState: UserState = {
   isNgo: false,
   isLoggedIn: false,
-  isRegistered: false,
+  isComplete: false,
   isAuthed: false,
   user: {
     displayName: null,
@@ -42,16 +42,16 @@ export function userReducer(state = initialState, action: UserActions) {
       return state;
 
     case ActionTypes.LoadUserDetails:
-      const { displayName, photoURL, logInEmail, isNgo, isRegistered } = action.payload;
+      const { user, isNgo } = action.payload;
       return {
         ...state,
         isNgo,
-        isRegistered,
+        isComplete: user.isComplete,
         isLoggedIn: true,
         user: {
-          displayName,
-          photoURL,
-          logInEmail,
+          displayName: user.name,
+          photoURL: user.image,
+          logInEmail: user.username,
         }
       };
 
@@ -80,9 +80,9 @@ export const isUserLoggedInSelector = createSelector(
   (state: UserState) => state.isLoggedIn,
 );
 
-export const isUserRegisteredSelector = createSelector(
+export const isUserCompleteSelector = createSelector(
   getUserState,
-  (state: UserState) => state.isRegistered,
+  (state: UserState) => state.isComplete,
 );
 
 export const userDetailsSelector = createSelector(

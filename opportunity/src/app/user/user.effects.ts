@@ -14,18 +14,18 @@ export class UserEffects {
     .pipe(
       ofType(ActionTypes.FetchUserDetails),
       /* TODO: Implement db.getUserData$. Using a mock instead */
-      switchMap((action) => of({
-        isNgo: true,
-        isRegistered: false,
-        displayName: 'Igor Snitkin',
-        logInEmail: 'igor@snitkin.com',
-        photoURL: 'http://linktomyphoto.com',
-      }) // this.db.getUserData$(action.payload)
-        .pipe(
-          map(userDetails => new LoadUserDetails(userDetails)),
-          catchError(() => EMPTY)
-        )
-      )
+      switchMap(({ payload }) => {
+        const { logInEmail, photoURL, displayName, isNgo } = payload;
+        return this.db.registerUser({
+          logInEmail,
+          photoURL,
+          displayName,
+        }, isNgo)
+          .pipe(
+            map(({ user, isNgo }) => new LoadUserDetails({ user, isNgo })),
+            catchError(() => EMPTY)
+          )
+      })
     );
 
   constructor(

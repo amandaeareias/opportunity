@@ -1,4 +1,6 @@
 import { Action } from '@ngrx/store';
+import { Volunteer } from '../data/models/volunteer.model';
+import { NGO } from '../data/models/ngo.model';
 
 export enum ActionTypes {
   LoginWithGoogle_SUCCESS = '[User] Authed in with Google',
@@ -26,19 +28,15 @@ export class FetchUserDetails implements Action {
   constructor(public payload: {
     isNgo: boolean,
     logInEmail: string,
+    photoURL: string,
+    displayName: string,
   }) {}
 }
 
 export class LoadUserDetails implements Action {
   readonly type = ActionTypes.LoadUserDetails;
 
-  constructor(public payload: {
-    isNgo: boolean,
-    isRegistered: boolean,
-    displayName: string,
-    logInEmail: string,
-    photoURL: string,
-  }) {}
+  constructor(public payload: { user: Volunteer | NGO , isNgo: boolean }) {}
 }
 
 export type UserActions = LoginWithGoogle_SUCCESS

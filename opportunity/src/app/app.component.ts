@@ -2,12 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
+import { first } from 'rxjs/operators';
 
 import { getUserState, UserState } from './user/user.reducers';
 import { navbarUIStateSelector } from './ui/ui.reducers';
 import { LoginWithGoogle_SUCCESS, FetchUserDetails } from './user/user.actions';
 import { NgoSignupComponent } from './ui/ngo-signup/ngo-signup.component';
 import { VolunteerSignupComponent } from './ui/volunteer-signup/volunteer-signup.component';
+
+import { FirebaseCrudService } from './data/services/firebase.service';
+import { NGO } from './data/models/ngo.model';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +26,8 @@ export class AppComponent implements OnInit {
   constructor(
     private auth: AngularFireAuth,
     private store: Store<any>,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public db: FirebaseCrudService,
   ) {}
 
   ngOnInit() {
@@ -36,9 +41,11 @@ export class AppComponent implements OnInit {
       if (q) {
         this.store.dispatch(new LoginWithGoogle_SUCCESS());
       }
-      if (q && !this.user.isRegistered) {
+      if (q && !this.user.isLoggedIn) {
         this.store.dispatch(new FetchUserDetails({
           logInEmail: q.email,
+          displayName: q.displayName,
+          photoURL: q.photoURL,
           isNgo: this.parseNgoUIState(this.navbarUIState),
         }));
       }
@@ -46,6 +53,7 @@ export class AppComponent implements OnInit {
   }
 
   parseNgoUIState(uiState: string): boolean {
+    console.log(uiState, /^NGO/i.test(uiState));
     return /^NGO/i.test(uiState);
   }
 

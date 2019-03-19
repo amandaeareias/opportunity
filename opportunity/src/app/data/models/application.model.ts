@@ -1,9 +1,13 @@
 export class Application {
-  id: string;
   volunteerId: string;
   opportunityId: string;
   timeCreated: string;
   active: boolean;
-}
 
-//export const ApplicationCollection = 'applications';
+  constructor() {
+    this.volunteerId = null;
+    this.opportunityId = null;
+    this.timeCreated = null;
+    this.active = null;
+  }
+}
