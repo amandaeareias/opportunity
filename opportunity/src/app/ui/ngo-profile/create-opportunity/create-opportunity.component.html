@@ -1,0 +1,9 @@
+<form [formGroup]="createOpportunityForm" (ngSubmit)="formSubmit()">
+  <label> Title:</label>
+  <input required class="input" type="text" formControlName="title">
+
+  <label> Description: </label>
+  <textarea required formControlName="description" rows="10" cols="80"> </textarea>
+
+  <input class="submit" type="submit">
+</form>
