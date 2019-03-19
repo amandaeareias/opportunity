@@ -1,4 +1,4 @@
-.ngoCardsContainer {
+:host {
   display: flex;
   width: 95vw;
   overflow: scroll;
