@@ -5,13 +5,7 @@ export class Volunteer {
   about?: string;
   image?: string;
   dateOfBirth?: string;
-  application?: {
-    opportunityId?: string;
-    opportunityName: string;
-    ngoName: string;
-    dateCreated: string;
-    active: boolean;
-  }[];
+  application?: Object;
 }
 
-export const VolunteerCollection = 'volunteer';
+export const VolunteerCollection = 'volunteers';
