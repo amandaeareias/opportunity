@@ -1,6 +1,9 @@
+:host {
+  margin-bottom: 130px;
+}
+
 .coverContainer {
   width: 100vw;
-  margin-bottom: 130px;
 }
 
 .coverImage {

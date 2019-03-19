@@ -16,6 +16,8 @@ import {
 } from '@angular/material';
 import { MatMenuModule } from '@angular/material/menu';
 import { StoreModule } from '@ngrx/store';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,6 +39,11 @@ import { NgoProfileComponent } from './ngo-profile/ngo-profile.component';
 import { VolunteerSignupComponent } from './volunteer-signup/volunteer-signup.component';
 import { NgoSignupComponent } from './ngo-signup/ngo-signup.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { OpportunityCardAdminComponent } from './ngo-profile/opportunity-card-admin/opportunity-card-admin.component';
+import { CreateOpportunityComponent } from './ngo-profile/create-opportunity/create-opportunity.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { OpportunityComponent } from './ngo-profile/opportunity/opportunity.component';
+
 
 @NgModule({
   declarations: [
@@ -53,6 +60,14 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     NgoProfileComponent,
     VolunteerSignupComponent,
     NgoSignupComponent
+    NgoProfileComponent,
+    OpportunityCardAdminComponent,
+    CreateOpportunityComponent,
+    OpportunityComponent
+  ],
+  entryComponents: [
+    CreateOpportunityComponent,
+    OpportunityComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +93,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     }),
     ReactiveFormsModule,
     FormsModule
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
