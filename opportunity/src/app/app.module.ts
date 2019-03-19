@@ -52,7 +52,7 @@ import { OpportunityComponent } from './ui/ngo-profile/opportunity/opportunity.c
 import { AllOpportunitiesComponent } from './ui/all-opportunities/all-opportunities.component';
 import { AllNgosComponent } from './ui/all-ngos/all-ngos.component';
 import { AgmCoreModule } from '@agm/core';
-import { GoogleMapsComponent } from './google-maps/google-maps.component';
+import { GoogleMapsComponent } from './ui/homepage/google-maps/google-maps.component';
 
 
 /* User defined state management */
