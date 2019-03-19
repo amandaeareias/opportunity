@@ -4,6 +4,7 @@ import { NGO } from '../models/ngo.model';
 import { Volunteer } from '../models/volunteer.model';
 import { Opportunity } from '../models/opportunity.model';
 import { Application } from '../models/application.model';
+import {map} from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,15 @@ export class FirebaseCrudService {
   getOne(collection: string, objectKey: string) {
     return this.db.collection(collection).doc(objectKey).valueChanges();
   }
+
   getMany<T>(collection: string, queryFn?: QueryFn) {
-    return this.db.collection<T>(collection, queryFn).valueChanges();
+    return this.db.collection<T>(collection, queryFn).snapshotChanges().pipe(
+      map(actions => actions.map(action => {
+        const data = action.payload.doc.data()
+        const id = action.payload.doc.id;
+        return {id, ...data}
+      }))
+    );
   }
 
   //CRUD basic objects (NGO, volunteer)
