@@ -16,9 +16,6 @@ import {
 } from '@angular/material';
 import { MatMenuModule } from '@angular/material/menu';
 import { StoreModule } from '@ngrx/store';
-import { ReactiveFormsModule } from '@angular/forms';
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
@@ -41,7 +38,6 @@ import { NgoSignupComponent } from './ngo-signup/ngo-signup.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { OpportunityCardAdminComponent } from './ngo-profile/opportunity-card-admin/opportunity-card-admin.component';
 import { CreateOpportunityComponent } from './ngo-profile/create-opportunity/create-opportunity.component';
-import {MatDialogModule} from '@angular/material/dialog';
 import { OpportunityComponent } from './ngo-profile/opportunity/opportunity.component';
 
 
@@ -59,8 +55,7 @@ import { OpportunityComponent } from './ngo-profile/opportunity/opportunity.comp
     NgocardComponent,
     NgoProfileComponent,
     VolunteerSignupComponent,
-    NgoSignupComponent
-    NgoProfileComponent,
+    NgoSignupComponent,
     OpportunityCardAdminComponent,
     CreateOpportunityComponent,
     OpportunityComponent
@@ -93,7 +88,6 @@ import { OpportunityComponent } from './ngo-profile/opportunity/opportunity.comp
     }),
     ReactiveFormsModule,
     FormsModule
-    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
