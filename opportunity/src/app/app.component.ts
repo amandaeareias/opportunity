@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
 import { getUserState, UserState } from './user/user.reducers';
 import { navbarUIStateSelector } from './ui/ui.reducers';
 import { LoginWithGoogle_SUCCESS, FetchUserDetails } from './user/user.actions';
+import { NgoSignupComponent } from './ui/ngo-signup/ngo-signup.component';
+import { VolunteerSignupComponent } from './ui/volunteer-signup/volunteer-signup.component';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +21,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private auth: AngularFireAuth,
-    private store: Store<any>
+    private store: Store<any>,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -46,4 +49,23 @@ export class AppComponent implements OnInit {
     return /^NGO/i.test(uiState);
   }
 
+  // TODO: remove this code. Is for testing purpose only
+  // this step will be included after the validation check for new users
+  openDialogNGO(registrationData) {
+    this.dialog.open(NgoSignupComponent, {
+      data: {
+        filename: registrationData ? registrationData.name : ''
+      }
+    });
+  }
+
+  openDialogVolunteer(registrationData) {
+    this.dialog.open(VolunteerSignupComponent, {
+      data: {
+        filename: registrationData ? registrationData.name : ''
+      }
+    });
+  }
+
 }
+
