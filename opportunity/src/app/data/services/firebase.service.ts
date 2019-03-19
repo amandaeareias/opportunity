@@ -12,11 +12,11 @@ export class FirebaseCrudService {
   constructor(public db: AngularFirestore) {}
 
   //gets
-  getOne(collection: string, objectKey: string) { 
-    return this.db.collection(collection).doc(objectKey);
+  getOne(collection: string, objectKey: string) {
+    return this.db.collection(collection).doc(objectKey).valueChanges();
   }
   getMany<T>(collection: string, queryFn?: QueryFn) {
-    return this.db.collection<T>(collection, queryFn);
+    return this.db.collection<T>(collection, queryFn).valueChanges();
   }
 
   //CRUD basic objects (NGO, volunteer)
@@ -77,7 +77,7 @@ export class FirebaseCrudService {
         };
         //and update the opportunities collection document
         this.db.collection('opportunities').doc(newObject.opportunityId).update({application: {...oppApplications, ...newApplication}});
-        
+
 
         //II. update volenteers collection
         //now start update the volunteer data (same logic)

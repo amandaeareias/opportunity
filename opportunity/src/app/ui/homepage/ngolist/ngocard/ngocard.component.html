@@ -1,4 +1,9 @@
 <div class="ngoCard" routerLink='ngo'>
-  <h4>NGO Name</h4>
-  <p>location</p>
+  <div class="info">
+    <h4>{{ngo.name}}</h4>
+    <div class="location" *ngIf='ngo.contact && ngo.contact.address'>
+      <img src="../../../../../assets/icons/position.png" alt="">
+      <p>{{ngo.contact.address}}</p>
+    </div>
+  </div>
 </div>
