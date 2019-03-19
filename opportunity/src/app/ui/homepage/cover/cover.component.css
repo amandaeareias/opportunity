@@ -1,9 +1,6 @@
-:host {
-  margin-bottom: 130px;
-}
-
 .coverContainer {
   width: 100vw;
+  height: 100vh;
 }
 
 .coverImage {
@@ -21,8 +18,9 @@
 
 .slogan {
   width: 450px;
-  margin-top: 300px;
-  margin-left: 50px;
+  bottom: 50px;
+  left: 50px;
+  position: absolute;
 }
 
 .slogan h2 {

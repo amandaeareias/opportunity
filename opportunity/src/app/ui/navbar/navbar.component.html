@@ -1,17 +1,18 @@
 <mat-toolbar color="none">
   <img class='logo' src="/assets/logoBlue.png" alt="" routerLink=''>
-  <div *ngIf="(userDetails$ | async) as user" class="userNavbar">
-    <div [ngStyle]="{'background-image': 'url(' + user.photoURL + ')'}" class="profilePicNavBar"></div>
-    <p>{{ user.displayName }}</p>
-    <img mat-button [matMenuTriggerFor]="menu" src="/assets/icons/down.png" alt="">
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item routerLink='volunteer'>Profile</button>
-      <button mat-menu-item>Settings</button>
-      <button mat-menu-item>Log-out</button>
-    </mat-menu>
+  <div class="rightSideNav">
+    <p routerLink='/all-opportunities'>All Opportunities</p>
+    <p routerLink='/all-ngos'>All NGOs</p>
+    <div *ngIf="(userDetails$ | async) as user" class="userNavbar">
+      <div [ngStyle]="{'background-image': 'url(' + user.photoURL + ')'}" class="profilePicNavBar"></div>
+      <p>{{ user.displayName }}</p>
+      <img mat-button [matMenuTriggerFor]="menu" src="/assets/icons/down.png" alt="">
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink='volunteer'>Profile</button>
+        <button mat-menu-item>Settings</button>
+        <button mat-menu-item>Log-out</button>
+      </mat-menu>
+    </div>
+    <app-login *ngIf="!(userDetails$ | async)"></app-login>
   </div>
-  <app-login *ngIf="!(userDetails$ | async)"></app-login>
 </mat-toolbar>
-
-
-
