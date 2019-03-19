@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { NGO } from '../models/ngo.model';
+import { NGO } from '../../data/models/ngo.model';
 import {
   MatDialog,
   MAT_DIALOG_DATA,

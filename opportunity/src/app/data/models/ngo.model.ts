@@ -1,19 +1,35 @@
 import { Opportunity } from './opportunity.model';
 
 export class NGO {
-  id?: string;
   name: string;
   username: string;
   image?: string;
-  about: string;
+  about?: string;
   rating?: number;
-  contact: {
+  contact?: {
     website?: string;
     address: string;
     publicEmail: string;
     phone: string;
   };
   opportunity?: Object;
+  isComplete?: boolean;
+
+  constructor() {
+    this.name = null;
+    this.username = null;
+    this.image = null;
+    this.about = null;
+    this.rating = null;
+    this.contact = {
+      website: null,
+      address: null,
+      publicEmail: null,
+      phone: null,
+    };
+    this.opportunity = {};
+    this.isComplete = false;
+  }
 }
 
 export const NgoCollection = 'ngos';

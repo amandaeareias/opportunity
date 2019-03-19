@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, QueryFn } from '@angular/fire/firestore';
+import { combineLatest, Subject } from 'rxjs';
+
 import { NGO } from '../models/ngo.model';
 import { Volunteer } from '../models/volunteer.model';
 import { Opportunity } from '../models/opportunity.model';
@@ -11,21 +13,79 @@ import { Application } from '../models/application.model';
 export class FirebaseCrudService {
   constructor(public db: AngularFirestore) {}
 
-  //gets
-  getOne(collection: string, objectKey: string) { 
-    return this.db.collection(collection).doc(objectKey);
+  // gets
+  getOne(collection: string, id: string) { 
+    return this.db.collection(collection).doc(id).valueChanges();
+    // returns undefined if no document found
   }
+
+  /* QueryFn: (ref) => ref.where('nameToSearch', 'operator', 'searchValue') */
   getMany<T>(collection: string, queryFn?: QueryFn) {
-    return this.db.collection<T>(collection, queryFn);
+    return this.db.collection<T>(collection, queryFn).valueChanges();
+  }
+
+  registerUser(userLoginData: { logInEmail: string, photoURL: string, displayName: string }, isNgo: boolean) {
+    console.log(isNgo);
+    const { logInEmail, photoURL, displayName } = userLoginData;
+    let subject$ = new Subject();
+    const vol$ = this.getMany('volunteers', (ref) => ref.where('username', '==', logInEmail));
+    const ngo$ = this.getMany('ngos', (ref) => ref.where('username', '==', logInEmail));
+    combineLatest(
+      vol$,
+      ngo$,
+      (vol, ngo) => vol.length ? { type: 'volunteer', data: vol[0] } : ngo.length ? { type: 'ngo', data: ngo[0] } : { type: '404' }
+    ).subscribe(async (res) => {
+      console.log(res);
+      switch(res.type) {
+        case 'volunteer':
+          subject$.next({
+            isNgo: false,
+            user: res.data,
+          })
+          break;
+        case 'ngo':
+          subject$.next({
+            isNgo: true,
+            user: res.data,
+          })
+          break;
+        case '404':
+        default:
+        let user;
+        isNgo
+          ? user = await this.createNGO({
+              name: displayName,
+              username: logInEmail,
+              image: photoURL,
+            })
+          : user = await this.createVolunteer({
+              name: displayName,
+              username: logInEmail,
+              image: photoURL,
+            })
+        subject$.next({
+          user: {
+            displayName: user.name,
+            photoURL: user.image,
+            logInEmail: user.username,
+            isComplete: user.isComplete,
+          },
+          isNgo
+        });
+      }
+    });
+    return subject$;
   }
 
   //CRUD basic objects (NGO, volunteer)
   createVolunteer(newObject: Volunteer) {
-    return this.db.collection('volunteers').add(newObject);
+    return this.db.collection('volunteers').add({ ...new Volunteer(), ...newObject });
   }
+
   createNGO(newObject: NGO) {
-    return this.db.collection('ngos').add(newObject);
+    return this.db.collection('ngos').add({ ...new NGO(), ...newObject });
   }
+
   updateVolunteer(objectKey: string, newObjectData: Volunteer) {
     return this.db.collection('volunteers').doc(objectKey).update(newObjectData);
   }
@@ -70,28 +130,29 @@ export class FirebaseCrudService {
         const oppApplications = data.get('application');
         //create new application object to be stored in the opportunity
         const newApplication = {};
-        newApplication[newObject.id] = {
-          volunteerId: newObject.volunteerId,
-          timeCreated: newObject.timeCreated,
-          active: newObject.active
-        };
+        // Where do I get newObject ID???
+        // newApplication[newObject.id] = {
+        //   volunteerId: newObject.volunteerId,
+        //   timeCreated: newObject.timeCreated,
+        //   active: newObject.active
+        // };
         //and update the opportunities collection document
         this.db.collection('opportunities').doc(newObject.opportunityId).update({application: {...oppApplications, ...newApplication}});
         
 
         //II. update volenteers collection
         //now start update the volunteer data (same logic)
-        this.db.collection('volunteers').doc(newObject.volunteerId).get()
-          .subscribe(data => {
-            const volApplications = data.get('application');
-            const newApplication = {};
-            newApplication[newObject.id] = {
-              opportunityId: newObject.opportunityId,
-              timeCreated: newObject.timeCreated,
-              active: newObject.active
-            };
-            this.db.collection('volunteers').doc(newObject.volunteerId).update({application: {...volApplications, ...newApplication}});
-          })
+        // this.db.collection('volunteers').doc(newObject.volunteerId).get()
+        //   .subscribe(data => {
+        //     const volApplications = data.get('application');
+        //     const newApplication = {};
+        //     newApplication[newObject.id] = {
+        //       opportunityId: newObject.opportunityId,
+        //       timeCreated: newObject.timeCreated,
+        //       active: newObject.active
+        //     };
+        //     this.db.collection('volunteers').doc(newObject.volunteerId).update({application: {...volApplications, ...newApplication}});
+        //   })
       })
   }
 }
