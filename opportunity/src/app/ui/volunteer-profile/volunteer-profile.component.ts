@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store'
+
+import {userDetailsSelector} from '../../user/user.reducers'
 
 @Component({
   selector: 'app-volunteer-profile',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VolunteerProfileComponent implements OnInit {
 
-  constructor() { }
+  user;
+
+  constructor(
+    private store: Store<any>
+  ) { }
 
   ngOnInit() {
+    this.store.select(userDetailsSelector)
+      .subscribe(user => {
+        console.log('1 ', this.user);
+        this.user = user;
+        console.log('2 ', this.user);
+      })
   }
 
 }
