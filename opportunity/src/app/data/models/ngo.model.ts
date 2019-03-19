@@ -1,6 +1,8 @@
 import { Opportunity } from './opportunity.model';
 
-export class NGO {
+// use interface instead of class as interfaces are interpreted in compile time
+// and don't use memory in runtime
+export interface NGO {
   id?: string;
   name: string;
   username: string;
@@ -17,3 +19,4 @@ export class NGO {
 }
 
 export const NgoCollection = 'ngos';
+export type UserRecord = Pick<NGO, 'name' |'about' |'contact'>

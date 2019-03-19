@@ -23,12 +23,12 @@ agm-map {
 }
 
 img {
-  height: 25px;
+  height: 5px;
   cursor: pointer;
   right: 10px;
 }
 
-input {
+.search {
   left: 10px;
   height: 40px;
   width: 200px;
