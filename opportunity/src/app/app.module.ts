@@ -13,6 +13,7 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MatIconModule,
+  MatSnackBarModule
 } from '@angular/material';
 import { MatMenuModule } from '@angular/material/menu';
 import { StoreModule } from '@ngrx/store';
@@ -79,6 +80,7 @@ import { OpportunityComponent } from './ngo-profile/opportunity/opportunity.comp
     MatDialogModule,
     MatNativeDateModule,
     MatIconModule,
+    MatSnackBarModule,
     StoreModule.forRoot({ user: userReducer }),
     MatDatepickerModule,
     EffectsModule.forRoot([UserEffects]),
