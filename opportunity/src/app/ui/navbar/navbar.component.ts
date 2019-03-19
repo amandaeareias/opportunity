@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -17,6 +16,7 @@ import {
 export class NavbarComponent implements OnInit {
   componentUIState$: Observable<string>;
   componentLoadingState$: Observable<boolean>;
+
   constructor(private store: Store<UIState>) {}
 
   ngOnInit() {
