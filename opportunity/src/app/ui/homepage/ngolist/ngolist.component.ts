@@ -10,13 +10,16 @@ export class NgolistComponent implements OnInit {
 
   ngos;
 
-  constructor(private service: FirebaseCrudService) { }
+  constructor(
+    private service: FirebaseCrudService,
+  ) {
+    this.service.getMany('ngos').subscribe(ngos => {
+      this.ngos = ngos
+      console.log('NGOs: ', this.ngos)
+    })
+   }
 
   ngOnInit() {
-    this.service.getMany('ngos')
-    .subscribe(ngos => {
-      this.ngos = ngos
-    })
   }
 
 }
