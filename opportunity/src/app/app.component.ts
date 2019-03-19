@@ -42,6 +42,7 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new LoginWithGoogle_SUCCESS());
       }
       if (q && !this.user.isLoggedIn) {
+        console.log('catch me');
         this.store.dispatch(new FetchUserDetails({
           logInEmail: q.email,
           displayName: q.displayName,

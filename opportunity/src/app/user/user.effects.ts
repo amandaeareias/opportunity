@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { map, switchMap, catchError, first } from 'rxjs/operators';
 
 import { ActionTypes, LoadUserDetails } from './user.actions';
 import { FirebaseCrudService } from '../data/services/firebase.service';
@@ -22,6 +22,7 @@ export class UserEffects {
           displayName,
         }, isNgo)
           .pipe(
+            first(),
             map(({ user, isNgo }) => new LoadUserDetails({ user, isNgo })),
             catchError(() => EMPTY)
           )
