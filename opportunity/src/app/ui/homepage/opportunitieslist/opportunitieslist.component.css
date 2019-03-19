@@ -1,6 +1,7 @@
-.cardsContainer {
+:host {
   display: flex;
   width: 80vw;
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: 40px;
 }

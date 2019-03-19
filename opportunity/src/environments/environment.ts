@@ -11,7 +11,8 @@ export const environment = {
     projectId: 'opportunity-2b39f',
     storageBucket: 'opportunity-2b39f.appspot.com',
     messagingSenderId: '316945367100'
-  }
+  },
+  googleMapsApiKey: 'AIzaSyCbTNiLmcxWkKURNIpg874BWDPacgm7qYA'
 };
 
 /*

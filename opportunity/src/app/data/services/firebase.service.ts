@@ -6,6 +6,7 @@ import { NGO } from '../models/ngo.model';
 import { Volunteer } from '../models/volunteer.model';
 import { Opportunity } from '../models/opportunity.model';
 import { Application } from '../models/application.model';
+import {map} from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ import { Application } from '../models/application.model';
 export class FirebaseCrudService {
   constructor(public db: AngularFirestore) {}
 
-  // gets
+  // getters
   getOne(collection: string, id: string) { 
     return this.db.collection(collection).doc(id).valueChanges();
     // returns undefined if no document found
@@ -21,9 +22,15 @@ export class FirebaseCrudService {
 
   /* QueryFn: (ref) => ref.where('nameToSearch', 'operator', 'searchValue') */
   getMany<T>(collection: string, queryFn?: QueryFn) {
-    return this.db.collection<T>(collection, queryFn).valueChanges();
+    return this.db.collection<T>(collection, queryFn).snapshotChanges().pipe(
+      map(actions => actions.map(action => {
+        const data = action.payload.doc.data()
+        const id = action.payload.doc.id;
+        return {id, ...data}
+      }))
+    );
   }
-
+  
   registerUser(userLoginData: { logInEmail: string, photoURL: string, displayName: string }, isNgo: boolean) {
     console.log(isNgo);
     const { logInEmail, photoURL, displayName } = userLoginData;
@@ -138,7 +145,7 @@ export class FirebaseCrudService {
         // };
         //and update the opportunities collection document
         this.db.collection('opportunities').doc(newObject.opportunityId).update({application: {...oppApplications, ...newApplication}});
-        
+
 
         //II. update volenteers collection
         //now start update the volunteer data (same logic)
