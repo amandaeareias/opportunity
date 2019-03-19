@@ -4,12 +4,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { MatButtonModule, MatToolbarModule } from '@angular/material';
-import {MatMenuModule} from '@angular/material/menu';
+import {
+  MatButtonModule,
+  MatToolbarModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatDialogModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatIconModule,
+} from '@angular/material';
+import { MatMenuModule } from '@angular/material/menu';
 import { StoreModule } from '@ngrx/store';
-import { ReactiveFormsModule } from '@angular/forms';
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
@@ -27,9 +33,11 @@ import { OpportunitycardComponent } from './homepage/opportunitieslist/opportuni
 import { NgolistComponent } from './homepage/ngolist/ngolist.component';
 import { NgocardComponent } from './homepage/ngolist/ngocard/ngocard.component';
 import { NgoProfileComponent } from './ngo-profile/ngo-profile.component';
+import { VolunteerSignupComponent } from './volunteer-signup/volunteer-signup.component';
+import { NgoSignupComponent } from './ngo-signup/ngo-signup.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { OpportunityCardAdminComponent } from './ngo-profile/opportunity-card-admin/opportunity-card-admin.component';
 import { CreateOpportunityComponent } from './ngo-profile/create-opportunity/create-opportunity.component';
-import {MatDialogModule} from '@angular/material/dialog';
 import { OpportunityComponent } from './ngo-profile/opportunity/opportunity.component';
 
 
@@ -46,6 +54,8 @@ import { OpportunityComponent } from './ngo-profile/opportunity/opportunity.comp
     NgolistComponent,
     NgocardComponent,
     NgoProfileComponent,
+    VolunteerSignupComponent,
+    NgoSignupComponent,
     OpportunityCardAdminComponent,
     CreateOpportunityComponent,
     OpportunityComponent
@@ -64,14 +74,20 @@ import { OpportunityComponent } from './ngo-profile/opportunity/opportunity.comp
     MatButtonModule,
     MatToolbarModule,
     MatMenuModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    MatNativeDateModule,
+    MatIconModule,
     StoreModule.forRoot({ user: userReducer }),
+    MatDatepickerModule,
     EffectsModule.forRoot([UserEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production // Restrict extension to log-only mode
     }),
-    MatDialogModule,
     ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
