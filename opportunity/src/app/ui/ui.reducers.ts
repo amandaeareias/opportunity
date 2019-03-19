@@ -31,7 +31,7 @@ export function uiReducer(state = initialState, action: UIActions) {
           ...componentState,
         };
       }
-    return state;
+      return state;
 
     case ActionTypes.UpdateUIState:
       if (action.payload) {
@@ -46,7 +46,7 @@ export function uiReducer(state = initialState, action: UIActions) {
           ...componentState,
         };
       }
-    return state;
+      return state;
 
     default:
       return state;

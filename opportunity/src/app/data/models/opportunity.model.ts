@@ -13,11 +13,7 @@ export class Opportunity {
   prerequisites: string[];
   timeCreated: string;
   active: boolean;
-  application?: {
-    volunteerId?: string;
-    volunteerName: string;
-    dateCreated: string;
-  }[];
+  application?: Object;
 }
 
-export const OpportunityCollection = 'opportunity';
+export const OpportunityCollection = 'opportunities';
