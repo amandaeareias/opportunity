@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
+import { LoginService } from '../../../user/user-auth/login.service';
 import { UpdateLoadingState, UpdateUIState } from '../../ui.actions';
 import { UIState } from '../../ui.reducers';
 
@@ -11,7 +12,8 @@ import { UIState } from '../../ui.reducers';
 })
 export class LoginComponent {
   constructor(
-    private store: Store<UIState>
+    private store: Store<UIState>,
+    private auth: LoginService
   ) {}
 
   loginGoogle(isNgo: boolean) {
@@ -23,5 +25,6 @@ export class LoginComponent {
       component: 'navbar',
       uiState: isNgo ? 'NGO_SIGNIN' : 'VOL_SIGNIN',
     }));
+    this.auth.loginWithGoogle();
   }
 }
