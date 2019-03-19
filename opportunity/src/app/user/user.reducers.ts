@@ -48,11 +48,7 @@ export function userReducer(state = initialState, action: UserActions) {
         isNgo,
         isComplete: user.isComplete,
         isLoggedIn: true,
-        user: {
-          displayName: user.name,
-          photoURL: user.image,
-          logInEmail: user.username,
-        }
+        user
       };
 
     default:
