@@ -1,0 +1,8 @@
+<div class="mapContainer">
+  <!-- <input class="loc" type="text" placeholder="Search Google Maps"> -->
+  <img class="loc" src="../../../../assets/icons/findme.png" alt="" (click)='locateMe()'>
+
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="12" [styles]="disableStyles">
+    <agm-marker [latitude]="41.386399" [longitude]="2.144758"></agm-marker>
+  </agm-map>
+</div>
