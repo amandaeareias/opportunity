@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import {OpportunityComponent} from '../../../ngo-profile/opportunity/opportunity.component'
 
 @Component({
   selector: 'app-opportunitycard',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OpportunitycardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
+  }
+
+  openOpportunity() {
+    this.dialog.open(OpportunityComponent)
   }
 
 }
