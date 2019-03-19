@@ -71,6 +71,7 @@ import { UserEffects } from './user/user.effects';
     OpportunityCardAdminComponent,
     CreateOpportunityComponent,
     OpportunityComponent,
+    LoginComponent,
   ],
   entryComponents: [
     CreateOpportunityComponent,
