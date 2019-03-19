@@ -49,6 +49,9 @@ import { NgoSignupComponent } from './ui/ngo-signup/ngo-signup.component';
 import { OpportunityCardAdminComponent } from './ui/ngo-profile/opportunity-card-admin/opportunity-card-admin.component';
 import { CreateOpportunityComponent } from './ui/ngo-profile/create-opportunity/create-opportunity.component';
 import { OpportunityComponent } from './ui/ngo-profile/opportunity/opportunity.component';
+import { AgmCoreModule } from '@agm/core';
+import { GoogleMapsComponent } from './google-maps/google-maps.component';
+
 
 /* User defined state management */
 import { userReducer } from './user/user.reducers';
@@ -73,6 +76,7 @@ import { UserEffects } from './user/user.effects';
     CreateOpportunityComponent,
     OpportunityComponent,
     LoginComponent,
+    GoogleMapsComponent
   ],
   entryComponents: [
     CreateOpportunityComponent,
@@ -102,6 +106,9 @@ import { UserEffects } from './user/user.effects';
       ui: uiReducer,
     }),
     EffectsModule.forRoot([ UserEffects ]),
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleMapsApiKey,
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
     }),
