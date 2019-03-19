@@ -1,4 +1,4 @@
-:host {
+:host, .ngoContainer {
   display: flex;
   width: 95vw;
   overflow: scroll;

@@ -1,15 +1,3 @@
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
+<div *ngFor='let ngo of ngos'>
+  <app-ngocard [ngo]='ngo'></app-ngocard>
+</div>
