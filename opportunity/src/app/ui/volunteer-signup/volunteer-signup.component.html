@@ -1,0 +1,45 @@
+<button mat-mini-fab class="close-button" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+<form [formGroup]="volunteerProfile" (ngSubmit)="submitVolunteer()">
+  <h1 mat-dialog-title>You are almost our member :)</h1>
+  <mat-dialog-content class="table-container">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="nameForm"
+        placeholder="name"
+        #name
+      />
+      <mat-error *ngIf="name.minLength"
+        >Your name has to have minimum 2 characters</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="aboutForm"
+        placeholder="about"
+        #description
+      />
+      <mat-error *ngIf="description.minLength"
+      >Your description has to have minimum 20 characters</mat-error
+    >
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="dateOfBirthForm"
+        placeholder="select your birthdate"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,6 @@
+.ngoCardsContainer {
+  display: flex;
+  width: 95vw;
+  overflow: scroll;
+  margin-bottom: 50px;
+}
