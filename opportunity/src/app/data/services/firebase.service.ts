@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, QueryFn } from '@angular/fire/firestore';
-import { NGO } from './../models/ngo.model';
-import { Volunteer } from './../models/volunteer.model';
-import { Opportunity } from './../models/opportunity.model';
-import { Application } from './../models/application.model';
+import { NGO } from '../models/ngo.model';
+import { Volunteer } from '../models/volunteer.model';
+import { Opportunity } from '../models/opportunity.model';
+import { Application } from '../models/application.model';
 
 @Injectable({
   providedIn: 'root'
