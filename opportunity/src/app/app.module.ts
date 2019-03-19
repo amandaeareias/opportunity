@@ -1,30 +1,40 @@
-import { BrowserModule } from '@angular/platform-browser';
+/* Angular core imports */
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+/* Firebase imports */
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { MatButtonModule, MatToolbarModule } from '@angular/material';
-import {MatMenuModule} from '@angular/material/menu';
-import { StoreModule } from '@ngrx/store';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
-import { LoginComponent } from './auth/login/login.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { VolunteerProfileComponent } from './volunteer-profile/volunteer-profile.component';
-import { userReducer } from './store/user.reducers';
+
+/* Material design imports */
+import { MatButtonModule, MatToolbarModule, MatMenuModule } from '@angular/material';
+
+/* ngrx imports */
+import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { UserEffects } from './store/user.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+/* User defined UI modules and components */
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './ui/ui-routing.module';
+import { NavbarComponent } from './ui/navbar/navbar.component';
+import { LoginComponent } from './ui/navbar/login/login.component';
+import { VolunteerProfileComponent } from './ui/volunteer-profile/volunteer-profile.component';
+
+/* User defined state management */
+import { userReducer } from './user/user.reducers';
+import { uiReducer } from './ui/ui.reducers';
+import { UserEffects } from './user/user.effects';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     NavbarComponent,
-    VolunteerProfileComponent
+    LoginComponent,
+    VolunteerProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,11 +46,14 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     MatButtonModule,
     MatToolbarModule,
     MatMenuModule,
-    StoreModule.forRoot({ user: userReducer }),
-    EffectsModule.forRoot([UserEffects]),
+    StoreModule.forRoot({
+      user: userReducer,
+      ui: uiReducer,
+    }),
+    EffectsModule.forRoot([ UserEffects ]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
-      logOnly: environment.production // Restrict extension to log-only mode
+      // logOnly: environment.production // Restrict extension to log-only mode
     })
   ],
   providers: [],
