@@ -1,4 +1,4 @@
-.cardsContainer {
+:host {
   display: flex;
   width: 80vw;
   justify-content: center;

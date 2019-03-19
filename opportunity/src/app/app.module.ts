@@ -49,6 +49,8 @@ import { NgoSignupComponent } from './ui/ngo-signup/ngo-signup.component';
 import { OpportunityCardAdminComponent } from './ui/ngo-profile/opportunity-card-admin/opportunity-card-admin.component';
 import { CreateOpportunityComponent } from './ui/ngo-profile/create-opportunity/create-opportunity.component';
 import { OpportunityComponent } from './ui/ngo-profile/opportunity/opportunity.component';
+import { AllOpportunitiesComponent } from './ui/all-opportunities/all-opportunities.component';
+import { AllNgosComponent } from './ui/all-ngos/all-ngos.component';
 import { AgmCoreModule } from '@agm/core';
 import { GoogleMapsComponent } from './google-maps/google-maps.component';
 
@@ -76,6 +78,8 @@ import { UserEffects } from './user/user.effects';
     CreateOpportunityComponent,
     OpportunityComponent,
     LoginComponent,
+    AllOpportunitiesComponent,
+    AllNgosComponent,
     GoogleMapsComponent
   ],
   entryComponents: [
