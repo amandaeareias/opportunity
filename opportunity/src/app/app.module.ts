@@ -1,12 +1,19 @@
-import { BrowserModule } from '@angular/platform-browser';
+/* Angular core imports */
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+/* Firebase imports */
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { environment } from '../environments/environment';
+
+/* Material design imports */
 import {
   MatButtonModule,
   MatToolbarModule,
+  MatMenuModule,
   MatFormFieldModule,
   MatInputModule,
   MatDialogModule,
@@ -15,39 +22,45 @@ import {
   MatIconModule,
   MatSnackBarModule
 } from '@angular/material';
-import { MatMenuModule } from '@angular/material/menu';
-import { StoreModule } from '@ngrx/store';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { environment } from '../environments/environment';
-import { LoginComponent } from './auth/login/login.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { VolunteerProfileComponent } from './volunteer-profile/volunteer-profile.component';
-import { userReducer } from './store/user.reducers';
-import { EffectsModule } from '@ngrx/effects';
-import { UserEffects } from './store/user.effects';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { HomepageComponent } from './homepage/homepage.component';
-import { CoverComponent } from './homepage/cover/cover.component';
-import { OpportunitieslistComponent } from './homepage/opportunitieslist/opportunitieslist.component';
-import { OpportunitycardComponent } from './homepage/opportunitieslist/opportunitycard/opportunitycard.component';
-import { NgolistComponent } from './homepage/ngolist/ngolist.component';
-import { NgocardComponent } from './homepage/ngolist/ngocard/ngocard.component';
-import { NgoProfileComponent } from './ngo-profile/ngo-profile.component';
-import { VolunteerSignupComponent } from './volunteer-signup/volunteer-signup.component';
-import { NgoSignupComponent } from './ngo-signup/ngo-signup.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { OpportunityCardAdminComponent } from './ngo-profile/opportunity-card-admin/opportunity-card-admin.component';
-import { CreateOpportunityComponent } from './ngo-profile/create-opportunity/create-opportunity.component';
-import { OpportunityComponent } from './ngo-profile/opportunity/opportunity.component';
-import { GoogleMapsComponent } from './google-maps/google-maps.component';
-import { AgmCoreModule } from '@agm/core';
 
+/* Angular Forms imports */
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+/* ngrx imports */
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+/* User defined UI modules and components */
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './ui/ui-routing.module';
+import { NavbarComponent } from './ui/navbar/navbar.component';
+import { LoginComponent } from './ui/navbar/login/login.component';
+import { VolunteerProfileComponent } from './ui/volunteer-profile/volunteer-profile.component';
+import { HomepageComponent } from './ui/homepage/homepage.component';
+import { CoverComponent } from './ui/homepage/cover/cover.component';
+import { OpportunitieslistComponent } from './ui/homepage/opportunitieslist/opportunitieslist.component';
+import { OpportunitycardComponent } from './ui/homepage/opportunitieslist/opportunitycard/opportunitycard.component';
+import { NgolistComponent } from './ui/homepage/ngolist/ngolist.component';
+import { NgocardComponent } from './ui/homepage/ngolist/ngocard/ngocard.component';
+import { NgoProfileComponent } from './ui/ngo-profile/ngo-profile.component';
+import { VolunteerSignupComponent } from './ui/volunteer-signup/volunteer-signup.component';
+import { NgoSignupComponent } from './ui/ngo-signup/ngo-signup.component';
+import { OpportunityCardAdminComponent } from './ui/ngo-profile/opportunity-card-admin/opportunity-card-admin.component';
+import { CreateOpportunityComponent } from './ui/ngo-profile/create-opportunity/create-opportunity.component';
+import { OpportunityComponent } from './ui/ngo-profile/opportunity/opportunity.component';
+import { AgmCoreModule } from '@agm/core';
+import { GoogleMapsComponent } from './google-maps/google-maps.component';
+
+
+/* User defined state management */
+import { userReducer } from './user/user.reducers';
+import { uiReducer } from './ui/ui.reducers';
+import { UserEffects } from './user/user.effects';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     NavbarComponent,
     VolunteerProfileComponent,
     HomepageComponent,
@@ -62,6 +75,7 @@ import { AgmCoreModule } from '@agm/core';
     OpportunityCardAdminComponent,
     CreateOpportunityComponent,
     OpportunityComponent,
+    LoginComponent,
     GoogleMapsComponent
   ],
   entryComponents: [
@@ -84,19 +98,20 @@ import { AgmCoreModule } from '@agm/core';
     MatNativeDateModule,
     MatIconModule,
     MatSnackBarModule,
-    AgmCoreModule,
-    StoreModule.forRoot({ user: userReducer }),
     MatDatepickerModule,
+    ReactiveFormsModule,
+    FormsModule,
+    StoreModule.forRoot({
+      user: userReducer,
+      ui: uiReducer,
+    }),
+    EffectsModule.forRoot([ UserEffects ]),
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsApiKey,
     }),
-    EffectsModule.forRoot([UserEffects]),
     StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retains last 25 states
-      logOnly: environment.production // Restrict extension to log-only mode
+      maxAge: 25,
     }),
-    ReactiveFormsModule,
-    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
