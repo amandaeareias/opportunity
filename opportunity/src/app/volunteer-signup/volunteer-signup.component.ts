@@ -4,7 +4,8 @@ import {
   MatDialog,
   MAT_DIALOG_DATA,
   MatDialogTitle,
-  MatDialogRef
+  MatDialogRef,
+  MatSnackBar
 } from '@angular/material';
 
 @Component({
@@ -16,9 +17,9 @@ export class VolunteerSignupComponent implements OnInit {
   isValid = true;
   constructor(
     private dialogRef: MatDialogRef<VolunteerSignupComponent>,
-    @Inject(MAT_DIALOG_DATA) private data
+    @Inject(MAT_DIALOG_DATA) private data,
+    private snackBar: MatSnackBar
   ) {}
-
 
   volunteerProfile = new FormGroup({
     nameForm: new FormControl('', [
@@ -27,7 +28,7 @@ export class VolunteerSignupComponent implements OnInit {
     aboutForm: new FormControl('', [
       Validators.minLength(20)
     ]),
-    dateOfBirthForm: new FormControl('', [Validators.required])
+    dateOfBirthForm: new FormControl('', )
   });
 
   ngOnInit() {}
@@ -44,5 +45,11 @@ export class VolunteerSignupComponent implements OnInit {
       dateOfBirth: volunteerExtraFields.dateOfBirthForm
     };
     console.log(formResult, 'user log');
-  }
+    if (this.volunteerProfile.valid) {
+      this.dialogRef.close();
+      this.snackBar.open('You just joined our opprtunities network!', 'close', {
+        duration: 4000
+      });
+
+    }  }
 }

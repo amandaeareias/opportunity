@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {FormControl, FormGroup} from '@angular/forms'
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-create-opportunity',
@@ -21,8 +21,8 @@ export class CreateOpportunityComponent implements OnInit {
   }
 
   formSubmit() {
-    console.log(this.createOpportunityForm.value)
-    this.dialog.closeAll()
+    console.log(this.createOpportunityForm.value);
+    this.dialog.closeAll();
   }
 
 }
