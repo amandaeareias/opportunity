@@ -16,7 +16,7 @@
       <mat-error *ngIf="orgNameForm.required">
         Please enter your organization name
       </mat-error>
-      <mat-error *ngIf="descriptionForm.minLength(2)"
+      <mat-error *ngIf="descriptionForm.minLength"
       >The name must have minimum 2 characters</mat-error
     >
     </mat-form-field>
@@ -32,7 +32,7 @@
       <mat-error *ngIf="descriptionForm.required"
         >Please enter your description</mat-error
       >
-      <mat-error *ngIf="descriptionForm.minLength(20)"
+      <mat-error *ngIf="descriptionForm.minLength"
       >Please enter a text with a length of minimum 20</mat-error
     >
     </mat-form-field>
