@@ -8,6 +8,12 @@ import { Component, OnInit } from "@angular/core";
 export class GoogleMapsComponent implements OnInit {
   lat: number = 41.3851;
   lng: number = 2.1734;
+  disableStyles = [
+    {
+      featureType: 'poi',
+      stylers: [{ visibility: 'off' }]
+    }
+  ];
   constructor() {}
 
   ngOnInit() {}
