@@ -1,5 +1,7 @@
 <mat-toolbar color="none">
   <img class='logo' src="../../assets/logoBlue.png" alt="" >
+  <span>{{ componentUIState$ | async }}</span>
+  <span>{{ componentLoadingState$ | async }}</span>
   <div *ngIf="(userDetails$ | async) as user" class="userNavbar">
     <div [ngStyle]="{'background-image': 'url(' + userDetails$.photoURL + ')'}" class="profilePicNavBar"></div>
     <p>{{ userDetails$.displayName }}</p>
