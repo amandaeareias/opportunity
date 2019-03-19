@@ -1,0 +1,39 @@
+agm-map {
+  height: 350px;
+  width: 80vw;
+}
+
+:host{
+  margin-bottom: 2vh;
+  border-radius: 10px;
+  background-color: rgb(237, 237, 237);
+  margin: 0 5px 20px 5px;
+  box-shadow: 6px 12px 16px -12px rgba(0,0,0,0.35), -6px -6px 16px -12px rgba(0,0,0,0.35);
+  text-align: center;
+}
+
+.mapContainer {
+  position: relative;
+}
+
+.loc {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+}
+
+img {
+  height: 25px;
+  cursor: pointer;
+  right: 10px;
+}
+
+input {
+  left: 10px;
+  height: 40px;
+  width: 200px;
+  padding-left: 10px;
+  border: none;
+  box-shadow: 6px 12px 16px -12px rgba(0,0,0,0.35), -6px -6px 16px -12px rgba(0,0,0,0.35);
+  border-radius: 3px;
+}
