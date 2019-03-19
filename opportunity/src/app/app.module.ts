@@ -40,6 +40,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { OpportunityCardAdminComponent } from './ngo-profile/opportunity-card-admin/opportunity-card-admin.component';
 import { CreateOpportunityComponent } from './ngo-profile/create-opportunity/create-opportunity.component';
 import { OpportunityComponent } from './ngo-profile/opportunity/opportunity.component';
+import { GoogleMapsComponent } from './google-maps/google-maps.component';
+import { AgmCoreModule } from '@agm/core';
 
 
 @NgModule({
@@ -59,7 +61,8 @@ import { OpportunityComponent } from './ngo-profile/opportunity/opportunity.comp
     NgoSignupComponent,
     OpportunityCardAdminComponent,
     CreateOpportunityComponent,
-    OpportunityComponent
+    OpportunityComponent,
+    GoogleMapsComponent
   ],
   entryComponents: [
     CreateOpportunityComponent,
@@ -81,8 +84,12 @@ import { OpportunityComponent } from './ngo-profile/opportunity/opportunity.comp
     MatNativeDateModule,
     MatIconModule,
     MatSnackBarModule,
+    AgmCoreModule,
     StoreModule.forRoot({ user: userReducer }),
     MatDatepickerModule,
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleMapsApiKey,
+    }),
     EffectsModule.forRoot([UserEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
