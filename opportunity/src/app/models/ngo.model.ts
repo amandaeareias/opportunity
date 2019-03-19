@@ -13,7 +13,7 @@ export class NGO {
     publicEmail: string;
     phone: string;
   };
-  opportunity?: Opportunity[];
+  opportunity?: Object;
 }
 
-export const NgoCollection = 'ngo';
+export const NgoCollection = 'ngos';
