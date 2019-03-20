@@ -20,7 +20,7 @@ export class FirebaseCrudService {
   }
 
   /* getMany uses optional QueryFn type for querying DB: */
-  /* QueryFn: (ref) => ref.where('nameToSearch', 'operator', 'searchValue') */
+  /* QueryFn: (ref) => ref.where('fieldName', 'operator', 'fieldValue') */
   getMany<T>(collection: string, queryFn?: QueryFn) {
     return this.db.collection<T>(collection, queryFn).snapshotChanges().pipe(
       map(actions => actions.map(action => {
@@ -42,14 +42,16 @@ export class FirebaseCrudService {
     return this.db.collection('ngos').add({ ...new NGO(), ...ngo });
   }
 
-  /* @TODO: Review and test update functions */
+  updateVolunteer(id: string, data: any) {
+    return this.db.collection('volunteers').doc(id).update(data);
+  }
 
-  updateVolunteer(objectKey: string, newObjectData: Volunteer) {
-    return this.db.collection('volunteers').doc(objectKey).update(newObjectData);
+  updateNGO(id: string, data: any) {
+    return this.db.collection('ngos').doc(id).update(data);
   }
-  updateNGO(objectKey: string, newObjectData: NGO) {
-    return this.db.collection('ngos').doc(objectKey).update(newObjectData);
-  }
+
+  /* @TODO: Review and test delete functions */
+
   deleteVolunteer(objectKey: string) {
     return this.db.collection('volunteers').doc(objectKey).delete();
   }
@@ -58,24 +60,24 @@ export class FirebaseCrudService {
   }
 
   //CRUD secondary objects (opportunity, application)
-  createOpportunity(newObject: Opportunity) {
+  async createOpportunity(newObject: Opportunity) {
     //first creating new doc in the opportunities collection
-    const opportunity = this.db.collection('opportunities').add(newObject);
-    //when done creating, start updating the ngos collection
-    opportunity.then(docRef => {
-      //by first getting all the opportunities of the relevant ngo
-      this.db.collection('ngos').doc(newObject.ngo.id).get()
-        //what only works by subscribing
-        .subscribe(data => {
-          const ngosOpportunities = data.get('opportunity');
-          //as we want to find/identify the opportunities quickly, we save them as keys
-          const newOpportunity = {};
-          newOpportunity[docRef.id] = newObject;
-          //and then updating the ngos collection
-          this.db.collection('ngos').doc(newObject.ngo.id).update({opportunity: {...ngosOpportunities, ...newOpportunity}}); //probably do not need the full opportunity object
-        })
-    });
-    return opportunity;
+    const docRef = await this.db.collection('opportunities').add(newObject);
+    // when done creating, start updating the ngos collection
+    //by first getting all the opportunities of the relevant ngo
+    this.db.collection('ngos').doc(newObject.ngo.id).get()
+      .subscribe(data => {
+        const ngosOpportunities = data.get('opportunity');
+        //as we want to find/identify the opportunities quickly, we save them as keys
+        const newOpportunity = {};
+        newOpportunity[docRef.id] = newObject;
+        //and then updating the ngos collection
+        this.db.collection('ngos').doc(newObject.ngo.id).update({opportunity: {...ngosOpportunities, ...newOpportunity}});
+        //probably do not need the full opportunity object
+      })
+    const opportunity = await docRef.get();
+    console.log(opportunity.data());
+    return opportunity.data();
   }
 
   createApplication(newObject: Application) {

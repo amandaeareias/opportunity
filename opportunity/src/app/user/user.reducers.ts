@@ -15,7 +15,7 @@ export interface UserState {
 }
 
 export const initialState: UserState = {
-  isNgo: false,
+  isNgo: null,
   isLoggedIn: false,
   isComplete: false,
   isAuthed: false,
