@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store'
+import { ActivatedRoute } from '@angular/router';
 
+import { FirebaseCrudService } from '../../data/services/firebase.service'
 import {userDetailsSelector} from '../../user/user.reducers'
+
 
 @Component({
   selector: 'app-volunteer-profile',
@@ -10,19 +13,47 @@ import {userDetailsSelector} from '../../user/user.reducers'
 })
 export class VolunteerProfileComponent implements OnInit {
 
-  user;
+  currentUser;
+  profileVolunteer;
+  profileId;
 
   constructor(
-    private store: Store<any>
+    private store: Store<any>,
+    private service: FirebaseCrudService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
+    this.getCurrentUser()
+    this.route.params.subscribe(routeParams => {
+      this.getCurrentUser()
+    });
+  }
+
+  getCurrentUser() {
     this.store.select(userDetailsSelector)
       .subscribe(user => {
-        console.log('1 ', this.user);
-        this.user = user;
-        console.log('2 ', this.user);
+        this.currentUser = user;
+        this.getProfile()
       })
+  }
+
+  getProfile() {
+    this.profileId = this.route.snapshot.paramMap.get('id')
+    this.service.getOne('volunteers', this.profileId)
+      .subscribe(user => {
+        this.profileVolunteer = user
+        this.compare()
+    })
+  }
+
+  compare() {
+    console.log(this.profileVolunteer)
+    if(this.currentUser.id === this.profileId) {
+      console.log('same user')
+    } else {
+      console.log('other user')
+    }
   }
 
 }
