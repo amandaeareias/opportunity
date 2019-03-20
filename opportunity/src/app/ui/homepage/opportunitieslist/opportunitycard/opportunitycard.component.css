@@ -9,10 +9,10 @@
   cursor: pointer;
 }
 
-.opportunityCard p {
+.opportunityCard .ngo {
   cursor: pointer;
 }
 
-.opportunityCard p:hover {
+.opportunityCard .ngo:hover {
   text-decoration: underline;
 }

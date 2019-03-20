@@ -55,7 +55,7 @@ export class NgoProfileComponent implements OnInit {
   }
 
   getprofileOpportunities() {
-    if (Object.values(this.profileNgo.opportunity)) {
+    if (this.profileNgo.opportunity && Object.values(this.profileNgo.opportunity)) {
       this.profileOpportunities = Object.values(this.profileNgo.opportunity)
       let counter = 0
       for (let opp of this.profileOpportunities) {

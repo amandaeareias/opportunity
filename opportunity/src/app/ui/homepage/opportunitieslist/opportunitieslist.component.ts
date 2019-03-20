@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FirebaseCrudService } from '../../../data/services/firebase.service'
 
 @Component({
   selector: 'app-opportunitieslist',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OpportunitieslistComponent implements OnInit {
 
-  constructor() { }
+  opportunities;
+
+  constructor(
+    private fbService: FirebaseCrudService,
+  ) { }
 
   ngOnInit() {
+    this.getOpportunities()
+  }
+
+  getOpportunities() {
+    this.fbService.getMany('opportunities').subscribe(opportunities => {
+      this.opportunities = opportunities;
+    })
   }
 
 }
