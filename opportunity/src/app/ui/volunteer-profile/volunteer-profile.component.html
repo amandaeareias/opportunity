@@ -1,10 +1,10 @@
 <div class="blueCover">
 </div>
 
-<div class="profile">
-  <div class="profilePicture"></div>
+<div class="profile" *ngIf='profileVolunteer'>
+  <div class="profilePicture" [ngStyle]="{'background-image': 'url(' + profileVolunteer.image + ')'}"></div>
   <div class="volunteerInfo">
-    <h2 class="name">{{user.displayName}}</h2>
-    <p class="description">Deserunt aliquip sunt anim labore qui exercitation velit ullamco eiusmod laborum. Exercitation exercitation Lorem sit id ullamco fugiat voluptate nisi velit in proident minim laboris consectetur. Est mollit nulla ut voluptate. <br> <br>Sunt est incididunt amet commodo laboris dolore aute duis nostrud. Eiusmod amet quis quis adipisicing consequat excepteur nulla et. Minim ullamco esse veniam ad. Laborum nulla consequat elit nisi ullamco ea aliquip laboris ex. Labore eu ea mollit duis. Eu quis fugiat exercitation ex aliquip deserunt id. Sunt anim nulla est enim sint consectetur sit sunt. Sunt consectetur duis fugiat incididunt.</p>
+    <h2 class="name">{{profileVolunteer.name}}</h2>
+    <p class="description">{{profileVolunteer.about}}</p>
   </div>
 </div>

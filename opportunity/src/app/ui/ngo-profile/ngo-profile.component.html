@@ -1,26 +1,25 @@
 <div class="blueCover">
 </div>
 
-<div class="profile" *ngIf='ngo'>
+<div class="profile" *ngIf='profileNgo'>
   <div class="upperContainer">
-    <div class="profilePicture"></div>
+    <div class="profilePicture" [ngStyle]="{'background-image': 'url(' + profileNgo.image + ')'}"></div>
     <div class='ngoInfo'>
-      <h2 class="name">{{ngo.name}}</h2>
-      <p>{{ngo.contact.website}}</p>
-      <p>{{ngo.contact.phone}}</p>
-      <p>{{ngo.contact.address}}</p>
+      <h2 class="name">{{profileNgo.name}}</h2>
+      <p>{{profileNgo.contact.website}}</p>
+      <p>{{profileNgo.contact.phone}}</p>
+      <p>{{profileNgo.contact.address}}</p>
     </div>
   </div>
 
-  <p class="description">{{ngo.about}}</p>
+  <p class="description">{{profileNgo.about}}</p>
 
-  <div class="opportunitiesList" *ngIf='ngo.opportunity'>
-    <div class="createNewOpportunity" (click)='openCreateOpportunity()'>+</div>
-    <app-opportunity-card-admin></app-opportunity-card-admin>
-    <app-opportunity-card-admin></app-opportunity-card-admin>
-    <app-opportunity-card-admin></app-opportunity-card-admin>
-    <app-opportunity-card-admin></app-opportunity-card-admin>
-    <app-opportunity-card-admin></app-opportunity-card-admin>
-    <app-opportunity-card-admin></app-opportunity-card-admin>
+  <div class="opportunities">
+    <div class="createNewOpportunity" (click)='openCreateOpportunity()' *ngIf='profileOwner'>+ ADD<br>OPPORTUNITY</div>
+    <div class="opportunitiesList" *ngIf='profileOpportunitiesQuantity > 0'>
+      <div *ngFor='let opportunity of profileOpportunities | keyvalue'>
+        <app-opportunity-card-admin [opportunity]='opportunity'></app-opportunity-card-admin>
+      </div>
+    </div>
   </div>
 </div>
