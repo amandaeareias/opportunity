@@ -18,8 +18,7 @@ export class NgoProfileComponent implements OnInit {
   profileNgo;
   profileId
   currentUser;
-  profileOpportunities;
-  profileOpportunitiesQuantity;
+  profileOpportunities = [];
   profileOwner: boolean = false
 
   constructor(private dialog: MatDialog,
@@ -56,8 +55,14 @@ export class NgoProfileComponent implements OnInit {
   }
 
   getprofileOpportunities() {
-    this.profileOpportunities = this.profileNgo.opportunity
-    this.profileOpportunitiesQuantity = Object.keys(this.profileOpportunities).length
+    if (Object.values(this.profileNgo.opportunity)) {
+      this.profileOpportunities = Object.values(this.profileNgo.opportunity)
+      let counter = 0
+      for (let opp of this.profileOpportunities) {
+        opp['id'] = Object.keys(this.profileNgo.opportunity)[counter]
+        counter++
+      }
+    }
   }
 
   compare() {
@@ -76,11 +81,11 @@ export class NgoProfileComponent implements OnInit {
 
     this.dialog.open(CreateOpportunityComponent)
       .afterClosed().subscribe(
-      opportunity => {
-        const data = this.mappingService.mapOpportunityInputToProps(this.currentUser, opportunity)
-        this.fbService.createOpportunity(data)
-      }
-    );
+        opportunity => {
+          const data = this.mappingService.mapOpportunityInputToProps(this.currentUser, opportunity)
+          this.fbService.createOpportunity(data)
+        }
+      );
   }
 
 

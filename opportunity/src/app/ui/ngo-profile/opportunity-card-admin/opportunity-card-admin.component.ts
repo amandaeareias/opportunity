@@ -13,4 +13,8 @@ export class OpportunityCardAdminComponent implements OnInit {
   ngOnInit() {
   }
 
+  x() {
+    console.log(this.opportunity)
+  }
+
 }
