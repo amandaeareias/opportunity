@@ -1,7 +1,6 @@
-import { NGO } from './ngo.model';
+import { Application } from './application.model';
 
 export class Opportunity {
-  id?: string;
   name: string;
   ngo: {
     id: string;
@@ -10,10 +9,10 @@ export class Opportunity {
   };
   about: string;
   location: string; // change to geo location
-  prerequisites: string[];
+  prerequisites?: string[];
   timeCreated: string;
   active: boolean;
-  application?: Object;
+  application?: Application[];
 }
 
 export const OpportunityCollection = 'opportunities';
