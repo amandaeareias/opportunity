@@ -54,16 +54,16 @@ export class AppComponent implements OnInit {
       /* No else case, as it's fine to keep default state if no auth */
     });
 
-    this.db.createOpportunity(this.mapper.mapOpportunityInputToProps({
-      id: 'fTzVS7cv4wxCgUfhjxKi',
-      name: 'Kate',
-      image: 'photo',
-    }, {
-      name: 'English for kids',
-      about: 'Something',
-      location: 'Somewhere',
-      prerequisites: ['English', 'kids'],
-    }));
+    // this.db.createOpportunity(this.mapper.mapOpportunityInputToProps({
+    //   id: 'zB1wkI6n9yhfBhGwSPNX',
+    //   name: 'Igor Snitkin',
+    //   image: 'photo',
+    // }, {
+    //   name: 'English for kids',
+    //   about: 'Something',
+    //   location: 'Somewhere',
+    //   prerequisites: ['English', 'kids'],
+    // }));
   }
 
   /* @TODO: Move helper functions to the dedicated service */

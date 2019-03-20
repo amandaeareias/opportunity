@@ -14,7 +14,7 @@ export class FirebaseCrudService {
   constructor(public db: AngularFirestore) {}
 
   /* Getters */
-  getOne(collection: string, id: string) { 
+  getOne(collection: string, id: string) {
     return this.db.collection(collection).doc(id).valueChanges();
     /* NOTE: getOne returns undefined if document isn't found */
   }
@@ -26,7 +26,7 @@ export class FirebaseCrudService {
       map(actions => actions.map(action => {
         const data = action.payload.doc.data()
         const id = action.payload.doc.id;
-        
+
         return {id, ...data};
       })),
     );
@@ -66,6 +66,7 @@ export class FirebaseCrudService {
 
     //get the created object back
     const opportunity = await docRef.get();
+<<<<<<< HEAD
 
     //update the ngo data with the new opportunity, using the same id
     await this.db.collection('ngos')
@@ -74,6 +75,9 @@ export class FirebaseCrudService {
       .doc(docRef.id)
       .set(newObject)
 
+=======
+    // console.log(opportunity.data());
+>>>>>>> develop
     return opportunity.data();
   }
 
