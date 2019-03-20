@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, QueryFn } from '@angular/fire/firestore';
-import { combineLatest, Subject } from 'rxjs';
 
 import { NGO } from '../models/ngo.model';
 import { Volunteer } from '../models/volunteer.model';
@@ -14,84 +13,36 @@ import {map} from 'rxjs/operators'
 export class FirebaseCrudService {
   constructor(public db: AngularFirestore) {}
 
-  // getters
+  /* Getters */
   getOne(collection: string, id: string) { 
     return this.db.collection(collection).doc(id).valueChanges();
-    // returns undefined if no document found
+    /* NOTE: getOne returns undefined if document isn't found */
   }
 
+  /* getMany uses optional QueryFn type for querying DB: */
   /* QueryFn: (ref) => ref.where('nameToSearch', 'operator', 'searchValue') */
   getMany<T>(collection: string, queryFn?: QueryFn) {
     return this.db.collection<T>(collection, queryFn).snapshotChanges().pipe(
       map(actions => actions.map(action => {
         const data = action.payload.doc.data()
         const id = action.payload.doc.id;
-        return {id, ...data}
-      }))
+        
+        return {id, ...data};
+      })),
     );
   }
-  
-  registerUser(userLoginData: { logInEmail: string, photoURL: string, displayName: string }, isNgo: boolean) {
-    console.log(isNgo);
-    const { logInEmail, photoURL, displayName } = userLoginData;
-    let subject$ = new Subject();
-    const vol$ = this.getMany('volunteers', (ref) => ref.where('username', '==', logInEmail));
-    const ngo$ = this.getMany('ngos', (ref) => ref.where('username', '==', logInEmail));
-    combineLatest(
-      vol$,
-      ngo$,
-      (vol, ngo) => vol.length ? { type: 'volunteer', data: vol[0] } : ngo.length ? { type: 'ngo', data: ngo[0] } : { type: '404' }
-    ).subscribe(async (res) => {
-      console.log(res);
-      switch(res.type) {
-        case 'volunteer':
-          subject$.next({
-            isNgo: false,
-            user: res.data,
-          })
-          break;
-        case 'ngo':
-          subject$.next({
-            isNgo: true,
-            user: res.data,
-          })
-          break;
-        case '404':
-        default:
-        let user;
-        isNgo
-          ? user = await this.createNGO({
-              name: displayName,
-              username: logInEmail,
-              image: photoURL,
-            })
-          : user = await this.createVolunteer({
-              name: displayName,
-              username: logInEmail,
-              image: photoURL,
-            })
-        subject$.next({
-          user: {
-            displayName: user.name,
-            photoURL: user.image,
-            logInEmail: user.username,
-            isComplete: user.isComplete,
-          },
-          isNgo
-        });
-      }
-    });
-    return subject$;
+
+  /* Please note: create functions use type constructor in order */
+  /* to enforce fixed document structure in the DB */
+  createVolunteer(volunteer: Volunteer) {
+    return this.db.collection('volunteers').add({ ...new Volunteer(), ...volunteer });
   }
 
-  //CRUD basic objects (NGO, volunteer)
-  createVolunteer(newObject: Volunteer) {
-    return this.db.collection('volunteers').add({ ...new Volunteer(), ...newObject });
+  createNGO(ngo: NGO) {
+    return this.db.collection('ngos').add({ ...new NGO(), ...ngo });
   }
 
-  createNGO(newObject: NGO) {
-    return this.db.collection('ngos').add({ ...new NGO(), ...newObject });
-  }
+  /* @TODO: Review and test update functions */
 
   updateVolunteer(objectKey: string, newObjectData: Volunteer) {
     return this.db.collection('volunteers').doc(objectKey).update(newObjectData);

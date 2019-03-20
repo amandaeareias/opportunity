@@ -37,43 +37,26 @@ export class AppComponent implements OnInit {
     this.store.select(navbarUIStateSelector)
       .subscribe(navbarUIState => this.navbarUIState = navbarUIState);
 
-    this.auth.authState.subscribe(q => {
-      if (q) {
+    this.auth.authState.subscribe(authResponse => {
+      if (authResponse) {
         this.store.dispatch(new LoginWithGoogle_SUCCESS());
+        if (!this.user.isLoggedIn) {
+          this.store.dispatch(new FetchUserDetails({
+            logInEmail: authResponse.email,
+            displayName: authResponse.displayName,
+            photoURL: authResponse.photoURL,
+            isNgo: this.parseNgoUIState(this.navbarUIState),
+          }));
+        }
       }
-      if (q && !this.user.isLoggedIn) {
-        console.log('catch me');
-        this.store.dispatch(new FetchUserDetails({
-          logInEmail: q.email,
-          displayName: q.displayName,
-          photoURL: q.photoURL,
-          isNgo: this.parseNgoUIState(this.navbarUIState),
-        }));
-      }
+      /* No else case, as it's fine to keep default state if no auth */
     });
   }
 
+  /* @TODO: Move helper functions to the dedicated service */
   parseNgoUIState(uiState: string): boolean {
     console.log(uiState, /^NGO/i.test(uiState));
     return /^NGO/i.test(uiState);
-  }
-
-  // TODO: remove this code. Is for testing purpose only
-  // this step will be included after the validation check for new users
-  openDialogNGO(registrationData) {
-    this.dialog.open(NgoSignupComponent, {
-      data: {
-        filename: registrationData ? registrationData.name : ''
-      }
-    });
-  }
-
-  openDialogVolunteer(registrationData) {
-    this.dialog.open(VolunteerSignupComponent, {
-      data: {
-        filename: registrationData ? registrationData.name : ''
-      }
-    });
   }
 
 }
