@@ -63,22 +63,40 @@ export class FirebaseCrudService {
   async createOpportunity(newObject: Opportunity) {
     //first creating new doc in the opportunities collection
     const docRef = await this.db.collection('opportunities').add(newObject);
-    // when done creating, start updating the ngos collection
-    //by first getting all the opportunities of the relevant ngo
-    this.db.collection('ngos').doc(newObject.ngo.id).get()
-      .subscribe(data => {
-        const ngosOpportunities = data.get('opportunity');
-        //as we want to find/identify the opportunities quickly, we save them as keys
-        const newOpportunity = {};
-        newOpportunity[docRef.id] = newObject;
-        //and then updating the ngos collection
-        this.db.collection('ngos').doc(newObject.ngo.id).update({opportunity: {...ngosOpportunities, ...newOpportunity}});
-        //probably do not need the full opportunity object
-      })
+
+    //get the created object back
     const opportunity = await docRef.get();
-    console.log(opportunity.data());
+
+    //update the ngo data with the new opportunity, using the same id
+    await this.db.collection('ngos')
+      .doc(newObject.ngo.id)
+      .collection('opportunity')
+      .doc(docRef.id)
+      .set(newObject)
+
     return opportunity.data();
   }
+
+    // //CRUD secondary objects (opportunity, application)
+    // async createOpportunity(newObject: Opportunity) {
+    //   //first creating new doc in the opportunities collection
+    //   const docRef = await this.db.collection('opportunities').add(newObject);
+    //   // when done creating, start updating the ngos collection
+    //   //by first getting all the opportunities of the relevant ngo
+    //   this.db.collection('ngos').doc(newObject.ngo.id).get()
+    //     .subscribe(data => {
+    //       const ngosOpportunities = data.get('opportunity');
+    //       //as we want to find/identify the opportunities quickly, we save them as keys
+    //       const newOpportunity = {};
+    //       newOpportunity[docRef.id] = newObject;
+    //       //and then updating the ngos collection
+    //       this.db.collection('ngos').doc(newObject.ngo.id).update({opportunity: {...ngosOpportunities, ...newOpportunity}});
+    //       //probably do not need the full opportunity object
+    //     })
+    //   const opportunity = await docRef.get();
+    //   console.log(opportunity.data());
+    //   return opportunity.data();
+    // }
 
   createApplication(newObject: Application) {
     //I. update opportunities collection
