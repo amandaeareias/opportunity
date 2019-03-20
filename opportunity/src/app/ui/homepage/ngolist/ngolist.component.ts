@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { FirebaseCrudService } from '../../../data/services/firebase.service'
 
 @Component({
   selector: 'app-ngolist',
@@ -7,7 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NgolistComponent implements OnInit {
 
-  constructor() { }
+  ngos;
+
+  constructor(
+    private service: FirebaseCrudService,
+  ) {
+    this.service.getMany('ngos').subscribe(ngos => {
+      this.ngos = ngos
+      console.log('NGOs: ', this.ngos)
+    })
+   }
 
   ngOnInit() {
   }
