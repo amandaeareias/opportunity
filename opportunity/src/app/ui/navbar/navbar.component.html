@@ -3,16 +3,17 @@
   <div class="rightSideNav">
     <p routerLink='/all-opportunities'>All Opportunities</p>
     <p routerLink='/all-ngos'>All NGOs</p>
-    <div *ngIf="(userDetails$ | async) as user" class="userNavbar">
-      <div [ngStyle]="{'background-image': 'url(' + user.photoURL + ')'}" class="profilePicNavBar"></div>
-      <p>{{ user.displayName }}</p>
+    <div *ngIf="currentUser" class="userNavbar">
+      <div [ngStyle]="{'background-image': 'url(' + currentUser.user.image + ')'}" class="profilePicNavBar"></div>
+      <p>{{ currentUser.user.name }}</p>
       <img mat-button [matMenuTriggerFor]="menu" src="/assets/icons/down.png" alt="">
       <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink='volunteer'>Profile</button>
+        <button mat-menu-item *ngIf='currentUser.isNgo' routerLink='/ngo/{{currentUser.user.id}}'>Profile</button>
+        <button mat-menu-item *ngIf='!currentUser.isNgo' routerLink='/volunteer/{{currentUser.user.id}}'>Profile</button>
         <button mat-menu-item>Settings</button>
-        <button mat-menu-item>Log-out</button>
+        <button mat-menu-item (click)='logOut()'>Log-out</button>
       </mat-menu>
     </div>
-    <app-login *ngIf="!(userDetails$ | async)"></app-login>
+    <app-login *ngIf="!currentUser"></app-login>
   </div>
 </mat-toolbar>
