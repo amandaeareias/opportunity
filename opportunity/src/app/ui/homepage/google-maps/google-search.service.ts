@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { MapsAPILoader } from "@agm/core";
-import {} from 'googlemaps';
+import {} from "googlemaps";
 
 @Injectable({
   providedIn: "root"
@@ -21,6 +21,37 @@ export class GoogleSearchService {
           if (status !== google.maps.places.PlacesServiceStatus.OK) {
             reject(status);
           }
+        }
+      );
+    });
+  }
+
+  searchByAPlaceId(placeId: string): Promise<google.maps.places.PlaceResult> {
+    this.mapsAPILoader.load();
+    const service = new google.maps.places.PlacesService(
+      document.createElement("div")
+    );
+
+    return new Promise((resolve, reject) => {
+      service.getDetails(
+        {
+          placeId,
+          fields: [
+            "name",
+            "formatted_address",
+            "place_id",
+            "geometry",
+            "photos"
+          ]
+        },
+        (
+          result: google.maps.places.PlaceResult,
+          status: google.maps.places.PlacesServiceStatus
+        ) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            resolve(result);
+          }
+          reject(status);
         }
       );
     });
