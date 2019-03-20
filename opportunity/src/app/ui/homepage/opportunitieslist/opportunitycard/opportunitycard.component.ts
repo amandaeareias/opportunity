@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import {OpportunityComponent} from '../../../ngo-profile/opportunity/opportunity.component';
+import { Component, OnInit, Input } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { OpportunityComponent } from '../../../ngo-profile/opportunity/opportunity.component';
 
 @Component({
   selector: 'app-opportunitycard',
@@ -9,13 +9,14 @@ import {OpportunityComponent} from '../../../ngo-profile/opportunity/opportunity
 })
 export class OpportunitycardComponent implements OnInit {
 
+  @Input() opportunity;
   constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
   openOpportunity() {
-    this.dialog.open(OpportunityComponent);
+    this.dialog.open(OpportunityComponent, {data: this.opportunity});
   }
 
 }

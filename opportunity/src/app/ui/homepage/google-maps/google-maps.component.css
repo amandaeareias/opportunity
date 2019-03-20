@@ -3,12 +3,13 @@ agm-map {
   width: 80vw;
 }
 
-:host{
+:host {
   margin-bottom: 2vh;
   border-radius: 10px;
   background-color: rgb(237, 237, 237);
   margin: 0 5px 20px 5px;
-  box-shadow: 6px 12px 16px -12px rgba(0,0,0,0.35), -6px -6px 16px -12px rgba(0,0,0,0.35);
+  box-shadow: 6px 12px 16px -12px rgba(0, 0, 0, 0.35),
+    -6px -6px 16px -12px rgba(0, 0, 0, 0.35);
   text-align: center;
 }
 
@@ -16,24 +17,40 @@ agm-map {
   position: relative;
 }
 
-.loc {
+.search {
+  background-color: white;
+  opacity: 0.8;
+  color:black;
   position: absolute;
   z-index: 2;
   top: 10px;
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+input{
+  color:black;
+}
+
+.full-width{
+  width: 100%;
 }
 
 img {
-  height: 25px;
+  height: 5px;
   cursor: pointer;
   right: 10px;
 }
 
-input {
+.loc {
+  top: 10px;
   left: 10px;
   height: 40px;
   width: 200px;
   padding-left: 10px;
   border: none;
-  box-shadow: 6px 12px 16px -12px rgba(0,0,0,0.35), -6px -6px 16px -12px rgba(0,0,0,0.35);
+  box-shadow: 6px 12px 16px -12px rgba(0, 0, 0, 0.35),
+    -6px -6px 16px -12px rgba(0, 0, 0, 0.35);
   border-radius: 3px;
 }
