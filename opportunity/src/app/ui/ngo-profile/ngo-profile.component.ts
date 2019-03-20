@@ -66,7 +66,7 @@ export class NgoProfileComponent implements OnInit {
   }
 
 
-  openCreateOpportunity() {
+  createOpportunity() {
     this.dialog.open(CreateOpportunityComponent);
   }
 
