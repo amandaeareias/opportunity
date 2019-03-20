@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { map, switchMap, catchError, first } from 'rxjs/operators';
 
 import { ActionTypes, LoadUserDetails } from './user.actions';
-import { FirebaseCrudService } from '../data/services/firebase.service';
+import { LoginService } from './user-auth/login.service';
 
 @Injectable()
 export class UserEffects {
@@ -14,23 +14,27 @@ export class UserEffects {
     .pipe(
       ofType(ActionTypes.FetchUserDetails),
       /* TODO: Implement db.getUserData$. Using a mock instead */
-      switchMap((action) => of({
-        isNgo: true,
-        isRegistered: false,
-        displayName: 'Igor Snitkin',
-        logInEmail: 'igor@snitkin.com',
-        photoURL: 'http://linktomyphoto.com',
-      }) // this.db.getUserData$(action.payload)
-        .pipe(
-          map(userDetails => new LoadUserDetails(userDetails)),
-          catchError(() => EMPTY)
-        )
-      )
+      switchMap(({ payload }) => {
+        const { logInEmail, photoURL, displayName, isNgo } = payload;
+        return this.auth.registerUser({
+          logInEmail,
+          photoURL,
+          displayName,
+        }, isNgo)
+        /* Pipe result of registerUser to get only the first response */
+        /* This fixes a bug of double-response triggered by real-time DB */
+        /* @TODO: Add catchError logic instead of returning EMPTY */
+          .pipe(
+            first(),
+            map(({ user, isNgo }) => new LoadUserDetails({ user, isNgo })),
+            catchError(() => EMPTY),
+          );
+      })
     );
 
   constructor(
     private actions$: Actions,
-    private db: FirebaseCrudService
+    private auth: LoginService,
   ) {}
 
 }

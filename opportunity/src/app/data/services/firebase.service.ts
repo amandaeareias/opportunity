@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, QueryFn } from '@angular/fire/firestore';
+
 import { NGO } from '../models/ngo.model';
 import { Volunteer } from '../models/volunteer.model';
 import { Opportunity } from '../models/opportunity.model';
@@ -12,28 +13,37 @@ import {map} from 'rxjs/operators'
 export class FirebaseCrudService {
   constructor(public db: AngularFirestore) {}
 
-  //gets
-  getOne(collection: string, objectKey: string) {
-    return this.db.collection(collection).doc(objectKey).valueChanges();
+  /* Getters */
+  getOne(collection: string, id: string) { 
+    return this.db.collection(collection).doc(id).valueChanges();
+    /* NOTE: getOne returns undefined if document isn't found */
   }
 
+  /* getMany uses optional QueryFn type for querying DB: */
+  /* QueryFn: (ref) => ref.where('nameToSearch', 'operator', 'searchValue') */
   getMany<T>(collection: string, queryFn?: QueryFn) {
     return this.db.collection<T>(collection, queryFn).snapshotChanges().pipe(
       map(actions => actions.map(action => {
         const data = action.payload.doc.data()
         const id = action.payload.doc.id;
-        return {id, ...data}
-      }))
+        
+        return {id, ...data};
+      })),
     );
   }
 
-  //CRUD basic objects (NGO, volunteer)
-  createVolunteer(newObject: Volunteer) {
-    return this.db.collection('volunteers').add(newObject);
+  /* Please note: create functions use type constructor in order */
+  /* to enforce fixed document structure in the DB */
+  createVolunteer(volunteer: Volunteer) {
+    return this.db.collection('volunteers').add({ ...new Volunteer(), ...volunteer });
   }
-  createNGO(newObject: NGO) {
-    return this.db.collection('ngos').add(newObject);
+
+  createNGO(ngo: NGO) {
+    return this.db.collection('ngos').add({ ...new NGO(), ...ngo });
   }
+
+  /* @TODO: Review and test update functions */
+
   updateVolunteer(objectKey: string, newObjectData: Volunteer) {
     return this.db.collection('volunteers').doc(objectKey).update(newObjectData);
   }
@@ -78,28 +88,29 @@ export class FirebaseCrudService {
         const oppApplications = data.get('application');
         //create new application object to be stored in the opportunity
         const newApplication = {};
-        newApplication[newObject.id] = {
-          volunteerId: newObject.volunteerId,
-          timeCreated: newObject.timeCreated,
-          active: newObject.active
-        };
+        // Where do I get newObject ID???
+        // newApplication[newObject.id] = {
+        //   volunteerId: newObject.volunteerId,
+        //   timeCreated: newObject.timeCreated,
+        //   active: newObject.active
+        // };
         //and update the opportunities collection document
         this.db.collection('opportunities').doc(newObject.opportunityId).update({application: {...oppApplications, ...newApplication}});
 
 
         //II. update volenteers collection
         //now start update the volunteer data (same logic)
-        this.db.collection('volunteers').doc(newObject.volunteerId).get()
-          .subscribe(data => {
-            const volApplications = data.get('application');
-            const newApplication = {};
-            newApplication[newObject.id] = {
-              opportunityId: newObject.opportunityId,
-              timeCreated: newObject.timeCreated,
-              active: newObject.active
-            };
-            this.db.collection('volunteers').doc(newObject.volunteerId).update({application: {...volApplications, ...newApplication}});
-          })
+        // this.db.collection('volunteers').doc(newObject.volunteerId).get()
+        //   .subscribe(data => {
+        //     const volApplications = data.get('application');
+        //     const newApplication = {};
+        //     newApplication[newObject.id] = {
+        //       opportunityId: newObject.opportunityId,
+        //       timeCreated: newObject.timeCreated,
+        //       active: newObject.active
+        //     };
+        //     this.db.collection('volunteers').doc(newObject.volunteerId).update({application: {...volApplications, ...newApplication}});
+        //   })
       })
   }
 }
