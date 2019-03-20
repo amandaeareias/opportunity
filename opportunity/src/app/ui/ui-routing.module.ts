@@ -11,7 +11,7 @@ import { AllNgosComponent } from './all-ngos/all-ngos.component';
 
 const routes: Routes = [
   { path: '', component: HomepageComponent },
-  { path: 'volunteer', component: VolunteerProfileComponent },
+  { path: 'volunteer/:id', component: VolunteerProfileComponent },
   { path: 'ngo/:id', component: NgoProfileComponent },
   { path: 'singup-ngo', component: NgoSignupComponent },
   { path: 'singup-volunteer', component: VolunteerSignupComponent },
