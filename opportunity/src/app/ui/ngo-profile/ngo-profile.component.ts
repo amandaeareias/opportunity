@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store'
 import { MatDialog } from '@angular/material/dialog';
-import {CreateOpportunityComponent} from './create-opportunity/create-opportunity.component';
 import { ActivatedRoute } from '@angular/router';
+
 import {FirebaseCrudService} from '../../data/services/firebase.service'
+import {userDetailsSelector} from '../../user/user.reducers'
+import {CreateOpportunityComponent} from './create-opportunity/create-opportunity.component';
 
 @Component({
   selector: 'app-ngo-profile',
@@ -11,23 +14,57 @@ import {FirebaseCrudService} from '../../data/services/firebase.service'
 })
 export class NgoProfileComponent implements OnInit {
 
-  ngo;
+  profileNgo;
+  profileId
+  currentUser;
+  profileOpportunities;
+  profileOpportunitiesQuantity;
+  profileOwner: boolean = false
+
   constructor(private dialog: MatDialog,
     private route: ActivatedRoute,
-    private service: FirebaseCrudService) { }
+    private service: FirebaseCrudService,
+    private store: Store<any>,
+    ) { }
 
   ngOnInit() {
-    this.getNGO()
+    this.getCurrentUser()
+    this.route.params.subscribe(routeParams => {
+      this.getCurrentUser()
+    });
   }
 
-  getNGO() {
-    const param = this.route.snapshot.paramMap.get('id')
-    this.service.getOne('ngos', param)
+  getCurrentUser() {
+    this.store.select(userDetailsSelector)
+    .subscribe(user => {
+      this.currentUser = user;
+      this.getProfileNgo()
+    })
+  }
+
+  getProfileNgo() {
+    this.profileId = this.route.snapshot.paramMap.get('id')
+    this.service.getOne('ngos', this.profileId)
       .subscribe(ngo => {
-        this.ngo = ngo
-        console.log(this.ngo)
+        this.profileNgo = ngo
+        this.getprofileOpportunities()
+        this.compare()
       })
   }
+
+  getprofileOpportunities() {
+    this.profileOpportunities = this.profileNgo.opportunity
+    this.profileOpportunitiesQuantity = Object.keys(this.profileOpportunities).length
+  }
+
+  compare() {
+    if(this.currentUser.id === this.profileId) {
+      this.profileOwner = true;
+    } else {
+      console.log('other user')
+    }
+  }
+
 
   openCreateOpportunity() {
     this.dialog.open(CreateOpportunityComponent);
