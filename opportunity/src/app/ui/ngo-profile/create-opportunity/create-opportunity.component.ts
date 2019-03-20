@@ -1,15 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 import {FormControl, FormGroup} from '@angular/forms';
 
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material';
-
-import { FirebaseCrudService } from '../../../data/services/firebase.service'
-
-export interface Fruit {
-  name: string;
-}
 
 @Component({
   selector: 'app-create-opportunity',
@@ -31,8 +25,8 @@ export class CreateOpportunityComponent implements OnInit {
     location: new FormControl('')
   });
 
-  constructor(private dialog: MatDialog,
-    private service: FirebaseCrudService,
+  constructor(
+    private dialog: MatDialogRef<CreateOpportunityComponent>
     ) { }
 
   ngOnInit() {
@@ -45,7 +39,7 @@ export class CreateOpportunityComponent implements OnInit {
       location: this.createOpportunityForm.value.location,
       prerequisites: this.prerequisitesList,
     }
-    this.dialog.closeAll();
+    this.dialog.close(newOpportunity);
   }
 
   add(event: MatChipInputEvent): void {
@@ -59,8 +53,8 @@ export class CreateOpportunityComponent implements OnInit {
     }
   }
 
-  remove(fruit: string): void {
-    const index = this.prerequisitesList.indexOf(fruit);
+  remove(value: string): void {
+    const index = this.prerequisitesList.indexOf(value);
     if (index >= 0) {
       this.prerequisitesList.splice(index, 1);
     }

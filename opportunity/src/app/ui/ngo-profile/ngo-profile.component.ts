@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store'
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 
-import {FirebaseCrudService} from '../../data/services/firebase.service'
-import {userDetailsSelector} from '../../user/user.reducers'
-import {CreateOpportunityComponent} from './create-opportunity/create-opportunity.component';
+import { FirebaseCrudService } from '../../data/services/firebase.service'
+import { MappingService } from '../../data/services/mapping.service'
+import { userDetailsSelector } from '../../user/user.reducers'
+import { CreateOpportunityComponent } from './create-opportunity/create-opportunity.component';
 
 @Component({
   selector: 'app-ngo-profile',
@@ -23,9 +24,11 @@ export class NgoProfileComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
     private route: ActivatedRoute,
-    private service: FirebaseCrudService,
+    private fbService: FirebaseCrudService,
     private store: Store<any>,
-    ) { }
+    private mappingService: MappingService,
+
+  ) { }
 
   ngOnInit() {
     this.getCurrentUser()
@@ -36,15 +39,15 @@ export class NgoProfileComponent implements OnInit {
 
   getCurrentUser() {
     this.store.select(userDetailsSelector)
-    .subscribe(user => {
-      this.currentUser = user;
-      this.getProfileNgo()
-    })
+      .subscribe(user => {
+        this.currentUser = user;
+        this.getProfileNgo()
+      })
   }
 
   getProfileNgo() {
     this.profileId = this.route.snapshot.paramMap.get('id')
-    this.service.getOne('ngos', this.profileId)
+    this.fbService.getOne('ngos', this.profileId)
       .subscribe(ngo => {
         this.profileNgo = ngo
         this.getprofileOpportunities()
@@ -58,21 +61,30 @@ export class NgoProfileComponent implements OnInit {
   }
 
   compare() {
-    if(this.currentUser.id === this.profileId) {
+    if (this.currentUser.id === this.profileId) {
       this.profileOwner = true;
     } else {
       console.log('other user')
     }
   }
 
-
   createOpportunity() {
-    this.dialog.open(CreateOpportunityComponent);
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    this.dialog.open(CreateOpportunityComponent)
+      .afterClosed().subscribe(
+      opportunity => {
+        const data = this.mappingService.mapOpportunityInputToProps(this.currentUser, opportunity)
+        this.fbService.createOpportunity(data)
+      }
+    );
   }
 
-  newOpportunity() {
-    console.log('got here')
-  }
 
 
 }
+
+
