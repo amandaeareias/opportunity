@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { MapsAPILoader } from "@agm/core";
-
+import {} from 'googlemaps';
 
 @Injectable({
   providedIn: "root"
