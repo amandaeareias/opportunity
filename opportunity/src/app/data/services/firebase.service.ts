@@ -77,6 +77,30 @@ export class FirebaseCrudService {
     return opportunity.data();
   }
 
+  async createApplication(newObject: Application) {
+    //first creating new doc in the applications collection
+    const docRef = await this.db.collection('applications').add(newObject);
+
+    //get the created object back
+    const application = await docRef.get();
+
+    //update the opportunity data with the new application, using the same id
+    await this.db.collection('opportunities')
+      .doc(newObject.opportunityId)
+      .collection('application')
+      .doc(docRef.id)
+      .set(newObject)
+
+    //update the volunteer data with the new application, using the same id
+    await this.db.collection('volunteers')
+      .doc(newObject.volunteerId)
+      .collection('application')
+      .doc(docRef.id)
+      .set(newObject)
+
+    return application.data();
+  }
+
     // //CRUD secondary objects (opportunity, application)
     // async createOpportunity(newObject: Opportunity) {
     //   //first creating new doc in the opportunities collection
@@ -98,39 +122,39 @@ export class FirebaseCrudService {
     //   return opportunity.data();
     // }
 
-  createApplication(newObject: Application) {
-    //I. update opportunities collection
-    //first, find the relevant opportunity in opportunities collection
-    this.db.collection('opportunities').doc(newObject.opportunityId).get()
-    //what only works by subscribing
-      .subscribe(data => {
-        //then, get all the existing applications of the opportunity,
-        const oppApplications = data.get('application');
-        //create new application object to be stored in the opportunity
-        const newApplication = {};
-        // Where do I get newObject ID???
-        // newApplication[newObject.id] = {
-        //   volunteerId: newObject.volunteerId,
-        //   timeCreated: newObject.timeCreated,
-        //   active: newObject.active
-        // };
-        //and update the opportunities collection document
-        this.db.collection('opportunities').doc(newObject.opportunityId).update({application: {...oppApplications, ...newApplication}});
+  // createApplication(newObject: Application) {
+  //   //I. update opportunities collection
+  //   //first, find the relevant opportunity in opportunities collection
+  //   this.db.collection('opportunities').doc(newObject.opportunityId).get()
+  //   //what only works by subscribing
+  //     .subscribe(data => {
+  //       //then, get all the existing applications of the opportunity,
+  //       const oppApplications = data.get('application');
+  //       //create new application object to be stored in the opportunity
+  //       const newApplication = {};
+  //       // Where do I get newObject ID???
+  //       // newApplication[newObject.id] = {
+  //       //   volunteerId: newObject.volunteerId,
+  //       //   timeCreated: newObject.timeCreated,
+  //       //   active: newObject.active
+  //       // };
+  //       //and update the opportunities collection document
+  //       this.db.collection('opportunities').doc(newObject.opportunityId).update({application: {...oppApplications, ...newApplication}});
 
 
-        //II. update volenteers collection
-        //now start update the volunteer data (same logic)
-        // this.db.collection('volunteers').doc(newObject.volunteerId).get()
-        //   .subscribe(data => {
-        //     const volApplications = data.get('application');
-        //     const newApplication = {};
-        //     newApplication[newObject.id] = {
-        //       opportunityId: newObject.opportunityId,
-        //       timeCreated: newObject.timeCreated,
-        //       active: newObject.active
-        //     };
-        //     this.db.collection('volunteers').doc(newObject.volunteerId).update({application: {...volApplications, ...newApplication}});
-        //   })
-      })
-  }
+  //       //II. update volenteers collection
+  //       //now start update the volunteer data (same logic)
+  //       // this.db.collection('volunteers').doc(newObject.volunteerId).get()
+  //       //   .subscribe(data => {
+  //       //     const volApplications = data.get('application');
+  //       //     const newApplication = {};
+  //       //     newApplication[newObject.id] = {
+  //       //       opportunityId: newObject.opportunityId,
+  //       //       timeCreated: newObject.timeCreated,
+  //       //       active: newObject.active
+  //       //     };
+  //       //     this.db.collection('volunteers').doc(newObject.volunteerId).update({application: {...volApplications, ...newApplication}});
+  //       //   })
+  //     })
+  // }
 }

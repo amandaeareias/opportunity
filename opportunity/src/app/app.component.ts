@@ -55,8 +55,8 @@ export class AppComponent implements OnInit {
     });
 
     this.db.createOpportunity(this.mapper.mapOpportunityInputToProps({
-      id: 'zB1wkI6n9yhfBhGwSPNX',
-      name: 'Igor Snitkin',
+      id: 'fTzVS7cv4wxCgUfhjxKi',
+      name: 'Kate',
       image: 'photo',
     }, {
       name: 'English for kids',
