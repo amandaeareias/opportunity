@@ -21,6 +21,7 @@ import {
   MatNativeDateModule,
   MatIconModule,
   MatSnackBarModule,
+  MatChipsModule,
   MatAutocompleteModule,
   MatOptionModule
 } from '@angular/material';
@@ -104,6 +105,7 @@ import { UserEffects } from './user/user.effects';
     MatNativeDateModule,
     MatIconModule,
     MatSnackBarModule,
+    MatChipsModule,
     MatDatepickerModule,
     ReactiveFormsModule,
     FormsModule,
