@@ -14,6 +14,27 @@ export class FirebaseCrudService {
   constructor(public db: AngularFirestore) {}
 
   /* Getters */
+  getAllOpportunitiesOfNGO(id: string) {
+    return this.db.collection('opportunities', ref => ref.where('ngo.id', '==', id)).snapshotChanges().pipe(
+      map(actions => actions.map(action => {
+        const data = action.payload.doc.data()
+        const id = action.payload.doc.id;
+        return {id, ...data};
+      })),
+    );
+  }
+
+  getAllApplicationsOfOpportunity(id: string) {
+    return this.db.collection('applications', ref => ref.where('opportunityId', '==', id)).snapshotChanges().pipe(
+      map(actions => actions.map(action => {
+        const data = action.payload.doc.data()
+        const id = action.payload.doc.id;
+        return {id, ...data};
+      })),
+    );
+  }
+
+  /* generic getters */
   getOne(collection: string, id: string) {
     return this.db.collection(collection).doc(id).valueChanges();
     /* NOTE: getOne returns undefined if document isn't found */
@@ -66,7 +87,6 @@ export class FirebaseCrudService {
 
     //get the created object back
     const opportunity = await docRef.get();
-<<<<<<< HEAD
 
     //update the ngo data with the new opportunity, using the same id
     await this.db.collection('ngos')
@@ -75,9 +95,6 @@ export class FirebaseCrudService {
       .doc(docRef.id)
       .set(newObject)
 
-=======
-    // console.log(opportunity.data());
->>>>>>> develop
     return opportunity.data();
   }
 
