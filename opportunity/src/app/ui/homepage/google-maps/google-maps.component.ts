@@ -50,12 +50,8 @@ export class GoogleMapsComponent implements OnInit {
 
   loadGooglePlaces(input: string) {
     this.predictions = this.searchService.loadGooglePlaces(input);
-    // console.log(this.predictions, "predictions");
   }
 
-  // markPlace(selectedPlace: google.maps.places.PlaceResult) {
-  //   this.placeDetail = selectedPlace;
-  // }
 
   retrieveCoord(placeId) {
     this.searchService.searchByAPlaceId(placeId).then(placeResult => {
