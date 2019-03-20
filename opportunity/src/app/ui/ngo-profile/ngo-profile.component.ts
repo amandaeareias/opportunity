@@ -70,5 +70,9 @@ export class NgoProfileComponent implements OnInit {
     this.dialog.open(CreateOpportunityComponent);
   }
 
+  newOpportunity() {
+    console.log('got here')
+  }
+
 
 }
