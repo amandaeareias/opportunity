@@ -1,4 +1,5 @@
-<div class="ngoCard" routerLink='/ngo/{{ngo.id}}'>
+<div class="ngoCard" routerLink='/ngo/{{ngo.id}}' [ngStyle]="{'background-image': 'url(' + ngo.image + ')'}">
+  <div class="opacityLayer"></div>
   <div class="info">
     <h4>{{ngo.name}}</h4>
     <div class="location" *ngIf='ngo.contact && ngo.contact.address'>
