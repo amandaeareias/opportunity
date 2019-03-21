@@ -34,6 +34,16 @@ export class FirebaseCrudService {
     );
   }
 
+  getAllApplicationsOfVolunteer(id: string) {
+    return this.db.collection('applications', ref => ref.where('volunteerId', '==', id)).snapshotChanges().pipe(
+      map(actions => actions.map(action => {
+        const data = action.payload.doc.data()
+        const id = action.payload.doc.id;
+        return {id, ...data};
+      })),
+    );
+  }
+
   /* generic getters */
   getOne(collection: string, id: string) {
     return this.db.collection(collection).doc(id).valueChanges();
