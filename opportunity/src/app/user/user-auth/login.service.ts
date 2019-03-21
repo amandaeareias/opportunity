@@ -51,16 +51,9 @@ export class LoginService {
       .subscribe(async res => {
         switch (res.type) {
           case 'volunteer':
-            subject$.next({
-              isNgo: false,
-              isComplete: true,
-              user: res.data
-            });
-            break;
-
           case 'ngo':
             subject$.next({
-              isNgo: true,
+              isNgo: res.type === 'ngo',
               isComplete: true,
               user: res.data
             });
@@ -68,36 +61,14 @@ export class LoginService {
 
           case '404':
 
-          if (!isNgo) {
             subject$.next({
-              isNgo: false,
+              isNgo,
               isComplete: false,
               user: {
                 displayName,
                 photoURL,
                 username
               }
-            });
-          } else {
-
-            subject$.next({
-              isNgo: true,
-              isComplete: false,
-              user: {
-                displayName,
-                photoURL,
-                username
-              }
-            });
-          }
-          subject$.next({
-              user: {
-                displayName,
-                photoURL,
-                username
-              },
-              isComplete,
-              isNgo
             });
         }
 

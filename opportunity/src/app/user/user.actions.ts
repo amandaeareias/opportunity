@@ -8,7 +8,6 @@ export enum ActionTypes {
   Logout = '[User] Log user out',
   // request user details from DB (on every auth event: login, register or isAuth check)
   CheckUserIfExisting = '[User] Request user info from login service and check against DB',
-  //
   ReturnUserWithCompletionStatus = '[User] Load information with user completion status and DB info',
   UserRegistrationSuccessful = '[User] Registration mark isComplete as true for : NGO | Volunteer ',
   UserRegistrationFailed = '[User]  Registration mark isComplete as false for : NGO | Volunteer '
