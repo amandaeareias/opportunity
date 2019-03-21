@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { FormControl, FormGroup } from '@angular/forms';
 import { FirebaseCrudService } from '../../../../data/services/firebase.service'
 
@@ -21,6 +21,7 @@ export class SettingsNgoComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public currentUser,
     private fbService: FirebaseCrudService,
+    private dialog: MatDialogRef<SettingsNgoComponent>,
   ) { }
 
   ngOnInit() {
@@ -28,7 +29,21 @@ export class SettingsNgoComponent implements OnInit {
   }
 
   formSubmit() {
-    console.log(this.settingsForm.value)
+    let newData = {
+      name: this.settingsForm.value.name,
+      about: this.settingsForm.value.about,
+      contact: {
+        address: this.settingsForm.value.address,
+        phone: this.settingsForm.value.phone,
+        website: this.settingsForm.value.website,
+      }
+    }
+    this.fbService.updateNGO(this.currentUser.user.id, newData)
+      .then(res => {
+        console.log('Changes updated')
+        this.dialog.close()
+      })
+      .catch(e => console.log('Not possible to submit, error: ', e))
   }
 
   deleteProfile() {

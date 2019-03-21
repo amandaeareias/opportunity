@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import {FormControl, FormGroup} from '@angular/forms';
 import { FirebaseCrudService } from '../../../../data/services/firebase.service'
 
@@ -18,6 +18,7 @@ export class SettingsVolunteerComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public currentUser,
     private fbService: FirebaseCrudService,
+    private dialog: MatDialogRef<SettingsVolunteerComponent>,
   ) { }
 
   ngOnInit() {
@@ -25,7 +26,12 @@ export class SettingsVolunteerComponent implements OnInit {
   }
 
   formSubmit() {
-    console.log(this.settingsForm.value)
+    this.fbService.updateVolunteer(this.currentUser.user.id, this.settingsForm.value)
+      .then(res => {
+        console.log('Changes updated')
+        this.dialog.close()
+      })
+      .catch(e => console.log('Not possible to submit, error: ', e))
   }
 
   deleteProfile() {
