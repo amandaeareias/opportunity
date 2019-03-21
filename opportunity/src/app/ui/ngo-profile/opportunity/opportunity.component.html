@@ -1,13 +1,24 @@
-<div class="leftContainer">
-  <h2>{{opportunity.name}}</h2>
-  <h3 routerLink='/ngo/{{opportunity.ngo.id}}'>{{opportunity.ngo.name}}</h3>
-  <p>{{opportunity.about}}</p>
+<div class="opportunity">
+  <div class="leftContainer">
+    <h2>{{opportunity.name}}</h2>
+    <h3 routerLink='/ngo/{{opportunity.ngo.id}}'>{{opportunity.ngo.name}}</h3>
+    <p>{{opportunity.about}}</p>
+  </div>
+
+  <div class="rightContainer">
+    <div>
+      <h4>9h</h4>
+      <p>per week</p>
+    </div>
+    <button class="btn" (click)='applyClicked()' *ngIf='!applying'>Apply now!</button>
+  </div>
 </div>
 
-<div class="rightContainer">
-  <div>
-    <h4>9h</h4>
-    <p>per week</p>
-  </div>
-  <button>Apply now!</button>
+<div *ngIf='applying' class="apply">
+  <form [formGroup]="applyForm" (ngSubmit)="formSubmit()">
+    <label>Tell us, why do you want this opportunity?: </label>
+    <textarea required formControlName="apply" #apply rows="10" cols="80"> </textarea>
+    <p class="alert" *ngIf='applyForm.get("apply").touched && applyForm.get("apply").invalid'>Must be filled and minimum 20 characters</p>
+    <input class="btn" class="submit" type="submit">
+  </form>
 </div>

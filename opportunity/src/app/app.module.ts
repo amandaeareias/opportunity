@@ -56,7 +56,12 @@ import { AllOpportunitiesComponent } from './ui/all-opportunities/all-opportunit
 import { AllNgosComponent } from './ui/all-ngos/all-ngos.component';
 import { AgmCoreModule } from '@agm/core';
 import { GoogleMapsComponent } from './ui/homepage/google-maps/google-maps.component';
-
+import { NGOapplicationsComponent } from './ui/ngo-profile/ngoapplications/ngoapplications.component';
+import { SettingsNgoComponent } from './ui/navbar/settings/settings-ngo/settings-ngo.component';
+import { SettingsVolunteerComponent } from './ui/navbar/settings/settings-volunteer/settings-volunteer.component';
+import { EditOpportunityComponent } from './ui/ngo-profile/opportunity-card-admin/edit-opportunity/edit-opportunity.component';
+import { VolunteerapplicationsComponent } from './ui/volunteer-profile/volunteerapplications/volunteerapplications.component';
+import { SnackbarComponent } from './ui/snackbar/snackbar.component';
 
 /* User defined state management */
 import { userReducer } from './user/user.reducers';
@@ -83,11 +88,23 @@ import { UserEffects } from './user/user.effects';
     LoginComponent,
     AllOpportunitiesComponent,
     AllNgosComponent,
-    GoogleMapsComponent
+    GoogleMapsComponent,
+    NGOapplicationsComponent,
+    SettingsNgoComponent,
+    SettingsVolunteerComponent,
+    EditOpportunityComponent,
+    VolunteerapplicationsComponent,
+    SnackbarComponent,
   ],
   entryComponents: [
     CreateOpportunityComponent,
     OpportunityComponent,
+    NGOapplicationsComponent,
+    SettingsNgoComponent,
+    SettingsVolunteerComponent,
+    EditOpportunityComponent,
+    VolunteerapplicationsComponent,
+    SnackbarComponent,
   ],
   imports: [
     BrowserModule,

@@ -10,7 +10,7 @@
       <mat-menu #menu="matMenu">
         <button mat-menu-item *ngIf='currentUser.isNgo' routerLink='/ngo/{{currentUser.user.id}}'>Profile</button>
         <button mat-menu-item *ngIf='!currentUser.isNgo' routerLink='/volunteer/{{currentUser.user.id}}'>Profile</button>
-        <button mat-menu-item>Settings</button>
+        <button mat-menu-item (click)='openSettings()'>Settings</button>
         <button mat-menu-item (click)='logOut()'>Log-out</button>
       </mat-menu>
     </div>

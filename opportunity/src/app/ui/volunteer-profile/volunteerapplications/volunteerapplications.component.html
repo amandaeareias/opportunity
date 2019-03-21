@@ -1,0 +1,14 @@
+<div *ngIf='applications.length > 0' class="applicationsContainer">
+  <div *ngFor='let application of applications' class="applicationCard">
+    <div class="ngoPic"></div>
+    <div class="opportunityInfo">
+      <p class="opportunityName">Opportunity Name</p>
+      <p class="ngoName">Ngo name</p>
+      <p class="applicationText">Text</p>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='applications.length == 0' class="noApplications">
+  No applications yet :(
+</div>
