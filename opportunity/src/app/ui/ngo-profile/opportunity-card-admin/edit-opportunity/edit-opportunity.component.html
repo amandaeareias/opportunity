@@ -1,0 +1,27 @@
+<div class="formContainer">
+  <form [formGroup]="updateOpportunityForm" (ngSubmit)="formSubmit()">
+    <label>Title:</label>
+    <input class='input' formControlName="name" type="text">
+
+    <label class="about">About:</label>
+    <textarea formControlName="about" rows="10" cols="80"> </textarea>
+
+    <label>Location:</label>
+    <input class='input' formControlName="location" type="text">
+
+    <label>Pre-Requisites:</label>
+    <input class='input' formControlName="prerequisites" type="text">
+
+    <div class="buttons">
+      <button class="delete" (click)='deleteOpportunity()'>
+        <img src="../../../../../assets/icons/trash-red.png" alt="">
+        Delete Opportunity
+      </button>
+      <div class="buttonsRight">
+        <button class='cancel' (click)='cancel()'>Cancel</button>
+        <input class='submit' type="submit">
+      </div>
+    </div>
+
+  </form>
+</div>

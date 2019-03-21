@@ -65,6 +65,7 @@ import { UserEffects } from './user/user.effects';
 import { NGOapplicationsComponent } from './ui/ngo-profile/ngoapplications/ngoapplications.component';
 import { SettingsNgoComponent } from './ui/navbar/settings/settings-ngo/settings-ngo.component';
 import { SettingsVolunteerComponent } from './ui/navbar/settings/settings-volunteer/settings-volunteer.component';
+import { EditOpportunityComponent } from './ui/ngo-profile/opportunity-card-admin/edit-opportunity/edit-opportunity.component';
 
 @NgModule({
   declarations: [
@@ -89,14 +90,16 @@ import { SettingsVolunteerComponent } from './ui/navbar/settings/settings-volunt
     GoogleMapsComponent,
     NGOapplicationsComponent,
     SettingsNgoComponent,
-    SettingsVolunteerComponent
+    SettingsVolunteerComponent,
+    EditOpportunityComponent
   ],
   entryComponents: [
     CreateOpportunityComponent,
     OpportunityComponent,
     NGOapplicationsComponent,
     SettingsNgoComponent,
-    SettingsVolunteerComponent
+    SettingsVolunteerComponent,
+    EditOpportunityComponent
   ],
   imports: [
     BrowserModule,

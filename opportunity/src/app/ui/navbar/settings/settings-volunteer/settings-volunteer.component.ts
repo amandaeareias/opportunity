@@ -35,7 +35,7 @@ export class SettingsVolunteerComponent implements OnInit {
   }
 
   deleteProfile() {
-    let confirmation = confirm("Are you sure you want to delete this account?");
+    let confirmation = confirm("Are you sure you want to delegite this account?");
     if (confirmation) {
       //implement log-out!!
       this.fbService.deleteVolunteer(this.currentUser.user.id)

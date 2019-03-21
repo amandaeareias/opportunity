@@ -6,6 +6,9 @@
   margin: 10px;
   cursor: pointer;
   position: relative;
+  padding: 15px;
+  border: 1px solid black;
+  overflow: scroll;
 }
 
 .numberApplications {
