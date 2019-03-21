@@ -51,4 +51,14 @@ export class MappingService {
       active: true,
     }
   }
+
+  mapApplicationInputToProps(volunteerId, opportunityId, text) {
+    return {
+      volunteerId,
+      opportunityId,
+      text,
+      timeCreated: new Date().toISOString(),
+      active: true,
+    }
+  }
 }
