@@ -13,6 +13,10 @@ import { NGO } from "src/app/data/models/ngo.model";
 import { Volunteer } from "src/app/data/models/volunteer.model";
 import { NgoSignupComponent } from "../../ngo-signup/ngo-signup.component";
 import { VolunteerSignupComponent } from "../../volunteer-signup/volunteer-signup.component";
+import {
+  UserRegistrationSuccessful,
+  UserRegistrationFailed
+} from "src/app/user/user.actions";
 // import { Register } from "src/app/user/user.actions";
 
 @Component({
@@ -44,21 +48,30 @@ export class LoginComponent {
       })
     );
     this.auth.loginWithGoogle();
+    // this.userStore.dispatch(new ReturnUserWithCompletionStatus())
     this.userStore.select(getUserState).subscribe(user => {
       if (!user.isComplete) {
         if (user.isNgo) {
-          this.dialog
-            .open(NgoSignupComponent)
-            .afterClosed()
-            .subscribe((registrationSuccesful: boolean) => {
-              if (registrationSuccesful) {
-                // this.store.dispatch(new Register({ isComplete: true }));
-              }
-            });
+          this.signUpUser(NgoSignupComponent);
 
           // TO DO: check if the action was successfull and only the dispatch
-        } else this.dialog.open(VolunteerSignupComponent);
+        } else if (user.isNgo === false) {
+          this.signUpUser(VolunteerSignupComponent);
+        }
       }
     });
+  }
+
+  signUpUser(userComponentName) {
+    this.dialog
+      .open(userComponentName)
+      .afterClosed()
+      .subscribe((registrationSuccesful: boolean) => {
+        if (registrationSuccesful) {
+          this.store.dispatch(new UserRegistrationSuccessful());
+        } else {
+          this.store.dispatch(new UserRegistrationFailed());
+        }
+      });
   }
 }

@@ -1,21 +1,21 @@
-import { Component, OnInit, Inject } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { CdkTextareaAutosize } from "@angular/cdk/text-field";
-import { NGO } from "../../data/models/ngo.model";
+import { Component, OnInit, Inject } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { NGO } from '../../data/models/ngo.model';
 import {
   MatDialog,
   MAT_DIALOG_DATA,
   MatDialogRef,
   MatSnackBar
-} from "@angular/material";
-import { FirebaseCrudService } from "src/app/data/services/firebase.service";
-import { Store } from "@ngrx/store";
-import { UserState, getUserState } from "src/app/user/user.reducers";
+} from '@angular/material';
+import { FirebaseCrudService } from 'src/app/data/services/firebase.service';
+import { Store } from '@ngrx/store';
+import { UserState, getUserState } from 'src/app/user/user.reducers';
 
 @Component({
-  selector: "app-ngo-signup",
-  templateUrl: "./ngo-signup.component.html",
-  styleUrls: ["./ngo-signup.component.css"]
+  selector: 'app-ngo-signup',
+  templateUrl: './ngo-signup.component.html',
+  styleUrls: ['./ngo-signup.component.css']
 })
 export class NgoSignupComponent implements OnInit {
   userData: NGO;
@@ -29,24 +29,24 @@ export class NgoSignupComponent implements OnInit {
   ) {}
 
   ngoProfile = new FormGroup({
-    orgNameForm: new FormControl("", [
+    orgNameForm: new FormControl('', [
       Validators.required,
       Validators.minLength(2)
     ]),
-    descriptionForm: new FormControl("", [
+    descriptionForm: new FormControl('', [
       Validators.required,
       Validators.minLength(20)
     ]),
-    websiteForm: new FormControl(""),
-    addressForm: new FormControl("", [Validators.required]),
-    emailForm: new FormControl("", [Validators.required, Validators.email]),
-    phoneForm: new FormControl("", [Validators.required])
+    websiteForm: new FormControl(''),
+    addressForm: new FormControl('', [Validators.required]),
+    emailForm: new FormControl('', [Validators.required, Validators.email]),
+    phoneForm: new FormControl('', [Validators.required])
   });
 
   ngOnInit() {}
 
   close(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   async submitNGO() {
@@ -69,11 +69,11 @@ export class NgoSignupComponent implements OnInit {
     if (this.ngoProfile.valid) {
       await this.db.createNGO(this.userData);
       this.dialogRef.close(true);
-      this.snackBar.open("You just joined our opprtunities network!", "close", {
+      this.snackBar.open('You just joined our opprtunities network!', 'close', {
         duration: 4000
       });
     } else {
-      console.log("form invalid");
+      console.log('form invalid');
     }
   }
 }

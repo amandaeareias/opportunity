@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store'
+import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 
-import {FirebaseCrudService} from '../../data/services/firebase.service'
-import {userDetailsSelector} from '../../user/user.reducers'
+import {FirebaseCrudService} from '../../data/services/firebase.service';
+import {userDetailsSelector} from '../../user/user.reducers';
 import {CreateOpportunityComponent} from './create-opportunity/create-opportunity.component';
 
 @Component({
@@ -15,22 +15,22 @@ import {CreateOpportunityComponent} from './create-opportunity/create-opportunit
 export class NgoProfileComponent implements OnInit {
 
   profileNgo;
-  profileId
+  profileId;
   currentUser;
   profileOpportunities;
   profileOpportunitiesQuantity;
-  profileOwner: boolean = false
+  profileOwner = false;
 
   constructor(private dialog: MatDialog,
-    private route: ActivatedRoute,
-    private service: FirebaseCrudService,
-    private store: Store<any>,
+              private route: ActivatedRoute,
+              private service: FirebaseCrudService,
+              private store: Store<any>,
     ) { }
 
   ngOnInit() {
-    this.getCurrentUser()
+    this.getCurrentUser();
     this.route.params.subscribe(routeParams => {
-      this.getCurrentUser()
+      this.getCurrentUser();
     });
   }
 
@@ -38,30 +38,30 @@ export class NgoProfileComponent implements OnInit {
     this.store.select(userDetailsSelector)
     .subscribe(user => {
       this.currentUser = user;
-      this.getProfileNgo()
-    })
+      this.getProfileNgo();
+    });
   }
 
   getProfileNgo() {
-    this.profileId = this.route.snapshot.paramMap.get('id')
+    this.profileId = this.route.snapshot.paramMap.get('id');
     this.service.getOne('ngos', this.profileId)
       .subscribe(ngo => {
-        this.profileNgo = ngo
-        this.getprofileOpportunities()
-        this.compare()
-      })
+        this.profileNgo = ngo;
+        this.getprofileOpportunities();
+        this.compare();
+      });
   }
 
   getprofileOpportunities() {
-    this.profileOpportunities = this.profileNgo.opportunity
-    this.profileOpportunitiesQuantity = Object.keys(this.profileOpportunities).length
+    this.profileOpportunities = this.profileNgo.opportunity;
+    this.profileOpportunitiesQuantity = Object.keys(this.profileOpportunities).length;
   }
 
   compare() {
-    if(this.currentUser.id === this.profileId) {
+    if (this.currentUser.id === this.profileId) {
       this.profileOwner = true;
     } else {
-      console.log('other user')
+      console.log('other user');
     }
   }
 

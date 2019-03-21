@@ -38,7 +38,6 @@ export class AppComponent implements OnInit {
       .subscribe(navbarUIState => this.navbarUIState = navbarUIState);
 
     this.auth.authState.subscribe(authResponse => {
-      console.log(authResponse, 'auth response')
       if (authResponse) {
         this.store.dispatch(new LoginWithGoogle_SUCCESS());
         if (!this.user.isLoggedIn) {
@@ -47,6 +46,7 @@ export class AppComponent implements OnInit {
             displayName: authResponse.displayName,
             photoURL: authResponse.photoURL,
             isNgo: this.parseNgoUIState(this.navbarUIState),
+            isComplete: true
           }));
         }
       }
@@ -56,7 +56,6 @@ export class AppComponent implements OnInit {
 
   /* @TODO: Move helper functions to the dedicated service */
   parseNgoUIState(uiState: string): boolean {
-    console.log(uiState, /^NGO/i.test(uiState));
     return /^NGO/i.test(uiState);
   }
 

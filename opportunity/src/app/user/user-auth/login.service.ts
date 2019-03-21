@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { AngularFireAuth } from "@angular/fire/auth";
-import { auth } from "firebase/app";
-import { combineLatest, Subject } from "rxjs";
+import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { auth } from 'firebase/app';
+import { combineLatest, Subject } from 'rxjs';
 
-import { FirebaseCrudService } from "../../data/services/firebase.service";
+import { FirebaseCrudService } from '../../data/services/firebase.service';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class LoginService {
   constructor(
@@ -24,79 +24,84 @@ export class LoginService {
       photoURL: string;
       displayName: string;
     },
-    isNgo: boolean
+    isNgo: boolean,
+    isComplete: boolean
   ) {
     const { username, photoURL, displayName } = userLoginData;
 
     /* Subject observable is used to append db responses */
-    let subject$ = new Subject();
+    const subject$ = new Subject();
 
     /* Fetch list of volunteers and NGO's and check which one(s) is empty */
     /* with combineLatest method */
-    const vol$ = this.db.getMany("volunteers", ref =>
-      ref.where("username", "==", username)
+    const vol$ = this.db.getMany('volunteers', ref =>
+      ref.where('username', '==', username)
     );
-    const ngo$ = this.db.getMany("ngos", ref =>
-      ref.where("username", "==", username)
+    const ngo$ = this.db.getMany('ngos', ref =>
+      ref.where('username', '==', username)
     );
     combineLatest(vol$, ngo$, (vol, ngo) =>
       vol.length
-        ? { type: "volunteer", data: vol[0] }
+        ? { type: 'volunteer', data: vol[0] }
         : ngo.length
-        ? { type: "ngo", data: ngo[0] }
-        : { type: "404" }
+        ? { type: 'ngo', data: ngo[0] }
+        : { type: '404' }
     )
       /* Subscribe to combineLatest response */
       .subscribe(async res => {
         switch (res.type) {
-          case "volunteer":
+          case 'volunteer':
             subject$.next({
               isNgo: false,
+              isComplete: true,
               user: res.data
             });
             break;
 
-          case "ngo":
-            console.log(res.data, "RES DATA IS WHAT???");
+          case 'ngo':
             subject$.next({
               isNgo: true,
+              isComplete: true,
               user: res.data
             });
             break;
 
-          case "404":
-          default:
-            let user;
-            console.log("res data don't exist ");
+          case '404':
 
-
-            // dispatch isExisting action :
-            isNgo
-              ? (user = {
-                  name: displayName,
-                  username: username,
-                  image: photoURL,
-                  isComplete: false
-                })
-              : (user = {
-                  name: displayName,
-                  username: username,
-                  image: photoURL,
-                  isComplete: false
-                });
+          if (!isNgo) {
             subject$.next({
+              isNgo: false,
+              isComplete: false,
               user: {
-                displayName: user.name,
-                photoURL: user.image,
-                username: user.username,
-                isComplete: user.isComplete
+                displayName,
+                photoURL,
+                username
+              }
+            });
+          } else {
+
+            subject$.next({
+              isNgo: true,
+              isComplete: false,
+              user: {
+                displayName,
+                photoURL,
+                username
+              }
+            });
+          }
+          subject$.next({
+              user: {
+                displayName,
+                photoURL,
+                username
               },
+              isComplete,
               isNgo
             });
         }
+
       });
     return subject$;
   }
 }
-
-

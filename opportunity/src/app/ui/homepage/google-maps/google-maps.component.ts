@@ -27,9 +27,9 @@ export class GoogleMapsComponent implements OnInit {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
         this.router.navigate(['']);
-      })
+      });
     } else {
-      console.log('Geolocation is not supported by this browser')
+      console.log('Geolocation is not supported by this browser');
     }
 
 

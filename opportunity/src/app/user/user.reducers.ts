@@ -1,6 +1,6 @@
-import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { ActionTypes, UserActions } from "./user.actions";
+import { ActionTypes, UserActions } from './user.actions';
 
 export interface UserState {
   isNgo: boolean;
@@ -42,21 +42,26 @@ export function userReducer(state = initialState, action: UserActions) {
       return state;
 
     case ActionTypes.ReturnUserWithCompletionStatus:
-      const { user, isNgo } = action.payload;
+      const { user, isNgo , isComplete} = action.payload;
       return {
         ...state,
         isNgo,
-        isComplete: user.isComplete,
+        isComplete,
         isLoggedIn: true,
         user
       };
 
-    // case ActionTypes.RegisterUser:
-    //   const isComplete = action.payload;
-    //   return {
-    //     ...state,
-    //     isComplete: true
-    //   };
+    case ActionTypes.UserRegistrationSuccessful:
+      return {
+        ...state,
+        isComplete: true
+      };
+
+      case ActionTypes.UserRegistrationFailed:
+      return {
+        ...state,
+        isComplete: false
+      };
 
     default:
       return state;
@@ -65,7 +70,7 @@ export function userReducer(state = initialState, action: UserActions) {
 
 /* User selectors */
 
-export const getUserState = createFeatureSelector<UserState>("user");
+export const getUserState = createFeatureSelector<UserState>('user');
 
 export const isUserNgoSelector = createSelector(
   getUserState,
