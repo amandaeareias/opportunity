@@ -62,6 +62,7 @@ import { GoogleMapsComponent } from './ui/homepage/google-maps/google-maps.compo
 import { userReducer } from './user/user.reducers';
 import { uiReducer } from './ui/ui.reducers';
 import { UserEffects } from './user/user.effects';
+import { NGOapplicationsComponent } from './ui/ngo-profile/ngoapplications/ngoapplications.component';
 
 @NgModule({
   declarations: [
@@ -83,11 +84,13 @@ import { UserEffects } from './user/user.effects';
     LoginComponent,
     AllOpportunitiesComponent,
     AllNgosComponent,
-    GoogleMapsComponent
+    GoogleMapsComponent,
+    NGOapplicationsComponent
   ],
   entryComponents: [
     CreateOpportunityComponent,
     OpportunityComponent,
+    NGOapplicationsComponent,
   ],
   imports: [
     BrowserModule,
