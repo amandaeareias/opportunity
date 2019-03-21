@@ -6,7 +6,7 @@ import { first } from 'rxjs/operators';
 
 import { getUserState, UserState } from './user/user.reducers';
 import { navbarUIStateSelector } from './ui/ui.reducers';
-import { LoginWithGoogle_SUCCESS, FetchUserDetails } from './user/user.actions';
+import { LoginWithGoogle_SUCCESS, CheckUserIfExisting } from './user/user.actions';
 import { NgoSignupComponent } from './ui/ngo-signup/ngo-signup.component';
 import { VolunteerSignupComponent } from './ui/volunteer-signup/volunteer-signup.component';
 
@@ -38,11 +38,12 @@ export class AppComponent implements OnInit {
       .subscribe(navbarUIState => this.navbarUIState = navbarUIState);
 
     this.auth.authState.subscribe(authResponse => {
+      console.log(authResponse, 'auth response')
       if (authResponse) {
         this.store.dispatch(new LoginWithGoogle_SUCCESS());
         if (!this.user.isLoggedIn) {
-          this.store.dispatch(new FetchUserDetails({
-            logInEmail: authResponse.email,
+          this.store.dispatch(new CheckUserIfExisting({
+            username: authResponse.email,
             displayName: authResponse.displayName,
             photoURL: authResponse.photoURL,
             isNgo: this.parseNgoUIState(this.navbarUIState),
