@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatSnackBar} from '@angular/material';
+import { SnackbarComponent } from '../../../snackbar/snackbar.component'
 
 @Component({
   selector: 'app-edit-opportunity',
@@ -10,23 +12,29 @@ import {FormControl, FormGroup} from '@angular/forms';
 export class EditOpportunityComponent implements OnInit {
 
   updateOpportunityForm = new FormGroup({
-    name: new FormControl(this.opportunity.name),
-    about: new FormControl(this.opportunity.about),
-    location: new FormControl(this.opportunity.location),
+    name: new FormControl(this.opportunity.name, Validators.required),
+    about: new FormControl(this.opportunity.about, Validators.required),
+    location: new FormControl(this.opportunity.location, Validators.required),
     prerequisites: new FormControl(this.opportunity.prerequisites),
   });
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public opportunity,
     private dialog: MatDialogRef<EditOpportunityComponent>,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
   }
 
   formSubmit() {
-    console.log(this.updateOpportunityForm.value)
-    //implement updateOpportunity here
+    if(this.updateOpportunityForm.valid) {
+      console.log('implement update opportunity function/db')
+      this.snackBar.openFromComponent(SnackbarComponent, {
+        duration: 3000,
+      });
+      this.dialog.close()
+    }
   }
 
   cancel() {

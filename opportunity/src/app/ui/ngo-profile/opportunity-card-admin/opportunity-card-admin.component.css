@@ -8,7 +8,6 @@
   position: relative;
   padding: 15px;
   border: 1px solid black;
-  overflow: scroll;
 }
 
 .numberApplications {
@@ -23,6 +22,7 @@
   top: -10px;
   right: -10px;
   cursor: pointer;
+  z-index: 3;
 }
 
 .notification {

@@ -1,7 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
-import {FormControl, FormGroup} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FirebaseCrudService } from '../../../../data/services/firebase.service'
+import {MatSnackBar} from '@angular/material';
+import { SnackbarComponent } from '../../../snackbar/snackbar.component'
+
 
 @Component({
   selector: 'app-settings-volunteer',
@@ -11,7 +14,7 @@ import { FirebaseCrudService } from '../../../../data/services/firebase.service'
 export class SettingsVolunteerComponent implements OnInit {
 
   settingsForm = new FormGroup({
-    name: new FormControl(this.currentUser.user.name),
+    name: new FormControl(this.currentUser.user.name, Validators.required),
     about: new FormControl(this.currentUser.user.about),
   });
 
@@ -19,6 +22,7 @@ export class SettingsVolunteerComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public currentUser,
     private fbService: FirebaseCrudService,
     private dialog: MatDialogRef<SettingsVolunteerComponent>,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
@@ -26,12 +30,16 @@ export class SettingsVolunteerComponent implements OnInit {
   }
 
   formSubmit() {
-    this.fbService.updateVolunteer(this.currentUser.user.id, this.settingsForm.value)
-      .then(res => {
-        console.log('Changes updated')
-        this.dialog.close()
-      })
-      .catch(e => console.log('Not possible to submit, error: ', e))
+    if (this.settingsForm.valid) {
+      this.fbService.updateVolunteer(this.currentUser.user.id, this.settingsForm.value)
+        .then(res => {
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            duration: 3000,
+          });
+          this.dialog.close()
+        })
+        .catch(e => console.log('Not possible to submit, error: ', e))
+    }
   }
 
   deleteProfile() {
