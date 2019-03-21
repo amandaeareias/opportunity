@@ -20,7 +20,10 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MatIconModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatChipsModule,
+  MatAutocompleteModule,
+  MatOptionModule
 } from '@angular/material';
 
 /* Angular Forms imports */
@@ -102,6 +105,7 @@ import { UserEffects } from './user/user.effects';
     MatNativeDateModule,
     MatIconModule,
     MatSnackBarModule,
+    MatChipsModule,
     MatDatepickerModule,
     ReactiveFormsModule,
     FormsModule,
@@ -109,9 +113,12 @@ import { UserEffects } from './user/user.effects';
       user: userReducer,
       ui: uiReducer,
     }),
+    MatAutocompleteModule,
+    MatOptionModule,
     EffectsModule.forRoot([ UserEffects ]),
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsApiKey,
+      libraries: ['places']
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

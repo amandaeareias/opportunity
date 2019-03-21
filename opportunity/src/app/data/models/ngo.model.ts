@@ -16,3 +16,4 @@ export class NGO {
 }
 
 export const NgoCollection = 'ngos';
+export type UserRecord = Pick<NGO, 'name' |'about' |'contact'>

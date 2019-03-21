@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 
-import {FirebaseCrudService} from '../../data/services/firebase.service';
-import {userDetailsSelector} from '../../user/user.reducers';
-import {CreateOpportunityComponent} from './create-opportunity/create-opportunity.component';
+import { FirebaseCrudService } from '../../data/services/firebase.service'
+import { MappingService } from '../../data/services/mapping.service'
+import { userDetailsSelector } from '../../user/user.reducers'
+import { CreateOpportunityComponent } from './create-opportunity/create-opportunity.component';
 
 @Component({
   selector: 'app-ngo-profile',
@@ -17,15 +18,16 @@ export class NgoProfileComponent implements OnInit {
   profileNgo;
   profileId;
   currentUser;
-  profileOpportunities;
-  profileOpportunitiesQuantity;
-  profileOwner = false;
+  profileOpportunities = [];
+  profileOwner: boolean = false
 
   constructor(private dialog: MatDialog,
-              private route: ActivatedRoute,
-              private service: FirebaseCrudService,
-              private store: Store<any>,
-    ) { }
+    private route: ActivatedRoute,
+    private fbService: FirebaseCrudService,
+    private store: Store<any>,
+    private mappingService: MappingService,
+
+  ) { }
 
   ngOnInit() {
     this.getCurrentUser();
@@ -36,15 +38,15 @@ export class NgoProfileComponent implements OnInit {
 
   getCurrentUser() {
     this.store.select(userDetailsSelector)
-    .subscribe(user => {
-      this.currentUser = user;
-      this.getProfileNgo();
-    });
+      .subscribe(user => {
+        this.currentUser = user;
+        this.getProfileNgo()
+      })
   }
 
   getProfileNgo() {
-    this.profileId = this.route.snapshot.paramMap.get('id');
-    this.service.getOne('ngos', this.profileId)
+    this.profileId = this.route.snapshot.paramMap.get('id')
+    this.fbService.getOne('ngos', this.profileId)
       .subscribe(ngo => {
         this.profileNgo = ngo;
         this.getprofileOpportunities();
@@ -53,8 +55,14 @@ export class NgoProfileComponent implements OnInit {
   }
 
   getprofileOpportunities() {
-    this.profileOpportunities = this.profileNgo.opportunity;
-    this.profileOpportunitiesQuantity = Object.keys(this.profileOpportunities).length;
+    if (this.profileNgo.opportunity && Object.values(this.profileNgo.opportunity)) {
+      this.profileOpportunities = Object.values(this.profileNgo.opportunity)
+      let counter = 0
+      for (let opp of this.profileOpportunities) {
+        opp['id'] = Object.keys(this.profileNgo.opportunity)[counter]
+        counter++
+      }
+    }
   }
 
   compare() {
@@ -65,10 +73,23 @@ export class NgoProfileComponent implements OnInit {
     }
   }
 
+  createOpportunity() {
+    const dialogConfig = new MatDialogConfig();
 
-  openCreateOpportunity() {
-    this.dialog.open(CreateOpportunityComponent);
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    this.dialog.open(CreateOpportunityComponent)
+      .afterClosed().subscribe(
+        opportunity => {
+          const data = this.mappingService.mapOpportunityInputToProps(this.currentUser, opportunity)
+          this.fbService.createOpportunity(data)
+        }
+      );
   }
 
 
+
 }
+
+

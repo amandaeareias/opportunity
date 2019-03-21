@@ -12,6 +12,7 @@ import { VolunteerSignupComponent } from './ui/volunteer-signup/volunteer-signup
 
 import { FirebaseCrudService } from './data/services/firebase.service';
 import { NGO } from './data/models/ngo.model';
+import { MappingService } from './data/services/mapping.service';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,7 @@ export class AppComponent implements OnInit {
     private store: Store<any>,
     public dialog: MatDialog,
     public db: FirebaseCrudService,
+    public mapper: MappingService,
   ) {}
 
   ngOnInit() {
@@ -52,6 +54,17 @@ export class AppComponent implements OnInit {
       }
       /* No else case, as it's fine to keep default state if no auth */
     });
+
+    // this.db.createOpportunity(this.mapper.mapOpportunityInputToProps({
+    //   id: 'zB1wkI6n9yhfBhGwSPNX',
+    //   name: 'Igor Snitkin',
+    //   image: 'photo',
+    // }, {
+    //   name: 'English for kids',
+    //   about: 'Something',
+    //   location: 'Somewhere',
+    //   prerequisites: ['English', 'kids'],
+    // }));
   }
 
   /* @TODO: Move helper functions to the dedicated service */
