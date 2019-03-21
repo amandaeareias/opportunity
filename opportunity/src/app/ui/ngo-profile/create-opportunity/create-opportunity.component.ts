@@ -1,9 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import {FormControl, FormGroup} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatChipInputEvent} from '@angular/material';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
+import { SnackbarComponent } from '../../snackbar/snackbar.component'
 
 @Component({
   selector: 'app-create-opportunity',
@@ -20,26 +22,32 @@ export class CreateOpportunityComponent implements OnInit {
   prerequisitesList: string[] = []
 
   createOpportunityForm = new FormGroup({
-    name: new FormControl(''),
-    about: new FormControl(''),
-    location: new FormControl('')
+    name: new FormControl('', Validators.required),
+    about: new FormControl('', Validators.required),
+    location: new FormControl('', Validators.required)
   });
 
   constructor(
-    private dialog: MatDialogRef<CreateOpportunityComponent>
-    ) { }
+    private dialog: MatDialogRef<CreateOpportunityComponent>,
+    private snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit() {
   }
 
   formSubmit() {
-    const newOpportunity = {
-      name: this.createOpportunityForm.value.name,
-      about: this.createOpportunityForm.value.about,
-      location: this.createOpportunityForm.value.location,
-      prerequisites: this.prerequisitesList,
+    if (this.createOpportunityForm.valid) {
+      const newOpportunity = {
+        name: this.createOpportunityForm.value.name,
+        about: this.createOpportunityForm.value.about,
+        location: this.createOpportunityForm.value.location,
+        prerequisites: this.prerequisitesList,
+      }
+      this.snackBar.openFromComponent(SnackbarComponent, {
+        duration: 3000,
+      });
+      this.dialog.close(newOpportunity);
     }
-    this.dialog.close(newOpportunity);
   }
 
   add(event: MatChipInputEvent): void {
