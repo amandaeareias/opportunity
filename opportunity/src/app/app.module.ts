@@ -61,7 +61,7 @@ import { SettingsNgoComponent } from './ui/navbar/settings/settings-ngo/settings
 import { SettingsVolunteerComponent } from './ui/navbar/settings/settings-volunteer/settings-volunteer.component';
 import { EditOpportunityComponent } from './ui/ngo-profile/opportunity-card-admin/edit-opportunity/edit-opportunity.component';
 import { VolunteerapplicationsComponent } from './ui/volunteer-profile/volunteerapplications/volunteerapplications.component';
-
+import { SnackbarComponent } from './ui/snackbar/snackbar.component';
 
 /* User defined state management */
 import { userReducer } from './user/user.reducers';
@@ -94,6 +94,7 @@ import { UserEffects } from './user/user.effects';
     SettingsVolunteerComponent,
     EditOpportunityComponent,
     VolunteerapplicationsComponent,
+    SnackbarComponent,
   ],
   entryComponents: [
     CreateOpportunityComponent,
@@ -103,6 +104,7 @@ import { UserEffects } from './user/user.effects';
     SettingsVolunteerComponent,
     EditOpportunityComponent,
     VolunteerapplicationsComponent,
+    SnackbarComponent,
   ],
   imports: [
     BrowserModule,

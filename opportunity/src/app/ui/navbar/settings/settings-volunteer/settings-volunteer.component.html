@@ -7,6 +7,7 @@
       <form [formGroup]="settingsForm" (ngSubmit)="formSubmit()">
         <label>Name:</label>
         <input class='input' formControlName="name" type="text">
+        <p class="alert" *ngIf='settingsForm.get("name").touched && settingsForm.get("name").invalid'>Name must be filled</p>
 
         <label class="about">About:</label>
         <textarea formControlName="about" rows="10" cols="80"> </textarea>

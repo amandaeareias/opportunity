@@ -17,10 +17,8 @@
 <div *ngIf='applying' class="apply">
   <form [formGroup]="applyForm" (ngSubmit)="formSubmit()">
     <label>Tell us, why do you want this opportunity?: </label>
-    <!-- <mat-form-field> -->
-      <textarea required formControlName="apply" #apply rows="10" cols="80"> </textarea>
-      <!-- <mat-error *ngIf='apply.invalid'>Please fill all form</mat-error> -->
-    <!-- </mat-form-field> -->
+    <textarea required formControlName="apply" #apply rows="10" cols="80"> </textarea>
+    <p class="alert" *ngIf='applyForm.get("apply").touched && applyForm.get("apply").invalid'>Must be filled and minimum 20 characters</p>
     <input class="btn" class="submit" type="submit">
   </form>
 </div>

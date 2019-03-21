@@ -5,6 +5,8 @@ import { MappingService } from '../../../data/services/mapping.service'
 import { Store } from '@ngrx/store'
 import { userDetailsSelector, isUserNgoSelector } from '../../../user/user.reducers'
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatSnackBar} from '@angular/material';
+import { SnackbarComponent } from '../../snackbar/snackbar.component'
 
 @Component({
   selector: 'app-opportunity',
@@ -18,7 +20,7 @@ export class OpportunityComponent implements OnInit {
   applying: boolean = false
 
   applyForm = new FormGroup({
-    apply: new FormControl('', [Validators.required, Validators.minLength(10)])
+    apply: new FormControl('', [Validators.required, Validators.minLength(20)])
   });
 
   constructor(
@@ -27,6 +29,7 @@ export class OpportunityComponent implements OnInit {
     private store: Store<any>,
     private dialog: MatDialogRef<OpportunityComponent>,
     private mappingService: MappingService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
@@ -61,6 +64,9 @@ export class OpportunityComponent implements OnInit {
     if(this.applyForm.valid){
       const data = this.mappingService.mapApplicationInputToProps(this.currentUser.id, this.opportunity.id, this.applyForm.value.apply)
       this.fbService.createApplication(data)
+      this.snackBar.openFromComponent(SnackbarComponent, {
+        duration: 3000,
+      });
       this.dialog.close()
     }else {
       console.log('not valid')

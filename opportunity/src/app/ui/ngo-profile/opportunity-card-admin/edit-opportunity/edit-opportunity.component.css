@@ -74,3 +74,8 @@ label {
   font-size: 16px;
   cursor: pointer;
 }
+
+.alert {
+  color: red;
+  font-size: 12px;
+}
