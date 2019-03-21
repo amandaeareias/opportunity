@@ -7,6 +7,7 @@ import { FirebaseCrudService } from '../../data/services/firebase.service'
 import { MappingService } from '../../data/services/mapping.service'
 import { userDetailsSelector } from '../../user/user.reducers'
 import { CreateOpportunityComponent } from './create-opportunity/create-opportunity.component';
+import { EditOpportunityComponent } from './opportunity-card-admin/edit-opportunity/edit-opportunity.component'
 
 @Component({
   selector: 'app-ngo-profile',
@@ -26,7 +27,6 @@ export class NgoProfileComponent implements OnInit {
     private fbService: FirebaseCrudService,
     private store: Store<any>,
     private mappingService: MappingService,
-
   ) { }
 
   ngOnInit() {
@@ -55,14 +55,8 @@ export class NgoProfileComponent implements OnInit {
   }
 
   getprofileOpportunities() {
-    if (this.profileNgo.opportunity && Object.values(this.profileNgo.opportunity)) {
-      this.profileOpportunities = Object.values(this.profileNgo.opportunity)
-      let counter = 0
-      for (let opp of this.profileOpportunities) {
-        opp['id'] = Object.keys(this.profileNgo.opportunity)[counter]
-        counter++
-      }
-    }
+    this.fbService.getAllOpportunitiesOfNGO(this.profileId)
+      .subscribe(opportunities => this.profileOpportunities = opportunities)
   }
 
   compare() {
@@ -83,11 +77,16 @@ export class NgoProfileComponent implements OnInit {
       .afterClosed().subscribe(
         opportunity => {
           const data = this.mappingService.mapOpportunityInputToProps(this.currentUser, opportunity)
-          this.fbService.createOpportunity(data)
+          console.log('data: ', data)
+          this.fbService.createOpportunity(data).catch(e => console.log('error: ', e))
         }
       );
   }
 
+  editOpportunity(card) {
+    let opportunity = card.opportunity
+    this.dialog.open(EditOpportunityComponent, {data: opportunity})
+  }
 
 
 }

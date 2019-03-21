@@ -1,4 +1,5 @@
-<div class="card" [style.backgroundColor]="opportunity.active ? 'green' : 'red'" (click)='editOpportunity()'>
+<div class="card" (click)='editOpportunity()'>
+<!-- <div class="card" [style.backgroundColor]="opportunity.active ? 'green' : 'red'" (click)='editOpportunity()'> -->
   <div class="numberApplications" *ngIf='applications && applications.length > 0' (click)='seeApplicants()'>{{applications.length}}</div>
   <h5>{{opportunity.name}}</h5>
   <h5>{{opportunity.about}}</h5>
