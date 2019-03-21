@@ -17,6 +17,7 @@ import {
   UserRegistrationSuccessful,
   UserRegistrationFailed
 } from "src/app/user/user.actions";
+import { Observable } from "rxjs";
 // import { Register } from "src/app/user/user.actions";
 
 @Component({
@@ -26,7 +27,9 @@ import {
 })
 export class LoginComponent {
   // TO DO: export from the user type interface a subtype of NGO | Volunteer
-  user: any;
+  user: Volunteer | NGO;
+   counter = 0;
+
   constructor(
     private store: Store<UIState>,
     private userStore: Store<UserState>,
@@ -48,13 +51,10 @@ export class LoginComponent {
       })
     );
     this.auth.loginWithGoogle();
-    // this.userStore.dispatch(new ReturnUserWithCompletionStatus())
     this.userStore.select(getUserState).subscribe(user => {
       if (!user.isComplete) {
         if (user.isNgo) {
           this.signUpUser(NgoSignupComponent);
-
-          // TO DO: check if the action was successfull and only the dispatch
         } else if (user.isNgo === false) {
           this.signUpUser(VolunteerSignupComponent);
         }
@@ -70,7 +70,11 @@ export class LoginComponent {
         if (registrationSuccesful) {
           this.store.dispatch(new UserRegistrationSuccessful());
         } else {
-          this.store.dispatch(new UserRegistrationFailed());
+          // TO DO: find a more beautiful way to solve the circular if when the dialog is closed
+          if (this.counter = 0) {
+            this.counter = this.counter + 1;
+            this.store.dispatch(new UserRegistrationFailed());
+          }
         }
       });
   }
