@@ -19,14 +19,18 @@ agm-map {
 
 .search {
   background-color: white;
-  opacity: 0.8;
   color:black;
   position: absolute;
   z-index: 2;
-  top: 10px;
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
+  top: 7px;
+  left: 7px;
+  width: 220px;
+  height: 40px;
+  border: none;
+  box-shadow: 6px 12px 16px -12px rgba(0, 0, 0, 0.35),
+    -6px -6px 16px -12px rgba(0, 0, 0, 0.35);
+  padding-left: 10px;
+  border-radius: 3px;
 }
 
 input{
@@ -37,20 +41,23 @@ input{
   width: 100%;
 }
 
-img {
-  height: 5px;
-  cursor: pointer;
-  right: 10px;
-}
-
 .loc {
-  top: 10px;
-  left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  position: absolute;
+  z-index: 3;
+  top: 7px;
+  right: 7px;
   height: 40px;
-  width: 200px;
-  padding-left: 10px;
-  border: none;
+  width: 40px;
+  border-radius: 3px;
   box-shadow: 6px 12px 16px -12px rgba(0, 0, 0, 0.35),
     -6px -6px 16px -12px rgba(0, 0, 0, 0.35);
-  border-radius: 3px;
+  cursor: pointer;
+}
+
+.loc img {
+  height: 30px;
 }
