@@ -63,6 +63,8 @@ import { userReducer } from './user/user.reducers';
 import { uiReducer } from './ui/ui.reducers';
 import { UserEffects } from './user/user.effects';
 import { NGOapplicationsComponent } from './ui/ngo-profile/ngoapplications/ngoapplications.component';
+import { SettingsNgoComponent } from './ui/navbar/settings/settings-ngo/settings-ngo.component';
+import { SettingsVolunteerComponent } from './ui/navbar/settings/settings-volunteer/settings-volunteer.component';
 
 @NgModule({
   declarations: [
@@ -85,12 +87,16 @@ import { NGOapplicationsComponent } from './ui/ngo-profile/ngoapplications/ngoap
     AllOpportunitiesComponent,
     AllNgosComponent,
     GoogleMapsComponent,
-    NGOapplicationsComponent
+    NGOapplicationsComponent,
+    SettingsNgoComponent,
+    SettingsVolunteerComponent
   ],
   entryComponents: [
     CreateOpportunityComponent,
     OpportunityComponent,
     NGOapplicationsComponent,
+    SettingsNgoComponent,
+    SettingsVolunteerComponent
   ],
   imports: [
     BrowserModule,
