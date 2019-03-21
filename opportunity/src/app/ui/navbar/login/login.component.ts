@@ -28,7 +28,7 @@ import { Observable } from "rxjs";
 export class LoginComponent {
   // TO DO: export from the user type interface a subtype of NGO | Volunteer
   user: Volunteer | NGO;
-   counter = 0;
+  closeRegisterForm = false;
 
   constructor(
     private store: Store<UIState>,
@@ -70,9 +70,9 @@ export class LoginComponent {
         if (registrationSuccesful) {
           this.store.dispatch(new UserRegistrationSuccessful());
         } else {
-          // TO DO: find a more beautiful way to solve the circular if when the dialog is closed
-          if (this.counter = 0) {
-            this.counter = this.counter + 1;
+          // TO DO: fix the bug that on click to close the form it will reopen
+          if (!this.closeRegisterForm) {
+            this.closeRegisterForm = true;
             this.store.dispatch(new UserRegistrationFailed());
           }
         }
