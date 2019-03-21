@@ -4,7 +4,7 @@ export class Application {
   timeCreated: string;
   active: boolean;
   text: string;
-  //the following two data-objects are being passed by cloud function "createApplication"
+  //the following two data-objects are being passed by cloud function "appendApplicationData"
   volunteerData?: { 
     name: string;
     image: string;
