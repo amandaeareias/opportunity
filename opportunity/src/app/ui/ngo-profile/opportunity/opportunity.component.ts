@@ -60,8 +60,8 @@ export class OpportunityComponent implements OnInit {
   formSubmit() {
     if(this.applyForm.valid){
       console.log('waiting for the function to be ready, uncomment next 2 lines when it is')
-      //const data = this.mappingService.mapApplicationInputToProps(this.currentUser.id, this.opportunity.id, this.applyForm.value.apply)
-      // this.fbService.createApplication(data)
+      const data = this.mappingService.mapApplicationInputToProps(this.currentUser.id, this.opportunity.id, this.applyForm.value.apply)
+      this.fbService.createApplication(data)
       this.dialog.close()
     }else {
       console.log('not valid')
