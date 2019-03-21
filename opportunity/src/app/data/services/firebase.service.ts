@@ -49,6 +49,10 @@ export class FirebaseCrudService {
     return this.db.collection(collection).doc(id).valueChanges();
     /* NOTE: getOne returns undefined if document isn't found */
   }
+  getOneNGO(id: string) {
+    return this.db.collection('ngos').doc(id).valueChanges();
+    /* NOTE: getOne returns undefined if document isn't found */
+  }
 
   /* getMany uses optional QueryFn type for querying DB: */
   /* QueryFn: (ref) => ref.where('fieldName', 'operator', 'fieldValue') */
@@ -67,8 +71,46 @@ export class FirebaseCrudService {
   /* to enforce fixed document structure in the DB */
   createVolunteer = (volunteer: Volunteer) => this.db.collection('volunteers').add({ ...new Volunteer(), ...volunteer })
   createNGO = (ngo: NGO) => this.db.collection('ngos').add({ ...new NGO(), ...ngo })
-  createOpportunity = (opportunity: Opportunity) => this.db.collection('opportunities').add({ ...new Opportunity(), ...opportunity })
-  createApplication = (application: Application) => this.db.collection('applications').add({ ...new Application(), ...application })
+  createOpportunity = (opportunity: Opportunity) => {
+    this.getOneNGO(opportunity.ngo.id).subscribe(
+      fullNgoData => {
+        const { applicationsCount } = fullNgoData;
+        this.updateNGO(opportunity.ngo.id, {applicationsCount: fullNgoData.applicationsCount+1});
+        return this.db.collection('opportunities').add({ ...new Opportunity(), ...opportunity })
+      }
+    )
+  }
+  
+  createApplication = (application: Application) => {
+    const { volunteerId, opportunityId } = application;
+    this.getOne('volunteers', volunteerId).subscribe(
+      fullVolunteerData => {
+        this.getOne('opportunities', opportunityId).subscribe(
+          fullOpportunityData => {
+            console.log(fullVolunteerData, fullOpportunityData);
+            
+            const addedData = {
+              volunteerData: {
+                name: fullVolunteerData.name,
+                image: fullVolunteerData.image
+              },
+              opportunityData: {
+                ngoName: fullOpportunityData.ngo.name,
+                name: fullOpportunityData.name,
+                about: fullOpportunityData.about,
+                location: fullOpportunityData.location,
+                prerequisites: fullOpportunityData.prerequisites,
+                active: fullOpportunityData.active,
+              }
+            };
+            this.updateVolunteer(volunteerId, {applicationsCount: fullVolunteerData.applicationsCount+1});
+            this.updateOpportunity(opportunityId, {applicationsCount: fullOpportunityData.applicationsCount+1});
+            return this.db.collection('applications').add({ ...new Application(), ...application, ...addedData })
+          }
+        )
+      }
+    );
+  }
 
   updateVolunteer = (id: string, data: any) => this.db.collection('volunteers').doc(id).update(data)
   updateNGO = (id: string, data: any) => this.db.collection('ngos').doc(id).update(data)
