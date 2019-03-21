@@ -12,7 +12,8 @@ export class Opportunity {
   prerequisites?: string[];
   timeCreated: string;
   active: boolean;
-  application?: Application[]; //Ekaterina: not sure if we need it here
+  applicationsCount?: number;
+  application?: string[]; //array of ids for reference
 }
 
 export const OpportunityCollection = 'opportunities';
