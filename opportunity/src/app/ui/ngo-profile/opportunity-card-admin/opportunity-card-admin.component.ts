@@ -35,4 +35,9 @@ export class OpportunityCardAdminComponent implements OnInit {
     }
     this.dialog.open(NGOapplicationsComponent, {data: this.applications});
   }
+
+  editOpportunity(){
+
+  }
+
 }
