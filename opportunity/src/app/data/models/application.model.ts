@@ -3,6 +3,7 @@ export class Application {
   opportunityId: string;
   timeCreated: string;
   active: boolean;
+  text: string;
 
   constructor() {
     this.volunteerId = null;

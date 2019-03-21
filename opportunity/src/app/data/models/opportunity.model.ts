@@ -12,7 +12,7 @@ export class Opportunity {
   prerequisites?: string[];
   timeCreated: string;
   active: boolean;
-  application?: Application[];
+  application?: Application[]; //Ekaterina: not sure if we need it here
 }
 
 export const OpportunityCollection = 'opportunities';
