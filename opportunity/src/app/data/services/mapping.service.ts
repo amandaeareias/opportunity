@@ -52,7 +52,7 @@ export class MappingService {
     }
   }
 
-  mapApplicationInputToProps(volunteerId, opportunityId, text) {
+  mapApplicationInputToProps({volunteerId, opportunityId, text}) {
     return {
       volunteerId,
       opportunityId,
