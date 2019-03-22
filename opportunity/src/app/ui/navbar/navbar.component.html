@@ -5,7 +5,7 @@
     <p routerLink='/all-ngos'>All NGOs</p>
     <div *ngIf="currentUser.isLoggedIn" class="userNavbar">
       <div [ngStyle]="{'background-image': 'url(' + currentUser.user.image + ')'}" class="profilePicNavBar"></div>
-      <p>{{ currentUser.user.name }}</p>
+      <p [matMenuTriggerFor]="menu">{{ currentUser.user.name }}</p>
       <img mat-button [matMenuTriggerFor]="menu" src="/assets/icons/down.png" alt="">
       <mat-menu #menu="matMenu">
         <button mat-menu-item *ngIf='currentUser.isNgo' routerLink='/ngo/{{currentUser.user.id}}'>Profile</button>
