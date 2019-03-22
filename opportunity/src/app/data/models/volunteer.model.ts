@@ -7,7 +7,7 @@ export class Volunteer {
   about?: string;
   image?: string;
   dateOfBirth?: string;
-  application?: Application[];
+  applicationsCount?: number;
   isComplete?: boolean;
   contact?: any;
   
@@ -16,7 +16,7 @@ export class Volunteer {
     this.username = null;
     this.image = null;
     this.about = null;
-    this.application = [];
+    this.applicationsCount = 0;
     this.isComplete = false;
   }
 }

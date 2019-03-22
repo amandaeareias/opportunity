@@ -14,8 +14,9 @@
 
   <p class="description">{{profileNgo.about}}</p>
 
+  <div class="createNewOpportunity" (newOpportunity)='newOpportunity()' (click)='createOpportunity()' *ngIf='profileOwner'>+ ADD<br>OPPORTUNITY</div>
+
   <div class="opportunities">
-    <div class="createNewOpportunity" (newOpportunity)='newOpportunity()' (click)='createOpportunity()' *ngIf='profileOwner'>+ ADD<br>OPPORTUNITY</div>
     <div class="opportunitiesList" *ngIf='profileOpportunities.length > 0'>
       <div *ngFor='let opportunity of profileOpportunities'>
         <app-opportunity-card-admin *ngIf='profileOwner' #opp (click)='editOpportunity(opp)' [opportunity]='opportunity'></app-opportunity-card-admin>

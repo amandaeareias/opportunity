@@ -5,7 +5,8 @@ import { NGO } from '../models/ngo.model';
 import { Volunteer } from '../models/volunteer.model';
 import { Opportunity } from '../models/opportunity.model';
 import { Application } from '../models/application.model';
-import {map} from 'rxjs/operators'
+import {map, first} from 'rxjs/operators'
+import { applySourceSpanToStatementIfNeeded } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root'
@@ -34,9 +35,23 @@ export class FirebaseCrudService {
     );
   }
 
+  getAllApplicationsOfVolunteer(id: string) {
+    return this.db.collection('applications', ref => ref.where('volunteerId', '==', id)).snapshotChanges().pipe(
+      map(actions => actions.map(action => {
+        const data = action.payload.doc.data()
+        const id = action.payload.doc.id;
+        return {id, ...data};
+      })),
+    );
+  }
+
   /* generic getters */
   getOne(collection: string, id: string) {
     return this.db.collection(collection).doc(id).valueChanges();
+    /* NOTE: getOne returns undefined if document isn't found */
+  }
+  getOneNGO(id: string) {
+    return this.db.collection('ngos').doc(id).valueChanges();
     /* NOTE: getOne returns undefined if document isn't found */
   }
 
@@ -55,72 +70,108 @@ export class FirebaseCrudService {
 
   /* Please note: create functions use type constructor in order */
   /* to enforce fixed document structure in the DB */
-  createVolunteer(volunteer: Volunteer) {
-    return this.db.collection('volunteers').add({ ...new Volunteer(), ...volunteer });
+  createVolunteer = (volunteer: Volunteer) => this.db.collection('volunteers').add({ ...new Volunteer(), ...volunteer })
+  createNGO = (ngo: NGO) => this.db.collection('ngos').add({ ...new NGO(), ...ngo })
+  createOpportunity = (opportunity: Opportunity) => {
+    this.getOneNGO(opportunity.ngo.id).subscribe(
+      async (fullNgoData: NGO) => {
+        const opportunitiesCountNgo = fullNgoData.opportunitiesCount || 0;
+        await this.updateNGO(opportunity.ngo.id, {applicationsCount: opportunitiesCountNgo+1});
+        return this.db.collection('opportunities').add({ ...new Opportunity(), ...opportunity });
+      }
+    )
+  }
+  
+  createApplication = (application: Application) => {
+    const { volunteerId, opportunityId } = application;
+    this.getOne('volunteers', volunteerId).pipe(first()).subscribe(
+      (fullVolunteerData: Volunteer) => {
+        this.getOne('opportunities', opportunityId).pipe(first()).subscribe(
+          async (fullOpportunityData: Opportunity) => {
+            const addedData = {
+              volunteerData: {
+                name: fullVolunteerData.name,
+                image: fullVolunteerData.image
+              },
+              opportunityData: {
+                ngoName: fullOpportunityData.ngo.name,
+                name: fullOpportunityData.name,
+                about: fullOpportunityData.about,
+                location: fullOpportunityData.location,
+                prerequisites: fullOpportunityData.prerequisites,
+                active: fullOpportunityData.active,
+              }
+            };
+            const applicationsCountVol = fullVolunteerData.applicationsCount || 0;
+            const applicationsCountOpp = fullOpportunityData.applicationsCount || 0;
+            await this.updateVolunteer(volunteerId, {applicationsCount: applicationsCountVol+1});
+            await this.updateOpportunity(opportunityId, {applicationsCount: applicationsCountOpp+1});
+            return this.db.collection('applications').add({ ...new Application(), ...application, ...addedData });
+          }
+        )
+      }
+    );
   }
 
-  createNGO(ngo: NGO) {
-    return this.db.collection('ngos').add({ ...new NGO(), ...ngo });
+  updateVolunteer = (id: string, data: any) => this.db.collection('volunteers').doc(id).update(data)
+  updateNGO = (id: string, data: any) => this.db.collection('ngos').doc(id).update(data)
+  updateOpportunity = (id: string, data: any) => this.db.collection('opportunities').doc(id).update(data)
+  updateApplication = (id: string, data: any) => this.db.collection('applications').doc(id).update(data)
+
+  deleteVolunteer = (id: string) => {
+    //look-up and delete all applications of the volunteer
+    this.db.collection('applications', ref => ref.where('volunteerId', '==', id))
+      .snapshotChanges().pipe(
+        map(emit => emit.map(application => this.db.collection('applications').doc(application.payload.doc.id).delete())), 
+        first())
+          .subscribe(() => this.db.collection('volunteers').doc(id).delete())
   }
 
-  updateVolunteer(id: string, data: any) {
-    return this.db.collection('volunteers').doc(id).update(data);
-  }
+  deleteNGO = (id: string) => this.db.collection('ngos').doc(id).delete()
+  deleteOpportunity = (id: string) => this.db.collection('opportunities').doc(id).delete()
+  deleteApplication = (id: string) => this.db.collection('applications').doc(id).delete()
 
-  updateNGO(id: string, data: any) {
-    return this.db.collection('ngos').doc(id).update(data);
-  }
+  // //CRUD secondary objects (opportunity, application)
+  // async createOpportunity(newObject: Opportunity) {
+  //   //first creating new doc in the opportunities collection
+  //   const docRef = await this.db.collection('opportunities').add(newObject);
 
-  /* @TODO: Review and test delete functions */
+  //   //get the created object back
+  //   const opportunity = await docRef.get();
 
-  deleteVolunteer(objectKey: string) {
-    return this.db.collection('volunteers').doc(objectKey).delete();
-  }
-  deleteNGO(objectKey: string) {
-    return this.db.collection('ngos').doc(objectKey).delete();
-  }
+  //   //update the ngo data with the new opportunity, using the same id
+  //   await this.db.collection('ngos')
+  //     .doc(newObject.ngo.id)
+  //     .collection('opportunity')
+  //     .doc(docRef.id)
+  //     .set(newObject)
 
-  //CRUD secondary objects (opportunity, application)
-  async createOpportunity(newObject: Opportunity) {
-    //first creating new doc in the opportunities collection
-    const docRef = await this.db.collection('opportunities').add(newObject);
+  //   return opportunity.data();
+  // }
 
-    //get the created object back
-    const opportunity = await docRef.get();
+  // async createApplication(newObject: Application) {
+  //   //first creating new doc in the applications collection
+  //   const docRef = await this.db.collection('applications').add(newObject);
 
-    //update the ngo data with the new opportunity, using the same id
-    await this.db.collection('ngos')
-      .doc(newObject.ngo.id)
-      .collection('opportunity')
-      .doc(docRef.id)
-      .set(newObject)
+  //   //get the created object back
+  //   const application = await docRef.get();
 
-    return opportunity.data();
-  }
+  //   //update the opportunity data with the new application, using the same id
+  //   await this.db.collection('opportunities')
+  //     .doc(newObject.opportunityId)
+  //     .collection('application')
+  //     .doc(docRef.id)
+  //     .set(newObject)
 
-  async createApplication(newObject: Application) {
-    //first creating new doc in the applications collection
-    const docRef = await this.db.collection('applications').add(newObject);
+  //   //update the volunteer data with the new application, using the same id
+  //   await this.db.collection('volunteers')
+  //     .doc(newObject.volunteerId)
+  //     .collection('application')
+  //     .doc(docRef.id)
+  //     .set(newObject)
 
-    //get the created object back
-    const application = await docRef.get();
-
-    //update the opportunity data with the new application, using the same id
-    await this.db.collection('opportunities')
-      .doc(newObject.opportunityId)
-      .collection('application')
-      .doc(docRef.id)
-      .set(newObject)
-
-    //update the volunteer data with the new application, using the same id
-    await this.db.collection('volunteers')
-      .doc(newObject.volunteerId)
-      .collection('application')
-      .doc(docRef.id)
-      .set(newObject)
-
-    return application.data();
-  }
+  //   return application.data();
+  // }
 
     // //CRUD secondary objects (opportunity, application)
     // async createOpportunity(newObject: Opportunity) {

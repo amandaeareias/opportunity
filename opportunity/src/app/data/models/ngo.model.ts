@@ -13,7 +13,7 @@ export class NGO {
     publicEmail: string;
     phone: string;
   };
-  opportunity?: Object;
+  opportunitiesCount?: number;
   isComplete?: boolean;
 
   constructor() {
@@ -28,7 +28,7 @@ export class NGO {
       publicEmail: null,
       phone: null,
     };
-    this.opportunity = {};
+    this.opportunitiesCount = 0;
     this.isComplete = false;
   }
 }
