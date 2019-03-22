@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
 
     //TO BE DELETED
 
-    this.db.deleteVolunteer('U7PosfvVXPLelZZe3vkm');
+    this.db.deleteVolunteer('zWeXSt8tWNsVYk7IHpj8');
     // console.log("here")
     // this.db.createApplication(this.mapper.mapApplicationInputToProps({
     //   volunteerId: 'A4oCTZQRm90E7G5SwuFG',
