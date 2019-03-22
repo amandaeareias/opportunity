@@ -78,7 +78,7 @@ export class NgoProfileComponent implements OnInit {
         opportunity => {
           const data = this.mappingService.mapOpportunityInputToProps(this.currentUser, opportunity)
           console.log('data: ', data)
-          this.fbService.createOpportunity(data).catch(e => console.log('error: ', e))
+          this.fbService.createOpportunity(data)
         }
       );
   }
