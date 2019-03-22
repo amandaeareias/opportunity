@@ -29,6 +29,9 @@ import {
 /* Angular Forms imports */
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
+/* Google Maps imports */
+import { AgmCoreModule } from '@agm/core';
+
 /* ngrx imports */
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -54,7 +57,6 @@ import { CreateOpportunityComponent } from './ui/ngo-profile/create-opportunity/
 import { OpportunityComponent } from './ui/ngo-profile/opportunity/opportunity.component';
 import { AllOpportunitiesComponent } from './ui/all-opportunities/all-opportunities.component';
 import { AllNgosComponent } from './ui/all-ngos/all-ngos.component';
-import { AgmCoreModule } from '@agm/core';
 import { GoogleMapsComponent } from './ui/homepage/google-maps/google-maps.component';
 import { NGOapplicationsComponent } from './ui/ngo-profile/ngoapplications/ngoapplications.component';
 import { SettingsNgoComponent } from './ui/navbar/settings/settings-ngo/settings-ngo.component';
@@ -108,6 +110,8 @@ import { UserEffects } from './user/user.effects';
     EditOpportunityComponent,
     VolunteerapplicationsComponent,
     SnackbarComponent,
+    VolunteerSignupComponent,
+    NgoSignupComponent,
   ],
   imports: [
     BrowserModule,
