@@ -148,7 +148,9 @@ import { UserEffects } from './user/user.effects';
       maxAge: 25,
     }),
   ],
-  providers: [],
+  providers: [
+    LoginComponent,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

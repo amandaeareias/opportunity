@@ -7,6 +7,7 @@ import { userDetailsSelector, isUserNgoSelector } from '../../../user/user.reduc
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { SnackbarComponent } from '../../snackbar/snackbar.component'
+import { LoginComponent } from '../../navbar/login/login.component'
 
 @Component({
   selector: 'app-opportunity',
@@ -32,6 +33,7 @@ export class OpportunityComponent implements OnInit {
     private dialog: MatDialogRef<OpportunityComponent>,
     private mappingService: MappingService,
     private snackBar: MatSnackBar,
+    private LoginComponent: LoginComponent,
   ) { }
 
   ngOnInit() {
@@ -57,6 +59,7 @@ export class OpportunityComponent implements OnInit {
     } else if (!this.currentUser) {
       console.log('please log-in')
       this.dialog.close()
+      this.LoginComponent.loginGoogle(false) // call the function again IF LOG-IN SUCCESS so the user can apply without clicking again
     } else {
       this.applying = true
     }
