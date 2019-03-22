@@ -1,46 +1,19 @@
 <div class="mapContainer">
-  <form class="search">
-    <mat-form-field class="search">
-      <input
-        type="text"
-        placeholder="Find best opportunites"
-        autocorrect="off"
-        autocapitalize="off"
-        spellcheck="off"
-        type="text"
-        class="form-control"
-        [formControl]="searchForm"
-        matInput
-        [matAutocomplete]="auto"
-      />
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option
-          *ngFor="let place of (predictions | async)"
-          [value]="place.description"
-          (click)="retrieveCoord(place.place_id)"
-        >
-          {{ place.description }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-  </form>
 
-  <!-- <img
-    class="loc"
-    src="../../../../assets/icons/findme.png"
-    alt=""
-    (click)="locateMe()"
-  /> -->
+  <input type="text" placeholder="Find best opportunites" autocorrect="off" autocapitalize="off" spellcheck="off"
+    type="text" class="form-control search" [formControl]="searchForm" matInput [matAutocomplete]="auto" />
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let place of (predictions | async)" [value]="place.description"
+      (click)="retrieveCoord(place.place_id)">
+      {{ place.description }}
+    </mat-option>
+  </mat-autocomplete>
 
-  <agm-map
-    [latitude]="location.lat"
-    [longitude]="location.lng"
-    [zoom]="12"
-    [styles]="disableStyles"
-  >
-    <agm-marker
-      [latitude]="location.lat"
-      [longitude]="location.lng"
-    ></agm-marker>
+  <div class="loc" (click)="locateMe()">
+    <img src="../../../../assets/icons/findme.png" alt="" />
+  </div>
+
+  <agm-map [latitude]="location.lat" [longitude]="location.lng" [zoom]="12" [styles]="disableStyles">
+    <agm-marker [latitude]="location.lat" [longitude]="location.lng"></agm-marker>
   </agm-map>
 </div>

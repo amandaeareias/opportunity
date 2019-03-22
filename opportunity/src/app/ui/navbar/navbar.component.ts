@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {getUserState } from '../../user/user.reducers'
-
+import { SettingsNgoComponent } from './settings/settings-ngo/settings-ngo.component'
+import { SettingsVolunteerComponent } from './settings/settings-volunteer/settings-volunteer.component'
+import { MatDialog } from '@angular/material/dialog';
 
 import {
   UIState,
@@ -20,7 +22,9 @@ export class NavbarComponent implements OnInit {
   componentLoadingState$: Observable<boolean>;
   currentUser;
 
-  constructor(private store: Store<UIState>) {}
+  constructor(private store: Store<UIState>,
+    private dialog: MatDialog
+    ) {}
 
   ngOnInit() {
     this.componentUIState$ = this.store.select(navbarUIStateSelector);
@@ -30,5 +34,14 @@ export class NavbarComponent implements OnInit {
 
   logOut() {
     console.log('logging out')
+  }
+
+  openSettings() {
+    if(this.currentUser.isNgo){
+      this.dialog.open(SettingsNgoComponent, {data: this.currentUser})
+    } else {
+      this.dialog.open(SettingsVolunteerComponent, {data: this.currentUser})
+
+    }
   }
 }

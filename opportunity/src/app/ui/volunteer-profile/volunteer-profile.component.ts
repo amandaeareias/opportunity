@@ -3,7 +3,9 @@ import { Store } from '@ngrx/store'
 import { ActivatedRoute } from '@angular/router';
 
 import { FirebaseCrudService } from '../../data/services/firebase.service'
-import {userDetailsSelector} from '../../user/user.reducers'
+import { userDetailsSelector } from '../../user/user.reducers'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { VolunteerapplicationsComponent } from './volunteerapplications/volunteerapplications.component'
 
 
 @Component({
@@ -19,8 +21,9 @@ export class VolunteerProfileComponent implements OnInit {
 
   constructor(
     private store: Store<any>,
-    private service: FirebaseCrudService,
+    private fbService: FirebaseCrudService,
     private route: ActivatedRoute,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -40,20 +43,27 @@ export class VolunteerProfileComponent implements OnInit {
 
   getProfile() {
     this.profileId = this.route.snapshot.paramMap.get('id')
-    this.service.getOne('volunteers', this.profileId)
+    this.fbService.getOne('volunteers', this.profileId)
       .subscribe(user => {
         this.profileVolunteer = user
         this.compare()
-    })
+      })
   }
 
   compare() {
     console.log(this.profileVolunteer)
-    if(this.currentUser.id === this.profileId) {
+    if (this.currentUser.id === this.profileId) {
       console.log('same user')
     } else {
       console.log('other user')
     }
+  }
+
+  seeApplications() {
+    this.fbService.getAllApplicationsOfVolunteer(this.currentUser.id)
+      .subscribe(applications => {
+        this.dialog.open(VolunteerapplicationsComponent, { data: applications });
+      })
   }
 
 }
