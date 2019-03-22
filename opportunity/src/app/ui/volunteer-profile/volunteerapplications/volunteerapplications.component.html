@@ -1,10 +1,16 @@
 <div *ngIf='applications.length > 0' class="applicationsContainer">
   <div *ngFor='let application of applications' class="applicationCard">
-    <div class="ngoPic"></div>
-    <div class="opportunityInfo">
-      <p class="opportunityName">Opportunity Name</p>
-      <p class="ngoName">Ngo name</p>
-      <p class="applicationText">Text</p>
+    <div class="leftSide">
+      <div class="ngoPic"></div>
+      <div class="opportunityInfo">
+        <p class="opportunityName">Opportunity Name</p>
+        <p class="ngoName">Ngo name</p>
+        <p class="applicationText">Text</p>
+      </div>
+    </div>
+    <div class="rightSide">
+      <img src="../../../../assets/icons/edit.png" alt="">
+      <img src="../../../../assets/icons/trash-red.png" alt="">
     </div>
   </div>
 </div>
