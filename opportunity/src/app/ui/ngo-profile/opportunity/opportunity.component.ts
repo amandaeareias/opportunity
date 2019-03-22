@@ -63,8 +63,8 @@ export class OpportunityComponent implements OnInit {
   }
 
   formSubmit() {
-    if (this.applyForm.valid) {
-      const data = this.mappingService.mapApplicationInputToProps(this.currentUser.id, this.opportunity.id, this.applyForm.value.apply)
+    if(this.applyForm.valid){
+      const data = this.mappingService.mapApplicationInputToProps({volunteerId: this.currentUser.id, opportunityId: this.opportunity.id, text: this.applyForm.value.apply})
       this.fbService.createApplication(data)
       this.snackBar.openFromComponent(SnackbarComponent, {
         duration: 3000,
