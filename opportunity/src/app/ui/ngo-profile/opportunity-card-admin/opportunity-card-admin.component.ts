@@ -27,12 +27,8 @@ export class OpportunityCardAdminComponent implements OnInit {
       .subscribe(result => this.applications = result)
   }
 
-  seeApplicants() {
-    console.log('applicant:', this.applications)
-    for(let application of this.applications) {
-      console.log('applicant:', application.volunteerId)
-      console.log('text:', application.text)
-    }
+  seeApplicants(event) {
+    event.stopPropagation()
     this.dialog.open(NGOapplicationsComponent, {data: this.applications});
   }
 

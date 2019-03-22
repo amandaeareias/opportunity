@@ -65,6 +65,8 @@ import { EditOpportunityComponent } from './ui/ngo-profile/opportunity-card-admi
 import { VolunteerapplicationsComponent } from './ui/volunteer-profile/volunteerapplications/volunteerapplications.component';
 import { SnackbarComponent } from './ui/snackbar/snackbar.component';
 
+import { SummaryPipe } from './summary.pipe';
+
 /* User defined state management */
 import { userReducer } from './user/user.reducers';
 import { uiReducer } from './ui/ui.reducers';
@@ -97,6 +99,7 @@ import { UserEffects } from './user/user.effects';
     EditOpportunityComponent,
     VolunteerapplicationsComponent,
     SnackbarComponent,
+    SummaryPipe,
   ],
   entryComponents: [
     CreateOpportunityComponent,
