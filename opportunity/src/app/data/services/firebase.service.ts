@@ -5,7 +5,8 @@ import { NGO } from '../models/ngo.model';
 import { Volunteer } from '../models/volunteer.model';
 import { Opportunity } from '../models/opportunity.model';
 import { Application } from '../models/application.model';
-import {map} from 'rxjs/operators'
+import {map, first} from 'rxjs/operators'
+import { applySourceSpanToStatementIfNeeded } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root'
@@ -73,22 +74,20 @@ export class FirebaseCrudService {
   createNGO = (ngo: NGO) => this.db.collection('ngos').add({ ...new NGO(), ...ngo })
   createOpportunity = (opportunity: Opportunity) => {
     this.getOneNGO(opportunity.ngo.id).subscribe(
-      fullNgoData => {
-        const { applicationsCount } = fullNgoData;
-        this.updateNGO(opportunity.ngo.id, {applicationsCount: fullNgoData.applicationsCount+1});
-        return this.db.collection('opportunities').add({ ...new Opportunity(), ...opportunity })
+      async (fullNgoData: NGO) => {
+        const opportunitiesCountNgo = fullNgoData.opportunitiesCount || 0;
+        await this.updateNGO(opportunity.ngo.id, {applicationsCount: opportunitiesCountNgo+1});
+        return this.db.collection('opportunities').add({ ...new Opportunity(), ...opportunity });
       }
     )
   }
   
   createApplication = (application: Application) => {
     const { volunteerId, opportunityId } = application;
-    this.getOne('volunteers', volunteerId).subscribe(
-      fullVolunteerData => {
-        this.getOne('opportunities', opportunityId).subscribe(
-          fullOpportunityData => {
-            console.log(fullVolunteerData, fullOpportunityData);
-            
+    this.getOne('volunteers', volunteerId).pipe(first()).subscribe(
+      (fullVolunteerData: Volunteer) => {
+        this.getOne('opportunities', opportunityId).pipe(first()).subscribe(
+          async (fullOpportunityData: Opportunity) => {
             const addedData = {
               volunteerData: {
                 name: fullVolunteerData.name,
@@ -103,9 +102,11 @@ export class FirebaseCrudService {
                 active: fullOpportunityData.active,
               }
             };
-            this.updateVolunteer(volunteerId, {applicationsCount: fullVolunteerData.applicationsCount+1});
-            this.updateOpportunity(opportunityId, {applicationsCount: fullOpportunityData.applicationsCount+1});
-            return this.db.collection('applications').add({ ...new Application(), ...application, ...addedData })
+            const applicationsCountVol = fullVolunteerData.applicationsCount || 0;
+            const applicationsCountOpp = fullOpportunityData.applicationsCount || 0;
+            await this.updateVolunteer(volunteerId, {applicationsCount: applicationsCountVol+1});
+            await this.updateOpportunity(opportunityId, {applicationsCount: applicationsCountOpp+1});
+            return this.db.collection('applications').add({ ...new Application(), ...application, ...addedData });
           }
         )
       }
