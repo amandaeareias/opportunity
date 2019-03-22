@@ -7,7 +7,7 @@
  -->
 
 <div class="opportunityCard" (click)='openOpportunity()' [ngStyle]="{'background-image': 'url(' + opportunity.ngo.image + ')'}">
-  <div class="opacityLayer"></div>
+  <div class="opacityLayer" (click)='openOpportunity()'></div>
   <div class="oppInfo">
     <h3>{{opportunity.name}}</h3>
     <p class="ngo" routerLink='/ngo/{{opportunity.ngo.id}}'>{{opportunity.ngo.name}}</p>

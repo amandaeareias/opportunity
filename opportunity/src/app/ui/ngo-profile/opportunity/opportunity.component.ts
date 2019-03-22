@@ -22,7 +22,7 @@ export class OpportunityComponent implements OnInit {
     apply: new FormControl('', [Validators.required, Validators.minLength(20)])
   });
 
-  applied: boolean = true
+  applied: boolean = false
   isNgo: boolean;
 
   constructor(
