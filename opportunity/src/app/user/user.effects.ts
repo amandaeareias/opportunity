@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { from } from 'rxjs';
-import { map, switchMap, catchError, first } from 'rxjs/operators';
+import { map, switchMap, catchError, first, tap } from 'rxjs/operators';
 
 import {
   ActionTypes,

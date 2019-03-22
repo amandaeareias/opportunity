@@ -30,9 +30,6 @@ export function userReducer(state = initialState, action: UserActions) {
     case ActionTypes.USER_LOGOUT_SUCCESS:
       return initialState;
 
-    case ActionTypes.GET_USER_PENDING:
-      return state;
-
     case ActionTypes.GET_USER_SUCCESS:
       const { user, isNgo } = action.payload;
       return {
@@ -43,23 +40,16 @@ export function userReducer(state = initialState, action: UserActions) {
       };
     
     case ActionTypes.UPDATE_USER_SUCCESS:
-      const { name, about, website, address, email, phone, isComplete } = action.payload;
+      const userData = {
+        ...state.user,
+        ...action.payload,
+      };
+
       return {
         ...state,
-        user: {
-          ...state.user,
-          name,
-          about,
-          isComplete,
-          contact: {
-            ...state.user.contact,
-            website,
-            address,
-            phone,
-            publicEmail: email,
-          }
-        }
-      }
+        user: userData,
+      };
+
     default:
       return state;
   }
