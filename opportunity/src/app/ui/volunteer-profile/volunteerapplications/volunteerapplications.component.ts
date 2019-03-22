@@ -14,7 +14,6 @@ export class VolunteerapplicationsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.applications)
   }
 
 }
