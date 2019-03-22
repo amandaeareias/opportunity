@@ -10,7 +10,8 @@
       <h4>9h</h4>
       <p>per week</p>
     </div>
-    <button class="btn" (click)='applyClicked()' *ngIf='!applying'>Apply now!</button>
+    <button class="btn" (click)='applyClicked()' *ngIf='!applying && !applied && !isNgo'>Apply now!</button>
+    <p *ngIf='!applying && applied && !isNgo'>Applied</p>
   </div>
 </div>
 
