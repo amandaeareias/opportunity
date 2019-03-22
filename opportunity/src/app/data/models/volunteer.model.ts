@@ -1,6 +1,7 @@
 import { Application } from './application.model';
 
 export class Volunteer {
+  id?: string;
   username: string; // email
   name: string;
   about?: string;
@@ -8,6 +9,7 @@ export class Volunteer {
   dateOfBirth?: string;
   application?: Application[];
   isComplete?: boolean;
+  contact?: any;
   
   constructor() {
     this.name = null;

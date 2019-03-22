@@ -69,7 +69,11 @@ export class LoginService {
           });
         }
     });
-    
+
     return subject$;
+  }
+
+  signOut() {
+    return this.firebaseAuth.auth.signOut();
   }
 }

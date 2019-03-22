@@ -1,10 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { EMPTY } from 'rxjs';
+import { from } from 'rxjs';
 import { map, switchMap, catchError, first } from 'rxjs/operators';
 
-import { ActionTypes, GET_USER_SUCCESS } from './user.actions';
+import {
+  ActionTypes,
+  GET_USER_SUCCESS,
+  // GET_USER_FAILURE,
+  USER_LOGOUT_SUCCESS,
+  // USER_LOGOUT_FAILURE,
+  UPDATE_USER_SUCCESS,
+} from './user.actions';
 import { LoginService } from './user-auth/login.service';
+import { FirebaseCrudService } from '../data/services/firebase.service';
 
 @Injectable()
 export class UserEffects {
@@ -26,14 +34,42 @@ export class UserEffects {
           .pipe(
             first(),
             map(({ user, isNgo }) => new GET_USER_SUCCESS({ user, isNgo })),
-            catchError(() => EMPTY),
+            // catchError((err) => new GET_USER_FAILURE(err)),
           );
       })
     );
 
+  @Effect()
+  userLogout$ = this.actions$
+    .pipe(
+      ofType(ActionTypes.USER_LOGOUT_PENDING),
+      switchMap(() => {
+        return from(this.auth.signOut())
+          .pipe(
+            map(() => new USER_LOGOUT_SUCCESS()),
+            // catchError((err) => new USER_LOGOUT_FAILURE(err)),
+          )
+      }),
+    );
+  
+  @Effect()
+  updateUser$ = this.actions$
+    .pipe(
+      ofType(ActionTypes.UPDATE_USER_PENDING),
+      switchMap(({ payload }) => {
+        const { id, isNgo, data } = payload;
+        const update$ = isNgo ? from(this.db.updateNGO(id, data)) : from(this.db.updateVolunteer(id, data));
+        return update$
+          .pipe(
+            map(() => new UPDATE_USER_SUCCESS(data)),
+          )
+      }),
+    );
+  
   constructor(
     private actions$: Actions,
     private auth: LoginService,
+    private db: FirebaseCrudService,
   ) {}
 
 }
