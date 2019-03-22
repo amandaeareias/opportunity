@@ -63,7 +63,7 @@ export class NgoProfileComponent implements OnInit {
     if (this.currentUser.id === this.profileId) {
       this.profileOwner = true;
     } else {
-      console.log('other user')
+      // console.log('other user')
     }
   }
 
