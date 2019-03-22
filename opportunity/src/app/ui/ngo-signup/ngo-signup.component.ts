@@ -1,10 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { NGO } from '../../data/models/ngo.model';
 import {
-  MatDialog,
-  MAT_DIALOG_DATA,
   MatDialogRef,
   MatSnackBar
 } from '@angular/material';
@@ -14,63 +10,49 @@ import {
   templateUrl: './ngo-signup.component.html',
   styleUrls: ['./ngo-signup.component.css']
 })
-export class NgoSignupComponent implements OnInit {
+export class NgoSignupComponent {
   constructor(
     private dialogRef: MatDialogRef<NgoSignupComponent>,
     private snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) private data
   ) {}
 
-  ngoProfile = new FormGroup({
+  private ngoProfile = new FormGroup({
     orgNameForm: new FormControl('', [
       Validators.required,
-      Validators.minLength(2)
+      Validators.minLength(2),
     ]),
     descriptionForm: new FormControl('', [
       Validators.required,
-      Validators.minLength(20)
+      Validators.minLength(20),
     ]),
     websiteForm: new FormControl(''),
     addressForm: new FormControl('', [Validators.required]),
     emailForm: new FormControl('', [Validators.required, Validators.email]),
-    phoneForm: new FormControl('', [Validators.required])
+    phoneForm: new FormControl(''),
   });
 
-  ngOnInit() {}
-
-  close(): void {
-    this.dialogRef.close();
+  close() {
+    this.dialogRef.close(null);
   }
 
   submitNGO() {
-    const newNGO = this.ngoProfile.value;
-    const result: any = {
-      name: newNGO.orgNameForm,
-      about: newNGO.descriptionForm,
-      contact: {
-        website: newNGO.websiteForm,
-        address: newNGO.addressForm,
-        publicEmail: newNGO.emailForm,
-        phone: newNGO.phone
-      }
+    const { orgNameForm, descriptionForm, websiteForm, addressForm, emailForm, phoneForm } = this.ngoProfile.value;
+    const formData = {
+      name: orgNameForm,
+      about: descriptionForm,
+      website: websiteForm,
+      address: addressForm,
+      email: emailForm,
+      phone: phoneForm,
     };
-    console.log(result, 'result');
-
-    // the result together with the data coming from the login service
-    // has to be send to be stored to the DB
-    console.log(this.ngoProfile, 'ngo profile');
+ 
     if (this.ngoProfile.valid) {
-      console.log('form submitted');
-      this.dialogRef.close();
-    } else {
-      console.log('form invalid');
-    }
-
-    if (this.ngoProfile.valid) {
-      this.dialogRef.close();
+      this.dialogRef.close(formData);
       this.snackBar.open('You just joined our opprtunities network!', 'close', {
-        duration: 4000
+        duration: 4000,
       });
     }
   }
 }
+
+const str = 'Hi, my name is Igor and I want you to help me to help you!';

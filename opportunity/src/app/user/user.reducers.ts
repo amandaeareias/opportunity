@@ -27,7 +27,7 @@ export function userReducer(state = initialState, action: UserActions) {
       };
 
     case ActionTypes.GOOGLE_LOGIN_FAILURE:
-    case ActionTypes.USER_LOGOUT:
+    case ActionTypes.USER_LOGOUT_SUCCESS:
       return initialState;
 
     case ActionTypes.GET_USER_PENDING:
@@ -41,7 +41,25 @@ export function userReducer(state = initialState, action: UserActions) {
         isNgo,
         isLoggedIn: true,
       };
-
+    
+    case ActionTypes.UPDATE_USER_SUCCESS:
+      const { name, about, website, address, email, phone, isComplete } = action.payload;
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          name,
+          about,
+          isComplete,
+          contact: {
+            ...state.user.contact,
+            website,
+            address,
+            phone,
+            publicEmail: email,
+          }
+        }
+      }
     default:
       return state;
   }

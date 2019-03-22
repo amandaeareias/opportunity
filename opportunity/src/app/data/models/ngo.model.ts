@@ -1,6 +1,7 @@
 import { Opportunity } from './opportunity.model';
 
 export class NGO {
+  id?: string;
   name: string;
   username: string;
   image?: string;
