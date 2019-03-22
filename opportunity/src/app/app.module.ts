@@ -110,6 +110,8 @@ import { UserEffects } from './user/user.effects';
     EditOpportunityComponent,
     VolunteerapplicationsComponent,
     SnackbarComponent,
+    VolunteerSignupComponent,
+    NgoSignupComponent,
   ],
   imports: [
     BrowserModule,

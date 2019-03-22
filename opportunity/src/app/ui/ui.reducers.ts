@@ -25,7 +25,6 @@ export function uiReducer(state = initialState, action: UIActions) {
           ...state[component],
           loadingState
         };
-        console.log(componentState);
         return {
           ...state,
           ...componentState,
