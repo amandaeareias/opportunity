@@ -15,7 +15,6 @@ import {
   navbarUIStateSelector,
   navbarLoadingStateSelector
 } from '../ui.reducers';
-import { store } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-navbar',
@@ -43,15 +42,12 @@ export class NavbarComponent implements OnInit {
           const dialogRef = this.openSignUpForm(user.isNgo ? NgoSignupComponent : VolunteerSignupComponent);
 
           dialogRef.afterClosed()
-            .subscribe((res) => {
-              switch (true) {
-                case !!res:
-                  this.store.dispatch(new UPDATE_USER_PENDING({ id: user.user.id, isNgo: user.isNgo, data: { ...res, isComplete: true }}));
-                  break;
-                case !res && !user.isNgo:
-                  this.store.dispatch(new UPDATE_USER_PENDING({ id: user.user.id, isNgo: user.isNgo, data: { isComplete: true } }));
-                  break;
-              }
+            .subscribe((res = {}) => {
+              this.store.dispatch(new UPDATE_USER_PENDING({
+                id: user.user.id,
+                isNgo: user.isNgo,
+                data: { ...res, isComplete: true },
+              }));
             })
         }
       }
