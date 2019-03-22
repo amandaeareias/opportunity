@@ -5,7 +5,8 @@ import { NGO } from '../models/ngo.model';
 import { Volunteer } from '../models/volunteer.model';
 import { Opportunity } from '../models/opportunity.model';
 import { Application } from '../models/application.model';
-import {map, first} from 'rxjs/operators'
+import {map, first } from 'rxjs/operators'
+import {Observable} from 'rxjs';
 import { applySourceSpanToStatementIfNeeded } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
@@ -129,15 +130,57 @@ export class FirebaseCrudService {
   }
 
   deleteNGO = (id: string) => this.db.collection('ngos').doc(id).delete()
-  deleteOpportunity = (id: string) => this.db.collection('opportunities').doc(id).delete()
-  deleteApplication = (id: string) => {
-    //get the application data
-    this.db.collection('applications').doc(id).valueChanges()
 
-    //get the volunteer data and update the volunteer
 
-    //get the opportunity data and update the opportunity
-    return this.db.collection('applications').doc(id).delete()
+
+  deleteOpportunity = (oppId: string, ngoId: string) => {
+    //This version of delete is asyncronous
+
+    //1. get ngo data, in particular count of opportunities
+    this.getOne('ngos', ngoId).subscribe(
+      (fullNGOData: NGO) => {
+        const opportunitiesCountNGO = fullNGOData.opportunitiesCount || 0;
+        //update the count of opportunities on ngo
+        return this.updateNGO(ngoId, {opportunitiesCount: opportunitiesCountNGO-1});}
+    );
+    //2. get all applications of this opportunity
+    this.getAllApplicationsOfOpportunity(oppId).subscribe(
+      (applicationsArray) => {
+        //and then delete them
+        applicationsArray.map((application) => {
+          const { id, volunteerId } = application;
+          this.deleteApplication(id, volunteerId, oppId)
+        })
+      }
+    );
+    //3. delete the object from opportunities collection
+    return this.db.collection('opportunities').doc(oppId).delete()
+    }
+    
+  
+  
+  deleteApplication =  async (appId: string, volId: string, oppId: string) => {
+    //This version of delete is syncronous (just for the fun of it)
+
+    //get volunteer data, in particular count of applications
+    this.getOne('volunteers', volId).pipe(first()).subscribe(
+      async (fullVolData: Volunteer) => {
+        console.log(fullVolData)
+        const applicationsCountVol = fullVolData.applicationsCount || 0;
+        //update the count of applications on volunteer
+        await this.updateVolunteer(volId, {applicationsCount: applicationsCountVol-1});
+        //get opportunities data
+        this.getOne('opportunities', oppId).subscribe(
+          async (fullOppData: Opportunity) => {
+            const applicationsCountOpp = fullOppData.applicationsCount || 0;
+            //update the count of applications on opportunity
+            await this.updateOpportunity(oppId, {applicationsCount: applicationsCountOpp-1});
+            //delete the object from applications-collection
+            return this.db.collection('applications').doc(appId).delete()
+          }
+        )
+      }
+    )
   }
 
   // //CRUD secondary objects (opportunity, application)
