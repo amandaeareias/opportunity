@@ -53,12 +53,14 @@ export class AppComponent implements OnInit {
       }
       /* No else case, as it's fine to keep default state if no auth */
     });
-    console.log("here")
-    this.db.createApplication(this.mapper.mapApplicationInputToProps({
-      volunteerId: 'A4oCTZQRm90E7G5SwuFG',
-      opportunityId: '09sgwsfd4DHFLEjFBjpQ',
-      text: 'please, let it work',
-    }));
+
+    //TO BE DELETED
+    // console.log("here")
+    // this.db.createApplication(this.mapper.mapApplicationInputToProps({
+    //   volunteerId: 'A4oCTZQRm90E7G5SwuFG',
+    //   opportunityId: '09sgwsfd4DHFLEjFBjpQ',
+    //   text: 'please, let it work',
+    // }));
     // this.db.createOpportunity(this.mapper.mapOpportunityInputToProps({
     //   id: 'zB1wkI6n9yhfBhGwSPNX',
     //   name: 'Igor Snitkin',
