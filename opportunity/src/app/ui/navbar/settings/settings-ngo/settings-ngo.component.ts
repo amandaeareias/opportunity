@@ -4,6 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FirebaseCrudService } from '../../../../data/services/firebase.service'
 import {MatSnackBar} from '@angular/material';
 import { SnackbarComponent } from '../../../snackbar/snackbar.component'
+import { Store } from '@ngrx/store';
+import { UPDATE_USER_PENDING } from 'src/app/user/user.actions';
 
 
 @Component({
@@ -11,7 +13,7 @@ import { SnackbarComponent } from '../../../snackbar/snackbar.component'
   templateUrl: './settings-ngo.component.html',
   styleUrls: ['./settings-ngo.component.css']
 })
-export class SettingsNgoComponent implements OnInit {
+export class SettingsNgoComponent {
 
   settingsForm = new FormGroup({
     name: new FormControl(this.currentUser.user.name, Validators.required),
@@ -22,19 +24,17 @@ export class SettingsNgoComponent implements OnInit {
   });
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public currentUser,
+    @Inject(MAT_DIALOG_DATA)
+    public currentUser,
+    private store: Store<any>,
     private fbService: FirebaseCrudService,
     private dialog: MatDialogRef<SettingsNgoComponent>,
     private snackBar: MatSnackBar,
-  ) { }
-
-  ngOnInit() {
-    console.log(this.currentUser)
-  }
+  ) {}
 
   formSubmit() {
     if (this.settingsForm.valid) {
-      let newData = {
+      const data = {
         name: this.settingsForm.value.name,
         about: this.settingsForm.value.about,
         contact: {
@@ -42,22 +42,24 @@ export class SettingsNgoComponent implements OnInit {
           phone: this.settingsForm.value.phone,
           website: this.settingsForm.value.website,
         }
-      }
-      this.fbService.updateNGO(this.currentUser.user.id, newData)
-        .then(res => {
-          this.snackBar.openFromComponent(SnackbarComponent, {
-            duration: 3000,
-          });
-          this.dialog.close()
-        })
-        .catch(e => console.log('Not possible to submit, error: ', e))
+      };
+
+      this.store.dispatch(new UPDATE_USER_PENDING({
+        id: this.currentUser.user.id,
+        isNgo: this.currentUser.isNgo,
+        data,
+      }));
+      this.dialog.close();
+      this.snackBar.openFromComponent(SnackbarComponent, {
+          duration: 3000,
+      });
     }
   }
 
   deleteProfile() {
     let confirmation = confirm("Are you sure you want to delete this account?");
     if (confirmation) {
-      //implement log-out!!
+      // Implement log-out!!
       this.fbService.deleteNGO(this.currentUser.user.id)
     }
   }
