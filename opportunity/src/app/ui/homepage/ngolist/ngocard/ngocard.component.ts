@@ -7,10 +7,13 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class NgocardComponent implements OnInit {
 
+  private ngoFallbackImage = '/assets/ngo-fallback.jpg';
   @Input() ngo;
+
   constructor() { }
 
   ngOnInit() {
+    if (!this.ngo.image) this.ngo.image = this.ngoFallbackImage;
   }
 
 }
