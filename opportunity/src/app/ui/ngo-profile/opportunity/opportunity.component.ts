@@ -54,7 +54,7 @@ export class OpportunityComponent implements OnInit {
     if (this.isNgo) {
       console.log('only volunteers can apply')
       this.dialog.close()
-    } else if (!this.currentUser.id) {
+    } else if (!this.currentUser) {
       console.log('please log-in')
       this.dialog.close()
     } else {
