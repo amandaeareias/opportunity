@@ -12,13 +12,6 @@ export class OpportunitycardComponent {
   @Input() opportunity;
   constructor(private dialog: MatDialog) { }
 
-<<<<<<< HEAD
-  ngOnInit() {
-    
-  }
-
-=======
->>>>>>> develop
   openOpportunity() {
     this.dialog.open(OpportunityComponent, {data: this.opportunity});
   }
