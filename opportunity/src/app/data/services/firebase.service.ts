@@ -118,10 +118,18 @@ export class FirebaseCrudService {
   updateOpportunity = (id: string, data: any) => this.db.collection('opportunities').doc(id).update(data)
   updateApplication = (id: string, data: any) => this.db.collection('applications').doc(id).update(data)
 
-  deleteVolunteer = (objectKey: string) => this.db.collection('volunteers').doc(objectKey).delete()
-  deleteNGO = (objectKey: string) => this.db.collection('ngos').doc(objectKey).delete()
-  deleteOpportunity = (objectKey: string) => this.db.collection('opportunities').doc(objectKey).delete()
-  deleteApplication = (objectKey: string) => this.db.collection('applications').doc(objectKey).delete()
+  deleteVolunteer = (id: string) => {
+    //look-up and delete all applications of the volunteer
+    this.db.collection('applications', ref => ref.where('volunteerId', '==', id))
+      .snapshotChanges().pipe(
+        map(emit => emit.map(application => this.db.collection('applications').doc(application.payload.doc.id).delete())), 
+        first())
+          .subscribe(() => this.db.collection('volunteers').doc(id).delete())
+  }
+
+  deleteNGO = (id: string) => this.db.collection('ngos').doc(id).delete()
+  deleteOpportunity = (id: string) => this.db.collection('opportunities').doc(id).delete()
+  deleteApplication = (id: string) => this.db.collection('applications').doc(id).delete()
 
   // //CRUD secondary objects (opportunity, application)
   // async createOpportunity(newObject: Opportunity) {
