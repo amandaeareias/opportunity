@@ -59,11 +59,11 @@ export class VolunteerProfileComponent implements OnInit {
     }
   }
 
-  seeApplications() {
-    this.fbService.getAllApplicationsOfVolunteer(this.currentUser.id)
-      .subscribe(applications => {
-        this.dialog.open(VolunteerapplicationsComponent, { data: applications });
-      })
-  }
+  // seeApplications() {
+  //   this.fbService.getAllApplicationsOfVolunteer(this.currentUser.id)
+  //     .subscribe(applications => {
+  //       this.dialog.open(VolunteerapplicationsComponent, { data: applications });
+  //     })
+  // }
 
 }

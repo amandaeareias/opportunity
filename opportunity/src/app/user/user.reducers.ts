@@ -1,54 +1,45 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { ActionTypes, UserActions } from './user.actions';
+import { Volunteer } from '../data/models/volunteer.model';
+import { NGO } from '../data/models/ngo.model';
 
 export interface UserState {
   isNgo: boolean;
   isLoggedIn: boolean;
-  isComplete: boolean;
   isAuthed: boolean;
-  user: {
-    displayName?: string;
-    photoURL?: string;
-    logInEmail?: string;
-  };
+  user: Volunteer | NGO;
 }
 
 export const initialState: UserState = {
-  isNgo: null,
+  user: null,
+  isNgo: false,
   isLoggedIn: false,
-  isComplete: false,
   isAuthed: false,
-  user: {
-    displayName: null,
-    photoURL: null,
-    logInEmail: null,
-  },
 };
 
 export function userReducer(state = initialState, action: UserActions) {
   switch (action.type) {
-    case ActionTypes.LoginWithGoogle_SUCCESS:
+    case ActionTypes.GOOGLE_LOGIN_SUCCESS:
       return {
         ...state,
         isAuthed: true,
       };
 
-    case ActionTypes.LoginWithGoogle_FAIL:
-    case ActionTypes.Logout:
+    case ActionTypes.GOOGLE_LOGIN_FAILURE:
+    case ActionTypes.USER_LOGOUT:
       return initialState;
 
-    case ActionTypes.FetchUserDetails:
+    case ActionTypes.GET_USER_PENDING:
       return state;
 
-    case ActionTypes.LoadUserDetails:
+    case ActionTypes.GET_USER_SUCCESS:
       const { user, isNgo } = action.payload;
       return {
         ...state,
+        user,
         isNgo,
-        isComplete: user.isComplete,
         isLoggedIn: true,
-        user
       };
 
     default:
@@ -76,27 +67,28 @@ export const isUserLoggedInSelector = createSelector(
   (state: UserState) => state.isLoggedIn,
 );
 
-export const isUserCompleteSelector = createSelector(
-  getUserState,
-  (state: UserState) => state.isComplete,
-);
-
 export const userDetailsSelector = createSelector(
   getUserState,
   (state: UserState) => state.user,
 );
 
+export const isUserCompleteSelector = createSelector(
+  userDetailsSelector,
+  (state: Volunteer | NGO) => state.isComplete,
+);
+
+
 export const userDisplayNameSelector = createSelector(
   userDetailsSelector,
-  (state: { displayName: string, logInEmail: string, photoURL: string }) => state.displayName,
+  (state: Volunteer | NGO) => state.name,
 );
 
 export const userEmailSelector = createSelector(
   userDetailsSelector,
-  (state: { displayName: string, logInEmail: string, photoURL: string }) => state.logInEmail,
+  (state: Volunteer | NGO) => state.username,
 );
 
 export const userPhotoUrlSelector = createSelector(
   userDetailsSelector,
-  (state: { displayName: string, logInEmail: string, photoURL: string }) => state.photoURL,
+  (state: Volunteer | NGO) => state.image,
 );

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { map, switchMap, catchError, first } from 'rxjs/operators';
 
-import { ActionTypes, LoadUserDetails } from './user.actions';
+import { ActionTypes, GET_USER_SUCCESS } from './user.actions';
 import { LoginService } from './user-auth/login.service';
 
 @Injectable()
@@ -12,8 +12,7 @@ export class UserEffects {
   @Effect()
   fetchUserData$ = this.actions$
     .pipe(
-      ofType(ActionTypes.FetchUserDetails),
-      /* TODO: Implement db.getUserData$. Using a mock instead */
+      ofType(ActionTypes.GET_USER_PENDING),
       switchMap(({ payload }) => {
         const { logInEmail, photoURL, displayName, isNgo } = payload;
         return this.auth.registerUser({
@@ -26,7 +25,7 @@ export class UserEffects {
         /* @TODO: Add catchError logic instead of returning EMPTY */
           .pipe(
             first(),
-            map(({ user, isNgo }) => new LoadUserDetails({ user, isNgo })),
+            map(({ user, isNgo }) => new GET_USER_SUCCESS({ user, isNgo })),
             catchError(() => EMPTY),
           );
       })

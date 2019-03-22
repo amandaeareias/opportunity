@@ -42,15 +42,9 @@ export class LoginService {
       .subscribe(async (res) => {
         switch(res.type) {
           case 'volunteer':
-            subject$.next({
-              isNgo: false,
-              user: res.data,
-            });
-            break;
-
           case 'ngo':
             subject$.next({
-              isNgo: true,
+              isNgo: res.type === 'ngo',
               user: res.data,
             })
             break;
@@ -70,16 +64,12 @@ export class LoginService {
                 image: photoURL,
               });
           subject$.next({
-            user: {
-              displayName: user.name,
-              photoURL: user.image,
-              logInEmail: user.username,
-              isComplete: user.isComplete,
-            },
-            isNgo
+            isNgo,
+            user,
           });
         }
     });
+    
     return subject$;
   }
 }
