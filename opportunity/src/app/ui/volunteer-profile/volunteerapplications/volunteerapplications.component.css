@@ -5,6 +5,12 @@
 .applicationCard {
   display: flex;
   margin: 10px 0;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.leftSide, .rightSide {
+  display:flex;
 }
 
 .ngoPic {
@@ -22,4 +28,10 @@
 
 .applicationText, .ngoName {
   font-size: 12px;
+}
+
+img {
+  height: 20px;
+  cursor: pointer;
+  margin: 10px;
 }
