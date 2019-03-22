@@ -13,6 +13,7 @@ export class OpportunitycardComponent implements OnInit {
   constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
+    console.log('xxx: ', this.opportunity)
   }
 
   openOpportunity() {

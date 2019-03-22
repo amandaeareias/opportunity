@@ -1,15 +1,14 @@
 <div class="card" (click)='editOpportunity()'>
-<!-- <div class="card" [style.backgroundColor]="opportunity.active ? 'green' : 'red'" (click)='editOpportunity()'> -->
-  <div class="numberApplications" *ngIf='applications && applications.length > 0' (click)='seeApplicants($event)'>{{applications.length}}</div>
-  <h3>{{opportunity.name}}</h3>
+  <!-- <div class="card" [style.backgroundColor]="opportunity.active ? 'green' : 'red'" (click)='editOpportunity()'> -->
+  <div class="numberApplications" *ngIf='applications && applications.length > 0' (click)='seeApplicants($event)'>
+    {{applications.length}}</div>
+  <h3>{{opportunity.name | summary:30}}</h3>
   <h5>{{opportunity.about | summary}}</h5>
-  <div class="locationAndDate">
-    <div class="location">
-      <img src="../../../../assets/icons/position-black.png" alt="">
-      <p>{{opportunity.location}}</p>
-    </div>
-    <p class="created">Created on: <span class="date">{{opportunity.timeCreated | date:'shortDate'}}</span></p>
+  <div class="location">
+    <img src="../../../../assets/icons/position-black.png" alt="">
+    <p>{{opportunity.location | summary:30}}</p>
   </div>
+  <p class="created">Created on: <span class="date">{{opportunity.timeCreated | date:'shortDate'}}</span></p>
   <p class="active" *ngIf='opportunity.active'>Active</p>
   <p class="closed" *ngIf='!opportunity.active'>Closed</p>
 </div>

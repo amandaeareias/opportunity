@@ -1,12 +1,38 @@
 .opportunityCard {
+  border-radius: 3px;
   height: 270px;
   width: 220px;
-  background-color: rgb(237, 237, 237);
-  border-radius: 5px;
   margin: 0 10px 20px 10px;
-  box-shadow: 6px 12px 16px -12px rgba(0,0,0,0.35), -6px -6px 16px -12px rgba(0,0,0,0.35);
+  box-shadow: 6px 12px 16px -12px rgba(0,0,0,0.5), -6px -6px 16px -12px rgba(0,0,0,0.5);
   text-align: center;
   cursor: pointer;
+  padding: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  z-index: -2;
+}
+
+.opacityLayer {
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.oppInfo {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  z-index: 4;
 }
 
 .opportunityCard .ngo {
@@ -15,4 +41,71 @@
 
 .opportunityCard .ngo:hover {
   text-decoration: underline;
+}
+
+.numberApplications {
+  height: 25px;
+  width: 25px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  padding-top: 3px;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.notification {
+  background-color: rgb(255, 0, 0);
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  position: relative;
+  float: right;
+  top: -10px;
+  left: 10px;
+  color: white;
+  text-align: center;
+  padding-top: 2px;
+}
+
+h3 {
+  font-weight: bold;
+}
+
+h5 {
+  font-weight: 300;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+img {
+  height: 15px;
+  margin-right: 5px;
+}
+
+.created {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.date {
+  font-weight: 300;
+}
+
+.active {
+  font-size: 11px;
+  color: green;
+}
+
+.closed {
+  font-size: 11px;
+  color: red;
 }
