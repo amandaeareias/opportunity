@@ -1,0 +1,15 @@
+<div *ngIf='applications.length > 0' class="applicationsContainer">
+
+  <div *ngFor='let application of applications' class="applicationCard">
+    <div class="volunteerPic"></div>
+    <div class="volunteerInfo">
+      <p class="volunteerName">{{application.volunteerId}}</p>
+      <p class="volunteerText">{{application.text}}</p>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf='applications.length == 0' class="noApplications">
+  No applications yet :(
+</div>

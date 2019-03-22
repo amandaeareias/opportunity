@@ -15,9 +15,17 @@
 
 .profile {
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
-  width: 65vw;
-  margin-top: 80px;
+  align-items: center;
+  width: 70vw;
+  margin-top: 100px;
+}
+
+.upperContainer {
+  display: flex;
+  width: 50vw;
+  justify-content: space-between;
 }
 
 .profilePicture {
@@ -31,20 +39,22 @@
 }
 
 .volunteerInfo {
-  margin-top: 80px;
-  width: 70%;
-}
-
-.name {
-  margin-bottom: 20px;
-  font-family: 'Roboto Condensed', sans-serif;
-}
-
-.info {
-  padding: 3px;
+  text-align: center;
+  width: 40%;
+  padding-top: 150px;
 }
 
 .description {
+  margin-top: 20px;
+ }
+
+.applicationsContainer {
+  display: flex;
+}
+
+.applicationsList {
   margin-top: 40px;
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
