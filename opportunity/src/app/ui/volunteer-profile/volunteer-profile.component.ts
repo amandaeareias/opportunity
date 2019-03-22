@@ -52,7 +52,7 @@ export class VolunteerProfileComponent implements OnInit {
 
   compare() {
     console.log(this.profileVolunteer)
-    if (this.currentUser.id === this.profileId) {
+    if (this.currentUser && this.currentUser.id === this.profileId) {
       console.log('same user')
     } else {
       console.log('other user')
