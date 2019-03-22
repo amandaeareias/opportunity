@@ -5,7 +5,8 @@ import { NGO } from '../models/ngo.model';
 import { Volunteer } from '../models/volunteer.model';
 import { Opportunity } from '../models/opportunity.model';
 import { Application } from '../models/application.model';
-import {map, first} from 'rxjs/operators'
+import {map, first } from 'rxjs/operators'
+import {Observable} from 'rxjs';
 import { applySourceSpanToStatementIfNeeded } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
@@ -124,109 +125,61 @@ export class FirebaseCrudService {
       .snapshotChanges().pipe(
         map(emit => emit.map(application => this.db.collection('applications').doc(application.payload.doc.id).delete())), 
         first())
+          //and when done, delete the volunteer himself
           .subscribe(() => this.db.collection('volunteers').doc(id).delete())
   }
 
   deleteNGO = (id: string) => this.db.collection('ngos').doc(id).delete()
-  deleteOpportunity = (id: string) => this.db.collection('opportunities').doc(id).delete()
-  deleteApplication = (id: string) => this.db.collection('applications').doc(id).delete()
-
-  // //CRUD secondary objects (opportunity, application)
-  // async createOpportunity(newObject: Opportunity) {
-  //   //first creating new doc in the opportunities collection
-  //   const docRef = await this.db.collection('opportunities').add(newObject);
-
-  //   //get the created object back
-  //   const opportunity = await docRef.get();
-
-  //   //update the ngo data with the new opportunity, using the same id
-  //   await this.db.collection('ngos')
-  //     .doc(newObject.ngo.id)
-  //     .collection('opportunity')
-  //     .doc(docRef.id)
-  //     .set(newObject)
-
-  //   return opportunity.data();
-  // }
-
-  // async createApplication(newObject: Application) {
-  //   //first creating new doc in the applications collection
-  //   const docRef = await this.db.collection('applications').add(newObject);
-
-  //   //get the created object back
-  //   const application = await docRef.get();
-
-  //   //update the opportunity data with the new application, using the same id
-  //   await this.db.collection('opportunities')
-  //     .doc(newObject.opportunityId)
-  //     .collection('application')
-  //     .doc(docRef.id)
-  //     .set(newObject)
-
-  //   //update the volunteer data with the new application, using the same id
-  //   await this.db.collection('volunteers')
-  //     .doc(newObject.volunteerId)
-  //     .collection('application')
-  //     .doc(docRef.id)
-  //     .set(newObject)
-
-  //   return application.data();
-  // }
-
-    // //CRUD secondary objects (opportunity, application)
-    // async createOpportunity(newObject: Opportunity) {
-    //   //first creating new doc in the opportunities collection
-    //   const docRef = await this.db.collection('opportunities').add(newObject);
-    //   // when done creating, start updating the ngos collection
-    //   //by first getting all the opportunities of the relevant ngo
-    //   this.db.collection('ngos').doc(newObject.ngo.id).get()
-    //     .subscribe(data => {
-    //       const ngosOpportunities = data.get('opportunity');
-    //       //as we want to find/identify the opportunities quickly, we save them as keys
-    //       const newOpportunity = {};
-    //       newOpportunity[docRef.id] = newObject;
-    //       //and then updating the ngos collection
-    //       this.db.collection('ngos').doc(newObject.ngo.id).update({opportunity: {...ngosOpportunities, ...newOpportunity}});
-    //       //probably do not need the full opportunity object
-    //     })
-    //   const opportunity = await docRef.get();
-    //   console.log(opportunity.data());
-    //   return opportunity.data();
-    // }
-
-  // createApplication(newObject: Application) {
-  //   //I. update opportunities collection
-  //   //first, find the relevant opportunity in opportunities collection
-  //   this.db.collection('opportunities').doc(newObject.opportunityId).get()
-  //   //what only works by subscribing
-  //     .subscribe(data => {
-  //       //then, get all the existing applications of the opportunity,
-  //       const oppApplications = data.get('application');
-  //       //create new application object to be stored in the opportunity
-  //       const newApplication = {};
-  //       // Where do I get newObject ID???
-  //       // newApplication[newObject.id] = {
-  //       //   volunteerId: newObject.volunteerId,
-  //       //   timeCreated: newObject.timeCreated,
-  //       //   active: newObject.active
-  //       // };
-  //       //and update the opportunities collection document
-  //       this.db.collection('opportunities').doc(newObject.opportunityId).update({application: {...oppApplications, ...newApplication}});
 
 
-  //       //II. update volenteers collection
-  //       //now start update the volunteer data (same logic)
-  //       // this.db.collection('volunteers').doc(newObject.volunteerId).get()
-  //       //   .subscribe(data => {
-  //       //     const volApplications = data.get('application');
-  //       //     const newApplication = {};
-  //       //     newApplication[newObject.id] = {
-  //       //       opportunityId: newObject.opportunityId,
-  //       //       timeCreated: newObject.timeCreated,
-  //       //       active: newObject.active
-  //       //     };
-  //       //     this.db.collection('volunteers').doc(newObject.volunteerId).update({application: {...volApplications, ...newApplication}});
-  //       //   })
-  //     })
-  // }
+
+  deleteOpportunity = (oppId: string, ngoId: string) => {
+    //This version of delete is asyncronous
+
+    //1. get ngo data, in particular count of opportunities
+    this.getOne('ngos', ngoId).subscribe(
+      (fullNGOData: NGO) => {
+        const opportunitiesCountNGO = fullNGOData.opportunitiesCount || 0;
+        //update the count of opportunities on ngo
+        return this.updateNGO(ngoId, {opportunitiesCount: opportunitiesCountNGO-1});}
+    );
+    //2. get all applications of this opportunity
+    this.getAllApplicationsOfOpportunity(oppId).subscribe(
+      (applicationsArray) => {
+        //and then delete them
+        applicationsArray.map((application) => {
+          const { id, volunteerId } = application;
+          this.deleteApplication(id, volunteerId, oppId)
+        })
+      }
+    );
+    //3. delete the object from opportunities collection
+    return this.db.collection('opportunities').doc(oppId).delete()
+    }
+    
+  
+  
+  deleteApplication =  async (appId: string, volId: string, oppId: string) => {
+    //This version of delete is syncronous (just for the fun of it)
+
+    //get volunteer data, in particular count of applications
+    this.getOne('volunteers', volId).pipe(first()).subscribe(
+      async (fullVolData: Volunteer) => {
+        console.log(fullVolData)
+        const applicationsCountVol = fullVolData.applicationsCount || 0;
+        //update the count of applications on volunteer
+        await this.updateVolunteer(volId, {applicationsCount: applicationsCountVol-1});
+        //get opportunities data
+        this.getOne('opportunities', oppId).subscribe(
+          async (fullOppData: Opportunity) => {
+            const applicationsCountOpp = fullOppData.applicationsCount || 0;
+            //update the count of applications on opportunity
+            await this.updateOpportunity(oppId, {applicationsCount: applicationsCountOpp-1});
+            //delete the object from applications-collection
+            return this.db.collection('applications').doc(appId).delete()
+          }
+        )
+      }
+    )
+  }
 }
