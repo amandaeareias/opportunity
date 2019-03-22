@@ -9,30 +9,3 @@
   justify-content: space-between;
   margin-bottom: 30px;
 }
-
-.leftSide, .rightSide {
-  display:flex;
-}
-
-.ngoPic {
-  height: 50px;
-  width: 50px;
-  background-color: red;
-  border-radius: 3px;
-  margin-right: 10px;
-}
-
-.opportunityName {
-  font-size: 18px;
-  margin-bottom: 7px;
-}
-
-.applicationText, .ngoName {
-  font-size: 12px;
-}
-
-img {
-  height: 20px;
-  cursor: pointer;
-  margin: 10px;
-}
