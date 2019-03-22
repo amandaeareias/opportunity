@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {
-  MatDialogRef,
-  MatSnackBar
-} from '@angular/material';
+import { MatDialogRef, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-ngo-signup',
@@ -16,7 +13,7 @@ export class NgoSignupComponent {
     private snackBar: MatSnackBar,
   ) {}
 
-  private ngoProfile = new FormGroup({
+  private formData = new FormGroup({
     orgNameForm: new FormControl('', [
       Validators.required,
       Validators.minLength(2),
@@ -36,8 +33,8 @@ export class NgoSignupComponent {
   }
 
   submitNGO() {
-    const { orgNameForm, descriptionForm, websiteForm, addressForm, emailForm, phoneForm } = this.ngoProfile.value;
-    const formData = {
+    const { orgNameForm, descriptionForm, websiteForm, addressForm, emailForm, phoneForm } = this.formData.value;
+    const data = {
       name: orgNameForm,
       about: descriptionForm,
       website: websiteForm,
@@ -46,13 +43,11 @@ export class NgoSignupComponent {
       phone: phoneForm,
     };
  
-    if (this.ngoProfile.valid) {
-      this.dialogRef.close(formData);
+    if (this.formData.valid) {
+      this.dialogRef.close(data);
       this.snackBar.open('You just joined our opprtunities network!', 'close', {
-        duration: 4000,
+        duration: 3000,
       });
     }
   }
 }
-
-const str = 'Hi, my name is Igor and I want you to help me to help you!';
