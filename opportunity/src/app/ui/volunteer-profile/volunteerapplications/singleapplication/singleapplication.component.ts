@@ -28,6 +28,7 @@ export class SingleapplicationComponent implements OnInit {
         text: new FormControl(this.application.text, [Validators.required, Validators.minLength(20)]),
       });
     }
+    console.log(this.application)
   }
 
   editApplication(event) {
