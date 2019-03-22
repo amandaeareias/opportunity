@@ -49,7 +49,13 @@ export class OpportunityComponent implements OnInit {
       .subscribe(user => {
         this.currentUser = user
       })
-    //check if user has already applied to this opp and change 'this.applied'
+    this.fbService.getAllApplicationsOfVolunteer(this.currentUser.id).subscribe(res => {
+      for(let app of res) {
+        if(app.opportunityId === this.opportunity.id) { // type complaining but it's not wrong??
+          this.applied = true
+        }
+      }
+    })
   }
 
   applyClicked() {
