@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import { SnackbarComponent } from '../../../snackbar/snackbar.component'
+import { FirebaseCrudService } from '../../../../data/services/firebase.service'
 
 @Component({
   selector: 'app-edit-opportunity',
@@ -22,6 +23,7 @@ export class EditOpportunityComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public opportunity,
     private dialog: MatDialogRef<EditOpportunityComponent>,
     private snackBar: MatSnackBar,
+    private fbService: FirebaseCrudService,
   ) { }
 
   ngOnInit() {
@@ -42,9 +44,10 @@ export class EditOpportunityComponent implements OnInit {
   }
 
   deleteOpportunity() {
+    console.log(this.opportunity)
     let confirmation = confirm("Are you sure you want to delete this opportunity?");
     if(confirmation) {
-      console.log('delete here')
+      this.fbService.deleteOpportunity(this.opportunity.id, this.opportunity.ngo.id)
       this.dialog.close()
     }
   }

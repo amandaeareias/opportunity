@@ -1,11 +1,14 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
 import { MatSnackBar } from '@angular/material';
 import { SnackbarComponent } from '../../snackbar/snackbar.component'
+
+import { MappingService } from '../../../data/services/mapping.service'
+import { FirebaseCrudService } from '../../../data/services/firebase.service'
 
 @Component({
   selector: 'app-create-opportunity',
@@ -28,8 +31,11 @@ export class CreateOpportunityComponent implements OnInit {
   });
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public currentUser,
     private dialog: MatDialogRef<CreateOpportunityComponent>,
     private snackBar: MatSnackBar,
+    private mappingService: MappingService,
+    private fbService: FirebaseCrudService,
   ) { }
 
   ngOnInit() {
@@ -46,7 +52,9 @@ export class CreateOpportunityComponent implements OnInit {
       this.snackBar.openFromComponent(SnackbarComponent, {
         duration: 3000,
       });
-      this.dialog.close(newOpportunity);
+      const data = this.mappingService.mapOpportunityInputToProps(this.currentUser, newOpportunity)
+      this.fbService.createOpportunity(data)
+      this.dialog.close();
     }
   }
 
