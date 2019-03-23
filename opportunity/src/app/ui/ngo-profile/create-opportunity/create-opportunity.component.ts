@@ -27,7 +27,7 @@ export class CreateOpportunityComponent implements OnInit {
   createOpportunityForm = new FormGroup({
     name: new FormControl('', Validators.required),
     about: new FormControl('', Validators.required),
-    location: new FormControl('', Validators.required)
+    location: new FormControl(this.currentUser.contact.address, Validators.required)
   });
 
   constructor(
