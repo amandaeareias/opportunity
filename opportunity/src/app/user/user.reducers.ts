@@ -83,6 +83,11 @@ export const isUserLoggedInSelector = createSelector(
   (state: UserState) => state.isLoggedIn,
 );
 
+export const userLocationSelector = createSelector(
+  getUserState,
+  (state: UserState) => state.location,
+)
+
 export const userDetailsSelector = createSelector(
   getUserState,
   (state: UserState) => state.user,
