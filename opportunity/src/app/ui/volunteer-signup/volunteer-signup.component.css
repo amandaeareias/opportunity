@@ -28,3 +28,12 @@ label {
   font-size: 14px;
   align-self: flex-end;
 }
+
+.birth {
+  width: 100%;
+}
+
+.birthInput {
+  height: 40px;
+  width: 40%;
+}
