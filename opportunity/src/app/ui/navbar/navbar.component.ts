@@ -67,6 +67,6 @@ export class NavbarComponent implements OnInit {
   }
 
   openSignUpForm(component) {
-    return this.dialog.open(component);
+    return this.dialog.open(component, { disableClose: true });
   }
 }
