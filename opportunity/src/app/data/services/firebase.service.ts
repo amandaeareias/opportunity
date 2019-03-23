@@ -40,7 +40,7 @@ export class FirebaseCrudService {
     return this.db.collection('applications', ref => ref.where('volunteerId', '==', id)).snapshotChanges().pipe(
       map(actions => actions.map(action => {
         const data = action.payload.doc.data()
-        const id = action.payload.git doc.id;
+        const id = action.payload.doc.id;
         return {id, ...data};
       })),
     );
@@ -114,9 +114,64 @@ export class FirebaseCrudService {
     );
   }
 
-  updateVolunteer = (id: string, data: any) => this.db.collection('volunteers').doc(id).update(data)
-  updateNGO = (id: string, data: any) => this.db.collection('ngos').doc(id).update(data)
-  updateOpportunity = (id: string, data: any) => this.db.collection('opportunities').doc(id).update(data)
+  updateVolunteer = (volId: string, data: any) => {
+    //1. check for updates relevant for the applications of this volunteer
+    const {name, image} = data;
+    const update = {name, image};
+    const volData = {volunteerData: {...update}}
+
+    //2. get all applications of this volunteer
+    this.getAllApplicationsOfVolunteer(volId).pipe(first()).subscribe(
+      (applicationsArray) => {
+        //and then update them
+        applicationsArray.map((application: any) => this.updateApplication(application.id, volData))
+      }
+    );
+    //3. update the object in the volunteer collection
+    return this.db.collection('volunteers').doc(volId).update(data)
+  }
+
+  updateNGO = (ngoId: string, data: any) => {
+    //1. check for updates relevant for the opportunities of this ngo
+    const {id, name, image} = data;
+    const update = {id, name, image};
+    const ngoData = {ngo: {...update}}
+
+    //2. get all opportunities of this ngo
+    this.getAllOpportunitiesOfNGO(ngoId).pipe(first()).subscribe(
+      (opportunitiesArray) => {
+        //and then update them
+        opportunitiesArray.map((opportunity: any) => this.updateOpportunity(opportunity.id, ngoData))
+      }
+    );
+    //3. update the object in the ngo collection
+    return this.db.collection('ngos').doc(id).update(data);
+  }
+
+  updateOpportunity = (oppId: string, data: any) => {
+    //1. check for updates relevant for the applications of this opportunity
+    const {ngo, name, about, location, prerequisites, active} = data;
+    const oppData: any = {opportunityData: {name, about, location, prerequisites, active}};
+    if (ngo.name) {
+      const ngoName = ngo.name;
+      oppData.opportunityData = {...oppData.opportunityData, ngoName}
+    };
+    if (ngo.image) {
+      const ngoImage = ngo.image;
+      oppData.opportunityData = {...oppData.opportunityData, ngoImage}
+    };
+
+    //2. get all applications of this opportunity
+    this.getAllApplicationsOfOpportunity(oppId).pipe(first()).subscribe(
+      (applicationsArray) => {
+        //and then update them
+        applicationsArray.map((application: any) => this.updateApplication(application.id, oppData))
+      }
+    );
+    //3. update the object in the opportunities collection
+    return this.db.collection('opportunities').doc(oppId).update(data)
+  }
+
   updateApplication = (id: string, data: any) => this.db.collection('applications').doc(id).update(data)
 
   deleteVolunteer = (volId: string) => {
@@ -124,14 +179,17 @@ export class FirebaseCrudService {
     this.getAllApplicationsOfVolunteer(volId).pipe(first()).subscribe(
       (applicationsArray) => {
         //and then delete them
-        applicationsArray.map((application) => {
+        const promisesArray = [];
+        applicationsArray.map((application: any) => {
           const { id, opportunityId } = application;
-          this.deleteApplication(id, volId, opportunityId)
+          promisesArray.push(this.deleteApplication(id, volId, opportunityId))
         })
+        Promise.all(promisesArray).then(() =>
+          //2. delete the object from volunteer collection
+          this.db.collection('volunteers').doc(volId).delete()
+        )
       }
     );
-    //2. delete the object from volunteer collection
-    return this.db.collection('volunteers').doc(volId).delete()
   }
 
   deleteNGO = (ngoId: string) => {
@@ -139,14 +197,17 @@ export class FirebaseCrudService {
     this.getAllOpportunitiesOfNGO(ngoId).pipe(first()).subscribe(
       (opportunitiesArray) => {
         //and then delete them
+        const promisesArray = [];
         opportunitiesArray.map((opportunity) => {
           const { id } = opportunity;
-          this.deleteOpportunity(id, ngoId)
+          promisesArray.push(this.deleteOpportunity(id, ngoId))
         })
+        Promise.all(promisesArray).then(() =>
+          //2. delete the object from ngo collection
+          this.db.collection('ngos').doc(ngoId).delete()
+        )
       }
     );
-    //2. delete the object from ngo collection
-    return this.db.collection('ngos').doc(ngoId).delete()
   }
 
   deleteOpportunity = (oppId: string, ngoId: string) => {
@@ -163,14 +224,17 @@ export class FirebaseCrudService {
     this.getAllApplicationsOfOpportunity(oppId).pipe(first()).subscribe(
       (applicationsArray) => {
         //and then delete them
-        applicationsArray.map((application) => {
+        const promisesArray = [];
+        applicationsArray.map((application: any) => {
           const { id, volunteerId } = application;
-          this.deleteApplication(id, volunteerId, oppId)
+          promisesArray.push(this.deleteApplication(id, volunteerId, oppId))
         })
+        Promise.all(promisesArray).then(() =>
+          //3. delete the object from opportunities collection
+          this.db.collection('opportunities').doc(oppId).delete()
+        )
       }
     );
-    //3. delete the object from opportunities collection
-    return this.db.collection('opportunities').doc(oppId).delete()
   }
   
   deleteApplication =  async (appId: string, volId: string, oppId: string) => {
