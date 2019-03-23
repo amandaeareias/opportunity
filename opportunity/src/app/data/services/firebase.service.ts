@@ -40,7 +40,7 @@ export class FirebaseCrudService {
     return this.db.collection('applications', ref => ref.where('volunteerId', '==', id)).snapshotChanges().pipe(
       map(actions => actions.map(action => {
         const data = action.payload.doc.data()
-        const id = action.payload.doc.id;
+        const id = action.payload.git doc.id;
         return {id, ...data};
       })),
     );
