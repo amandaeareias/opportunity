@@ -82,7 +82,7 @@ export class FirebaseCrudService {
       }
     )
   }
-  
+
   createApplication = (application: Application) => {
     const { volunteerId, opportunityId } = application;
     this.getOne('volunteers', volunteerId).pipe(first()).subscribe(
@@ -236,7 +236,7 @@ export class FirebaseCrudService {
       }
     );
   }
-  
+
   deleteApplication =  async (appId: string, volId: string, oppId: string) => {
     //This version of delete is syncronous (just for the fun of it)
 
