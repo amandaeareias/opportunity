@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { GoogleSearchService } from "./google-search.service";
 import { FormControl } from "@angular/forms";
@@ -14,7 +14,7 @@ import { userLocationSelector } from 'src/app/user/user.reducers';
 export class GoogleMapsComponent implements OnInit {
 
   placeDetail: google.maps.places.PlaceResult;
-  location = { lat: 41.386399, lng: 2.144758 };
+  location = { lat: 0, lng: 0 };
   predictions: Promise<google.maps.places.QueryAutocompletePrediction[]>;
   searchForm = new FormControl("");
   disableStyles = [
@@ -35,15 +35,14 @@ export class GoogleMapsComponent implements OnInit {
         filter(inputValue => inputValue.length > 3),
         debounceTime(300),
         distinctUntilChanged()
-      )
-      .subscribe(value => this.loadGooglePlaces(value));
+      ).subscribe(value => this.loadGooglePlaces(value));
 
     this.store.select(userLocationSelector)
       .subscribe(location => {
         if (location) {
           this.location = {
-            lat: location.latitude,
-            lng: location.longitude,
+            lat: +location.latitude,
+            lng: +location.longitude,
           }
         }
       })
