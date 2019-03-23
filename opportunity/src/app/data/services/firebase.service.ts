@@ -77,7 +77,7 @@ export class FirebaseCrudService {
     this.getOneNGO(opportunity.ngo.id).pipe(first()).subscribe(
       async (fullNgoData: NGO) => {
         const opportunitiesCountNgo = fullNgoData.opportunitiesCount || 0;
-        await this.db.collection('ngos').doc(opportunity.ngo.id).update({applicationsCount: opportunitiesCountNgo+1})
+        await this.db.collection('ngos').doc(opportunity.ngo.id).update({opportunitiesCount: opportunitiesCountNgo+1})
         return this.db.collection('opportunities').add({ ...new Opportunity(), ...opportunity });
       }
     )
@@ -85,7 +85,7 @@ export class FirebaseCrudService {
 
   createApplication = (application: Application) => {
     const { volunteerId, opportunityId } = application;
-    this.getOne('volunteers', volunteerId).subscribe(
+    this.getOne('volunteers', volunteerId).pipe(first()).subscribe(
       (fullVolunteerData: Volunteer) => {
         this.getOne('opportunities', opportunityId).pipe(first()).subscribe(
           async (fullOpportunityData: Opportunity) => {
@@ -220,7 +220,8 @@ export class FirebaseCrudService {
       (fullNGOData: NGO) => {
         const opportunitiesCountNGO = fullNGOData.opportunitiesCount || 0;
         //update the count of opportunities on ngo
-        return this.updateNGO(ngoId, {opportunitiesCount: opportunitiesCountNGO-1});}
+        return this.db.collection('ngos').doc(oppId).update({opportunitiesCount: opportunitiesCountNGO-1})
+      }
     );
     //2. get all applications of this opportunity
     this.getAllApplicationsOfOpportunity(oppId).pipe(first()).subscribe(
