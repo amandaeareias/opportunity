@@ -5,7 +5,7 @@ import { FirebaseCrudService } from '../../../../data/services/firebase.service'
 import {MatSnackBar} from '@angular/material';
 import { SnackbarComponent } from '../../../snackbar/snackbar.component'
 import { Store } from '@ngrx/store';
-import { UPDATE_USER_PENDING } from 'src/app/user/user.actions';
+import { UPDATE_USER_PENDING, USER_LOGOUT_PENDING } from 'src/app/user/user.actions';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class SettingsNgoComponent {
     @Inject(MAT_DIALOG_DATA)
     public currentUser,
     private store: Store<any>,
-    private fbService: FirebaseCrudService,
+    private db: FirebaseCrudService,
     private dialog: MatDialogRef<SettingsNgoComponent>,
     private snackBar: MatSnackBar,
   ) {}
@@ -57,10 +57,11 @@ export class SettingsNgoComponent {
   }
 
   deleteProfile() {
-    let confirmation = confirm("Are you sure you want to delete this account?");
+    let confirmation = confirm('Are you sure you want to delete your account?');
     if (confirmation) {
-      // Implement log-out!!
-      this.fbService.deleteNGO(this.currentUser.user.id)
+      this.dialog.close();
+      this.store.dispatch(new USER_LOGOUT_PENDING());
+      this.db.deleteNGO(this.currentUser.user.id);
     }
   }
 
