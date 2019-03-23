@@ -5,6 +5,7 @@
 }
 
 .opportunity {
+  min-width: 60vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -40,17 +41,15 @@ h3:hover {
   margin-left: 40px;
 }
 
-.rightContainer {
-  width: 150px;
-}
-
 h4 {
   font-size: 36px;
   font-weight: 400;
 }
 
 .rightContainer p {
-  font-weight: 100;
+  font-weight: bold;
+  font-size: 22px;
+  color: #E99D3A;
 }
 
 .btn {
@@ -96,4 +95,19 @@ h4 {
 .alert {
   color: red;
   font-size: 12px;
+}
+
+.prerequisitesList {
+  margin-top: 20px;
+  list-style: none;
+}
+
+.prerequisitesTitle {
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.prerequisite {
+  margin-bottom: 4px;
 }

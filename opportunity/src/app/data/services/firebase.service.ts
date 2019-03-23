@@ -82,7 +82,7 @@ export class FirebaseCrudService {
       }
     )
   }
-  
+
   createApplication = (application: Application) => {
     const { volunteerId, opportunityId } = application;
     this.getOne('volunteers', volunteerId).pipe(first()).subscribe(
@@ -124,7 +124,7 @@ export class FirebaseCrudService {
     this.getAllApplicationsOfVolunteer(volId).pipe(first()).subscribe(
       (applicationsArray) => {
         //and then delete them
-        applicationsArray.map((application) => {
+        applicationsArray.map((application: any) => {
           const { id, opportunityId } = application;
           this.deleteApplication(id, volId, opportunityId)
         })
@@ -163,7 +163,7 @@ export class FirebaseCrudService {
     this.getAllApplicationsOfOpportunity(oppId).pipe(first()).subscribe(
       (applicationsArray) => {
         //and then delete them
-        applicationsArray.map((application) => {
+        applicationsArray.map((application: any) => {
           const { id, volunteerId } = application;
           this.deleteApplication(id, volunteerId, oppId)
         })
@@ -172,7 +172,7 @@ export class FirebaseCrudService {
     //3. delete the object from opportunities collection
     return this.db.collection('opportunities').doc(oppId).delete()
   }
-  
+
   deleteApplication =  async (appId: string, volId: string, oppId: string) => {
     //This version of delete is syncronous (just for the fun of it)
 
