@@ -77,7 +77,7 @@ export class FirebaseCrudService {
     this.getOneNGO(opportunity.ngo.id).pipe(first()).subscribe(
       async (fullNgoData: NGO) => {
         const opportunitiesCountNgo = fullNgoData.opportunitiesCount || 0;
-        await this.updateNGO(opportunity.ngo.id, {applicationsCount: opportunitiesCountNgo+1});
+        await this.db.collection('ngos').doc(opportunity.ngo.id).update({applicationsCount: opportunitiesCountNgo+1})
         return this.db.collection('opportunities').add({ ...new Opportunity(), ...opportunity });
       }
     )
@@ -85,7 +85,7 @@ export class FirebaseCrudService {
 
   createApplication = (application: Application) => {
     const { volunteerId, opportunityId } = application;
-    this.getOne('volunteers', volunteerId).pipe(first()).subscribe(
+    this.getOne('volunteers', volunteerId).subscribe(
       (fullVolunteerData: Volunteer) => {
         this.getOne('opportunities', opportunityId).pipe(first()).subscribe(
           async (fullOpportunityData: Opportunity) => {
@@ -103,10 +103,12 @@ export class FirebaseCrudService {
                 active: fullOpportunityData.active,
               }
             };
+            
             const applicationsCountVol = fullVolunteerData.applicationsCount || 0;
             const applicationsCountOpp = fullOpportunityData.applicationsCount || 0;
-            await this.updateVolunteer(volunteerId, {applicationsCount: applicationsCountVol+1});
-            await this.updateOpportunity(opportunityId, {applicationsCount: applicationsCountOpp+1});
+
+            await this.db.collection('volunteers').doc(volunteerId).update({applicationsCount: applicationsCountVol+1})
+            await this.db.collection('opportunities').doc(opportunityId).update({applicationsCount: applicationsCountOpp+1})
             return this.db.collection('applications').add({ ...new Application(), ...application, ...addedData });
           }
         )
@@ -152,11 +154,11 @@ export class FirebaseCrudService {
     //1. check for updates relevant for the applications of this opportunity
     const {ngo, name, about, location, prerequisites, active} = data;
     const oppData: any = {opportunityData: {name, about, location, prerequisites, active}};
-    if (ngo.name) {
+    if (ngo) {
       const ngoName = ngo.name;
       oppData.opportunityData = {...oppData.opportunityData, ngoName}
     };
-    if (ngo.image) {
+    if (ngo) {
       const ngoImage = ngo.image;
       oppData.opportunityData = {...oppData.opportunityData, ngoImage}
     };
