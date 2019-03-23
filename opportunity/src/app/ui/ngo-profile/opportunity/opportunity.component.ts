@@ -59,7 +59,8 @@ export class OpportunityComponent implements OnInit {
       })
     if (this.currentUser) {
       this.fbService.getAllApplicationsOfVolunteer(this.currentUser.id).subscribe(res => {
-        for (let app of res) {
+        for (let appx of res) {
+          const app: any = appx;
           if (app.opportunityId === this.opportunity.id) { // type complaining but it's not wrong??
             this.applied = true
           }

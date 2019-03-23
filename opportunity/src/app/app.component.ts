@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { getUserState, UserState } from './user/user.reducers';
 import { navbarUIStateSelector } from './ui/ui.reducers';
 import { GOOGLE_LOGIN_SUCCESS, GET_USER_PENDING } from './user/user.actions';
+import { throwMatDuplicatedDrawerError } from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -43,6 +44,7 @@ export class AppComponent implements OnInit {
     });
 
     //TO BE DELETED
+
 
     //this.db.getAllApplicationsOfOpportunity('2tX7RWp7MaVcPox5bAhU').subscribe((res) => console.log(res))
     //this.db.deleteApplication('5f6agl130RnZjoJ9jcSl', 'PDgzHTyTvCQLvu4yL9hN', '2mVEFD2D2jYjhoMYHI79');
