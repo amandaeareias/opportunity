@@ -50,9 +50,12 @@ export class OpportunityComponent implements OnInit {
         this.currentUser = user
       })
     this.fbService.getAllApplicationsOfVolunteer(this.currentUser.id).subscribe(res => {
-      for(let app of res) {
-        if(app.opportunityId === this.opportunity.id) { // type complaining but it's not wrong??
-          this.applied = true
+      if (res.length > 0) {
+        for (let appx of res) {
+          const app: any = appx
+          if (app.opportunityId === this.opportunity.id) { // type complaining but it's not wrong??
+            this.applied = true
+          }
         }
       }
     })
@@ -72,8 +75,8 @@ export class OpportunityComponent implements OnInit {
   }
 
   formSubmit() {
-    if(this.applyForm.valid){
-      const data = this.mappingService.mapApplicationInputToProps({volunteerId: this.currentUser.id, opportunityId: this.opportunity.id, text: this.applyForm.value.apply})
+    if (this.applyForm.valid) {
+      const data = this.mappingService.mapApplicationInputToProps({ volunteerId: this.currentUser.id, opportunityId: this.opportunity.id, text: this.applyForm.value.apply })
       this.fbService.createApplication(data)
       this.snackBar.openFromComponent(SnackbarComponent, {
         duration: 3000,
