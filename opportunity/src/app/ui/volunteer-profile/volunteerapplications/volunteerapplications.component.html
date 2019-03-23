@@ -6,6 +6,7 @@
 
 <div *ngIf='applications.length == 0' class="noApplications">
   No applications yet :(
+  <p (click)='closeDialog()' routerLink='/all-opportunities'>See all opportunities</p>
 </div>
 
 
