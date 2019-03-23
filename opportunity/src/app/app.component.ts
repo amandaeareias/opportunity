@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
     this.store.select(getUserState)
       .subscribe(user => {
         this.me = user;
-        if (user.user && !user.location) {
+        if (!user.location) {
           this.store.dispatch(new GET_USER_LOCATION_PENDING());
         }
       });
