@@ -12,6 +12,10 @@ export class OpportunitycardComponent {
   @Input() opportunity;
   constructor(private dialog: MatDialog) { }
 
+  ngOnInit() {
+    
+  }
+  
   openOpportunity() {
     this.dialog.open(OpportunityComponent, {data: this.opportunity});
   }
