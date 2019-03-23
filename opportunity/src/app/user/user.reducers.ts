@@ -9,6 +9,7 @@ export interface UserState {
   isLoggedIn: boolean;
   isAuthed: boolean;
   user: Volunteer | NGO;
+  location: any;
 }
 
 export const initialState: UserState = {
@@ -16,6 +17,7 @@ export const initialState: UserState = {
   isNgo: false,
   isLoggedIn: false,
   isAuthed: false,
+  location: null,
 };
 
 export function userReducer(state = initialState, action: UserActions) {
@@ -49,6 +51,12 @@ export function userReducer(state = initialState, action: UserActions) {
         ...state,
         user: userData,
       };
+    
+    case ActionTypes.GET_USER_LOCATION_SUCCESS:
+      return {
+        ...state,
+        location: action.payload,
+      }
 
     default:
       return state;

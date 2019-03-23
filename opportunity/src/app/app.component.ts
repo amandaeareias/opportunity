@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { getUserState, UserState } from './user/user.reducers';
 import { navbarUIStateSelector } from './ui/ui.reducers';
-import { GOOGLE_LOGIN_SUCCESS, GET_USER_PENDING } from './user/user.actions';
+import { GOOGLE_LOGIN_SUCCESS, GET_USER_PENDING, GET_USER_LOCATION_PENDING } from './user/user.actions';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +23,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.store.select(getUserState)
-      .subscribe(user => this.me = user);
+      .subscribe(user => {
+        this.me = user;
+        if (user.user && !user.location) {
+          this.store.dispatch(new GET_USER_LOCATION_PENDING());
+        }
+      });
 
     this.store.select(navbarUIStateSelector)
       .subscribe(navbarUIState => this.navbarUIState = navbarUIState);
