@@ -17,4 +17,8 @@ export class VolunteerapplicationsComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  closeDialog() {
+    this.dialog.close()
+  }
 }
