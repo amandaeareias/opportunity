@@ -1,85 +1,27 @@
-<form [formGroup]="ngoProfile" (ngSubmit)="submitNGO()">
-  <h1 mat-dialog-title>You almost our member</h1>
-  <mat-dialog-content class="table-container">
-    <mat-form-field>
-      <input
-        matInput
-        type="text"
-        formControlName="orgNameForm"
-        placeholder="ONG name"
-        #orgNameForm
-        required
-      />
-      <mat-error *ngIf="orgNameForm.required">
-        Please enter your organization name
-      </mat-error>
-      <mat-error *ngIf="descriptionForm.minLength"
-      >The name must have minimum 2 characters</mat-error
-    >
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
-        placeholder="about"
-        type="text"
-        formControlName="descriptionForm"
-        #descriptionForm
-        required
-      />
-      <mat-error *ngIf="descriptionForm.required"
-        >Please enter your description</mat-error
-      >
-      <mat-error *ngIf="descriptionForm.minLength"
-      >Please enter a text with a length of minimum 20</mat-error
-    >
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
-        type="text"
-        placeholder="website"
-        formControlName="websiteForm"
-      />
-    </mat-form-field>
-    <h3>Your contact data</h3>
-    <mat-form-field>
-      <input
-        matInput
-        type="text"
-        placeholder="address"
-        formControlName="addressForm"
-        #addressForm
-        required
-      />
-      <mat-error *ngIf="addressForm.required"
-        >Please enter your address</mat-error
-      >
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
-        type="text"
-        placeholder="email"
-        #email
-        formControlName="emailForm"
-        required
-      />
-      <mat-error *ngIf="email.required">Please enter your email</mat-error>
-      <mat-error *ngIf="email.email">You entered an invalid email</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
-        type="text"
-        placeholder="phone number"
-        formControlName="phoneForm"
-        required
-        #phone
-      />
-      <mat-error *ngIf="phone.required">Please enter your phone number</mat-error>
-    </mat-form-field>
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-raised-button color="primary" type="submit">Submit</button>
-  </mat-dialog-actions>
+<form [formGroup]="formData" (ngSubmit)="submitNGO()">
+  <h1 mat-dialog-title>You almost our member!</h1>
+
+  <label>NGO name: *</label>
+  <input class="input" type="text" formControlName="orgNameForm">
+  <p class="alert" *ngIf='formData.get("orgNameForm").touched && formData.get("orgNameForm").invalid'>Name must be filled</p>
+
+  <label>Description: *</label>
+  <textarea formControlName="descriptionForm" rows="10" cols="80"> </textarea>
+  <p class="alert" *ngIf='formData.get("descriptionForm").touched && formData.get("descriptionForm").invalid'>Description must be filled and must have minimum 20 characters</p>
+
+  <label>Website:</label>
+  <input class="input" type="text" formControlName="websiteForm">
+
+  <label>Address: *</label>
+  <input class="input" type="text" formControlName="addressForm">
+  <p class="alert" *ngIf='formData.get("addressForm").touched && formData.get("addressForm").invalid'>Address must be filled</p>
+
+  <label>E-mail: *</label>
+  <input class="input" type="text" formControlName="emailForm">
+  <p class="alert" *ngIf='formData.get("emailForm").touched && formData.get("emailForm").invalid'>E-mail must be filled</p>
+
+  <label>Phone number:</label>
+  <input class="input" type="text" formControlName="phoneForm">
+
+  <input class="submit" type="submit">
 </form>
