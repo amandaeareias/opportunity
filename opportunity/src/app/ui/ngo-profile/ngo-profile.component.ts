@@ -60,7 +60,7 @@ export class NgoProfileComponent implements OnInit {
   }
 
   compare() {
-    if (this.currentUser.id === this.profileId) {
+    if (this.currentUser && this.currentUser.id === this.profileId) {
       this.profileOwner = true;
     } else {
       // console.log('other user')
@@ -73,14 +73,7 @@ export class NgoProfileComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
-    this.dialog.open(CreateOpportunityComponent)
-      .afterClosed().subscribe(
-        opportunity => {
-          const data = this.mappingService.mapOpportunityInputToProps(this.currentUser, opportunity)
-          console.log('data: ', data)
-          this.fbService.createOpportunity(data)
-        }
-      );
+    this.dialog.open(CreateOpportunityComponent, {data: this.currentUser})
   }
 
   editOpportunity(card) {
