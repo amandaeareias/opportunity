@@ -3,6 +3,7 @@ import { FirebaseCrudService } from '../../../../data/services/firebase.service'
 import {VolunteerapplicationsComponent} from '../volunteerapplications.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Opportunity } from 'src/app/data/models/opportunity.model';
 
 @Component({
   selector: 'app-singleapplication',
@@ -28,7 +29,6 @@ export class SingleapplicationComponent implements OnInit {
         text: new FormControl(this.application.text, [Validators.required, Validators.minLength(20)]),
       });
     }
-    console.log(this.application)
   }
 
   editApplication(event) {
@@ -39,7 +39,7 @@ export class SingleapplicationComponent implements OnInit {
   deleteApplication(application) {
     let confirmation = confirm("Are you sure you want to delete this application?");
     if (confirmation) {
-      this.fbService.deleteApplication(application.id).then(res => this.dialog.close())
+      this.fbService.deleteApplication(application.id, application.volunteerId, application.opportunityId).then(res => this.dialog.close())
     }
   }
 
