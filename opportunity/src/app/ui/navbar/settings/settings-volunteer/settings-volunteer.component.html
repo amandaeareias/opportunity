@@ -1,6 +1,12 @@
 <div class="userContainer">
   <div class="userActions">
-    <div class="profilePicture" [ngStyle]="{'background-image': 'url(' + currentUser.user.image + ')'}"></div>
+
+    <div class="profilePicture" [style.backgroundImage]="'url('+ selectedImage +')'">
+      <input type="file" class="fileInput" (change)="uploadFile($event)">
+      <div class="timer">{{ uploadPercent | async }}</div>
+    </div>
+
+
     <button class="delete" (click)='deleteProfile()' type="button">
       <img src="../../../../../assets/icons/trash-red.png" alt="">
       Delete Profile
@@ -16,7 +22,10 @@
       <label class="about">About:</label>
       <textarea formControlName="about" rows="10" cols="80"> </textarea>
 
-      <input type="submit" class="submit">
+      <div class="buttons">
+        <p class="cancel" (click)='cancel()'>Cancel</p>
+        <input class="submit" type="submit">
+      </div>
 
     </form>
   </div>

@@ -1,6 +1,6 @@
 <div class="userContainer">
   <div class="userActions">
-    <div class="profilePicture" [style.backgroundImage]="selectedImage ? 'url('+ selectedImage +')' : 'url('+ currentUser.user.image +')'">
+    <div class="profilePicture" [style.backgroundImage]="'url('+ selectedImage +')'">
       <input type="file" class="fileInput" (change)="uploadFile($event)">
       <div class="timer">{{ uploadPercent | async }}</div>
     </div>

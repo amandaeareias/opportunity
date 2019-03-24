@@ -17,7 +17,7 @@ export class SettingsNgoComponent implements OnInit {
 
   uploadPercent: Observable<number>;
   downloadURL: Observable<string>;
-  selectedImage: string;
+  selectedImage: string = this.currentUser.user.image
 
   settingsForm = new FormGroup({
     name: new FormControl(this.currentUser.user.name, Validators.required),
