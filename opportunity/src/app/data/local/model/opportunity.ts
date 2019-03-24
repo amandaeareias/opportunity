@@ -16,6 +16,7 @@ export class Opportunity {
   rating: number;
   requiresEducation: string;
   requiresExperience: string;
+  requiresQualification: string;
   review: Review[];
   timeCreated: string;
   timePublished: string;
