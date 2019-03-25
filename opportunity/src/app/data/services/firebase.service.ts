@@ -59,13 +59,15 @@ export class FirebaseCrudService {
   /* getMany uses optional QueryFn type for querying DB: */
   /* QueryFn: (ref) => ref.where('fieldName', 'operator', 'fieldValue') */
   getMany<T>(collection: string, queryFn?: QueryFn) {
-    return this.db.collection<T>(collection, queryFn).snapshotChanges().pipe(
-      map(actions => actions.map(action => {
-        const data = action.payload.doc.data()
-        const id = action.payload.doc.id;
-
-        return {id, ...data};
-      })),
+    return this.db.collection<T>(collection, queryFn)
+      .snapshotChanges()
+      .pipe(
+        map(actions => actions.map(action => {
+          const data = action.payload.doc.data()
+          const id = action.payload.doc.id;
+          return {id, ...data};
+        }),
+      ),
     );
   }
 

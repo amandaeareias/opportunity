@@ -120,7 +120,7 @@ import { SingleapplicationComponent } from './ui/volunteer-profile/volunteerappl
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
     BrowserAnimationsModule,
     HttpClientModule,
