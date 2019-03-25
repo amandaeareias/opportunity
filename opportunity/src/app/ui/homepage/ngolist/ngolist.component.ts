@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FirebaseCrudService } from '../../../data/services/firebase.service'
-import { categoriesList } from '../../../data/listsofdata/categorieslist'
 import { HomepageComponent } from '../homepage.component'
 
 @Component({
@@ -11,7 +10,6 @@ import { HomepageComponent } from '../homepage.component'
 export class NgolistComponent implements OnInit {
 
   ngos;
-  categoriesList: string[] = categoriesList
 
   constructor(
     private service: FirebaseCrudService,
@@ -23,7 +21,7 @@ export class NgolistComponent implements OnInit {
   }
 
   getNgos(category) {
-    if(category == 'All') {
+    if(!category || category == 'All') {
       this.service.getMany('ngos').subscribe(ngos => this.ngos = ngos)
     } else {
       this.service.getMany('ngos', (ref) => ref.where('category', '==', category)).subscribe(ngos => this.ngos = ngos)
