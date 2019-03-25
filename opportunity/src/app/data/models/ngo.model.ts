@@ -16,6 +16,7 @@ export class NGO {
   };
   opportunitiesCount?: number;
   isComplete?: boolean;
+  category?: string;
 
   constructor() {
     this.name = null;
