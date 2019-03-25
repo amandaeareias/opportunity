@@ -49,6 +49,7 @@ export class AppComponent implements OnInit {
 
     //TO BE DELETED
 
+
     //this.db.getAllApplicationsOfOpportunity('2tX7RWp7MaVcPox5bAhU').subscribe((res) => console.log(res))
     //this.db.deleteApplication('5f6agl130RnZjoJ9jcSl', 'PDgzHTyTvCQLvu4yL9hN', '2mVEFD2D2jYjhoMYHI79');
 
