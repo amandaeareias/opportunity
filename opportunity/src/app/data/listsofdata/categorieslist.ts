@@ -1,0 +1,1 @@
+export const categoriesList = ['Animals', 'Children', 'Elderly', 'Homeless', 'Environmental', 'Refugees', 'Women', 'Other'];

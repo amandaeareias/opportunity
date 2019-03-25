@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { Store } from '@ngrx/store'
 import { userDetailsSelector } from '../../user/user.reducers'
+import { categoriesList } from '../../data/listsofdata/categorieslist'
 
 @Component({
   selector: 'app-ngo-signup',
@@ -16,6 +17,7 @@ export class NgoSignupComponent implements OnInit {
     private store: Store<any>,
   ) { }
 
+  categoriesList: string[] = categoriesList
   formData;
   currentUser;
 
@@ -26,7 +28,6 @@ export class NgoSignupComponent implements OnInit {
   getUser() {
     this.store.select(userDetailsSelector)
       .subscribe(user => {
-        console.log(user)
         this.currentUser = user;
         this.createFormData()
       })
@@ -35,6 +36,7 @@ export class NgoSignupComponent implements OnInit {
   createFormData() {
     this.formData = new FormGroup({
       orgNameForm: new FormControl(this.currentUser.name, [Validators.required, Validators.minLength(2),]),
+      categoryForm: new FormControl('', Validators.required),
       descriptionForm: new FormControl('', [Validators.required, Validators.minLength(20)]),
       websiteForm: new FormControl(''),
       addressForm: new FormControl('', [Validators.required]),
@@ -44,9 +46,11 @@ export class NgoSignupComponent implements OnInit {
   }
 
   submitNGO() {
-    const { orgNameForm, descriptionForm, websiteForm, addressForm, emailForm, phoneForm } = this.formData.value;
+    console.log(this.formData.value)
+    const { orgNameForm, categoryForm, descriptionForm, websiteForm, addressForm, emailForm, phoneForm } = this.formData.value;
     const data = {
       name: orgNameForm,
+      category: categoryForm,
       about: descriptionForm,
       website: websiteForm,
       address: addressForm,
