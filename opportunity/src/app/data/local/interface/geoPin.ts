@@ -1,4 +1,4 @@
-export class GeoPin {
+export interface GeoPin {
   latitude: number;
   longitude: number;
 }

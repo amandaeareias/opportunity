@@ -1,7 +1,7 @@
 import { PostalAddress } from './postalAddress';
 import { ContactHours } from './contactHours';
 
-export class ContactPoint {
+export interface ContactPoint {
   address: PostalAddress;
   availableHours?: ContactHours[];
   availableIn?: string[];

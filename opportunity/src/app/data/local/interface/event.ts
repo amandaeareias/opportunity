@@ -2,7 +2,7 @@ import { Application } from './application';
 import { Location } from './location';
 import { Review } from './review';
 
-export class Event {
+export interface Event {
   ageRange: string; // format: 12-80
   attendeeNumberGoal: number;
   category: string;
@@ -17,6 +17,7 @@ export class Event {
   rating: number;
   requiresEducation: string;
   requiresExperience: string;
+  requiresQualification: string;
   review: Review[];
   timeCreated: string;
   timeEnds: string;

@@ -1,4 +1,4 @@
-export class Application {
+export interface Application {
   applicant: string; // ID
   description: string;
   timeCreated: string;

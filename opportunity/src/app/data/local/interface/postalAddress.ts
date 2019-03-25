@@ -1,4 +1,4 @@
-export class PostalAddress {
+export interface PostalAddress {
   street?: string;
   postOfficeBoxNumber?: string;
   locality: string;

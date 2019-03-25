@@ -1,7 +1,7 @@
 import { ContactPoint } from './contactPoint';
 import { Review } from './review';
 
-export class Volunteer {
+export interface Volunteer {
   contact: ContactPoint;
   dateOfBirth: string;
   description: string;
