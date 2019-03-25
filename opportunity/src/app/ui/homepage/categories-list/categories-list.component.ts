@@ -11,13 +11,16 @@ export class CategoriesListComponent implements OnInit {
 
   categoriesList: string[] = categoriesList;
   @Output() chosenCategory = new EventEmitter<string>()
+  chosenCategoryy: string = 'All'
 
   constructor() { }
 
   ngOnInit() {
+    console.log(this.chosenCategoryy)
   }
 
   chooseCategory(category) {
+    this.chosenCategoryy = category;
     this.chosenCategory.emit(category)
   }
 
