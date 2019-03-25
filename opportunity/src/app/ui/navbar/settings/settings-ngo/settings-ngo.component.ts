@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Store } from '@ngrx/store';
 import { UPDATE_USER_PENDING, USER_LOGOUT_PENDING } from 'src/app/user/user.actions';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings-ngo',
@@ -38,6 +38,7 @@ export class SettingsNgoComponent {
     private dialog: MatDialogRef<SettingsNgoComponent>,
     private snackBar: MatSnackBar,
     private storage: AngularFireStorage,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -73,6 +74,7 @@ export class SettingsNgoComponent {
       this.dialog.close();
       this.store.dispatch(new USER_LOGOUT_PENDING());
       this.db.deleteNGO(this.currentUser.user.id);
+      this.router.navigate(['']);
     }
   }
 
