@@ -75,6 +75,8 @@ import { uiReducer } from './ui/ui.reducers';
 import { UserEffects } from './user/user.effects';
 import { SingleapplicationComponent } from './ui/volunteer-profile/volunteerapplications/singleapplication/singleapplication.component';
 import { CategoriesListComponent } from './ui/homepage/categories-list/categories-list.component';
+import { ReviewStarsComponent } from './ui/ngo-profile/review-stars/review-stars.component';
+import { AddReviewComponent } from './ui/ngo-profile/review-stars/add-review/add-review.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +108,8 @@ import { CategoriesListComponent } from './ui/homepage/categories-list/categorie
     SummaryPipe,
     SingleapplicationComponent,
     CategoriesListComponent,
+    ReviewStarsComponent,
+    AddReviewComponent,
   ],
   entryComponents: [
     CreateOpportunityComponent,
@@ -118,6 +122,7 @@ import { CategoriesListComponent } from './ui/homepage/categories-list/categorie
     SnackbarComponent,
     VolunteerSignupComponent,
     NgoSignupComponent,
+    AddReviewComponent,
   ],
   imports: [
     BrowserModule,
