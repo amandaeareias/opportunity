@@ -158,6 +158,7 @@ import { CategoriesListComponent } from './ui/homepage/categories-list/categorie
   ],
   providers: [
     LoginComponent,
+    HomepageComponent
   ],
   bootstrap: [AppComponent]
 })
