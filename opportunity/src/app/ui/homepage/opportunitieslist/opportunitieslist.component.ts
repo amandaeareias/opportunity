@@ -21,9 +21,13 @@ export class OpportunitieslistComponent implements OnInit {
   }
 
   getOpportunities(category) {
-    this.fbService.getMany('opportunities').subscribe(opportunities => {
-      this.opportunities = opportunities;
-    })
+    if (!category || category == 'All') {
+      this.fbService.getMany('opportunities').subscribe(opportunities => {
+        this.opportunities = opportunities;
+      })
+    } else {
+      this.fbService.getMany('opportunities', (ref) => ref.where('category', '==', category)).subscribe(opportunities => this.opportunities = opportunities)
+    }
   }
 
 }
