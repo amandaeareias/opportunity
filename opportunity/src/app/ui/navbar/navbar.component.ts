@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 import { getUserState } from '../../user/user.reducers'
 import { USER_LOGOUT_PENDING, UPDATE_USER_PENDING } from '../../user/user.actions';
@@ -28,7 +29,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private store: Store<any>,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -56,6 +58,7 @@ export class NavbarComponent implements OnInit {
 
   logOut() {
     this.store.dispatch(new USER_LOGOUT_PENDING());
+    this.router.navigate(['']);
   }
 
   openSettings() {
