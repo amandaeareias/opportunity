@@ -5,6 +5,11 @@
   <input class="input" type="text" formControlName="orgNameForm">
   <p class="alert" *ngIf='formData.get("orgNameForm").touched && formData.get("orgNameForm").invalid'>Name must be filled</p>
 
+  <label>Category: *</label>
+  <select formControlName="categoryForm">
+    <option *ngFor='let category of categoriesList' value='{{category}}'>{{category}}</option>
+  </select>
+
   <label>Description: *</label>
   <textarea formControlName="descriptionForm" rows="10" cols="80"> </textarea>
   <p class="alert" *ngIf='formData.get("descriptionForm").touched && formData.get("descriptionForm").invalid'>Description must be filled and must have minimum 20 characters</p>

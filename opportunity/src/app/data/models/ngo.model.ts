@@ -7,6 +7,7 @@ export class NGO {
   image?: string;
   about?: string;
   rating?: number;
+  category: string;
   contact?: {
     website?: string;
     address: string;

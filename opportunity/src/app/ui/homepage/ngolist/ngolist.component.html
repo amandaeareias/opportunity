@@ -1,3 +1,10 @@
-<div *ngFor='let ngo of ngos'>
-  <app-ngocard [ngo]='ngo'></app-ngocard>
+<select (change)='changeone($event)'>
+  <option value='All' selected>All NGOs</option>
+  <option *ngFor='let category of categoriesList' value='{{category}}'>{{category}}</option>
+</select>
+
+<div class="ngoContainer">
+  <!-- <div > -->
+    <app-ngocard *ngFor='let ngo of ngos' [ngo]='ngo'></app-ngocard>
+  <!-- </div> -->
 </div>
