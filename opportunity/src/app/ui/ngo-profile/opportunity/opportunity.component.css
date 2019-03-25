@@ -5,10 +5,10 @@
 }
 
 .opportunity {
+  min-width: 60vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* border: 1px solid red; */
 }
 
 .leftContainer {
@@ -33,6 +33,7 @@ h3:hover {
 
 .rightContainer {
   width: 45%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -40,8 +41,9 @@ h3:hover {
   margin-left: 40px;
 }
 
-.rightContainer {
-  width: 150px;
+.rightContainer img {
+  height: 35px;
+  cursor: pointer;
 }
 
 h4 {
@@ -50,7 +52,9 @@ h4 {
 }
 
 .rightContainer p {
-  font-weight: 100;
+  font-weight: bold;
+  font-size: 22px;
+  color: #E99D3A;
 }
 
 .btn {
@@ -96,4 +100,19 @@ h4 {
 .alert {
   color: red;
   font-size: 12px;
+}
+
+.prerequisitesList {
+  margin-top: 20px;
+  list-style: none;
+}
+
+.prerequisitesTitle {
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.prerequisite {
+  margin-bottom: 4px;
 }
