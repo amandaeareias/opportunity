@@ -4,16 +4,19 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FirebaseCrudService } from '../../../../data/services/firebase.service'
 import { MatSnackBar } from '@angular/material';
 import { SnackbarComponent } from '../../../snackbar/snackbar.component'
-import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Store } from '@ngrx/store';
+import { UPDATE_USER_PENDING, USER_LOGOUT_PENDING } from 'src/app/user/user.actions';
+
 
 @Component({
   selector: 'app-settings-ngo',
   templateUrl: './settings-ngo.component.html',
   styleUrls: ['./settings-ngo.component.css']
 })
-export class SettingsNgoComponent implements OnInit {
+export class SettingsNgoComponent {
 
   uploadPercent: Observable<number>;
   downloadURL: Observable<string>;
@@ -28,8 +31,10 @@ export class SettingsNgoComponent implements OnInit {
   });
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public currentUser,
-    private fbService: FirebaseCrudService,
+    @Inject(MAT_DIALOG_DATA)
+    public currentUser,
+    private store: Store<any>,
+    private db: FirebaseCrudService,
     private dialog: MatDialogRef<SettingsNgoComponent>,
     private snackBar: MatSnackBar,
     private storage: AngularFireStorage,
@@ -40,32 +45,34 @@ export class SettingsNgoComponent implements OnInit {
 
   formSubmit() {
     if (this.settingsForm.valid) {
-      let newData = {
+      const data = {
         name: this.settingsForm.value.name,
         about: this.settingsForm.value.about,
         contact: {
           address: this.settingsForm.value.address,
           phone: this.settingsForm.value.phone,
           website: this.settingsForm.value.website,
-        },
-        image: this.selectedImage
-      }
-      this.fbService.updateNGO(this.currentUser.user.id, newData)
-        .then(res => {
-          this.snackBar.openFromComponent(SnackbarComponent, {
-            duration: 3000,
-          });
-          this.dialog.close()
-        })
-        .catch(e => console.log('Not possible to submit, error: ', e))
+        }
+      };
+
+      this.store.dispatch(new UPDATE_USER_PENDING({
+        id: this.currentUser.user.id,
+        isNgo: this.currentUser.isNgo,
+        data: { ...this.settingsForm.value, image: this.selectedImage },
+      }));
+      this.dialog.close();
+      this.snackBar.openFromComponent(SnackbarComponent, {
+          duration: 3000,
+      });
     }
   }
 
   deleteProfile() {
-    let confirmation = confirm("Are you sure you want to delete this account?");
+    let confirmation = confirm('Are you sure you want to delete your account?');
     if (confirmation) {
-      //implement log-out!!
-      this.fbService.deleteNGO(this.currentUser.user.id)
+      this.dialog.close();
+      this.store.dispatch(new USER_LOGOUT_PENDING());
+      this.db.deleteNGO(this.currentUser.user.id);
     }
   }
 

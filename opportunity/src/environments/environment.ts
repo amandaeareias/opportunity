@@ -12,7 +12,8 @@ export const environment = {
     storageBucket: 'opportunity-2b39f.appspot.com',
     messagingSenderId: '316945367100'
   },
-  googleMapsApiKey: 'AIzaSyCbTNiLmcxWkKURNIpg874BWDPacgm7qYA'
+  googleMapsApiKey: 'AIzaSyCbTNiLmcxWkKURNIpg874BWDPacgm7qYA',
+  ipgeolocationApiKey: '47bb4db9f03d403c829329e9129277cc',
 };
 
 /*
