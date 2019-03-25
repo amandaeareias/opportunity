@@ -46,7 +46,6 @@ export class NgoSignupComponent implements OnInit {
   }
 
   submitNGO() {
-    console.log(this.formData.value)
     const { orgNameForm, categoryForm, descriptionForm, websiteForm, addressForm, emailForm, phoneForm } = this.formData.value;
     const data = {
       name: orgNameForm,
@@ -62,6 +61,13 @@ export class NgoSignupComponent implements OnInit {
       this.dialogRef.close(data);
       this.snackBar.open('You just joined our opprtunities network!', 'close', {
         duration: 3000,
+      });
+    } else {
+      Object.keys(this.formData.controls).forEach(field => {
+        const control = this.formData.get(field);
+        if (control instanceof FormControl) {
+          control.markAsTouched({ onlySelf: true });
+        }
       });
     }
   }
