@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { from } from 'rxjs';
-import { map, switchMap, catchError, first } from 'rxjs/operators';
+import { map, switchMap, catchError, first, tap } from 'rxjs/operators';
 
 import {
   ActionTypes,
   GET_USER_SUCCESS,
-  // GET_USER_FAILURE,
   USER_LOGOUT_SUCCESS,
-  // USER_LOGOUT_FAILURE,
   UPDATE_USER_SUCCESS,
+  GET_USER_LOCATION_SUCCESS,
 } from './user.actions';
 import { LoginService } from './user-auth/login.service';
 import { FirebaseCrudService } from '../data/services/firebase.service';
+import { IpGeoLocationService } from './ipgeolocation/ipgeolocation.service';
 
 @Injectable()
 export class UserEffects {
@@ -66,10 +66,23 @@ export class UserEffects {
       }),
     );
   
+  @Effect()
+  getUserLocation = this.actions$
+    .pipe(
+      ofType(ActionTypes.GET_USER_LOCATION_PENDING),
+      switchMap(() => {
+        return this.ipGeoLocation.getLocation()
+          .pipe(
+            map((data) => new GET_USER_LOCATION_SUCCESS(data)),
+          )
+      }),
+    );
+  
   constructor(
     private actions$: Actions,
     private auth: LoginService,
     private db: FirebaseCrudService,
+    private ipGeoLocation: IpGeoLocationService,
   ) {}
 
 }
