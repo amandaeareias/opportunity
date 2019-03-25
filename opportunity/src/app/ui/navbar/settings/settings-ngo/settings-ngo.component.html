@@ -2,7 +2,7 @@
   <div class="userActions">
     <div class="profilePicture" [ngStyle]="{'background-image': 'url(' + currentUser.user.image + ')'}"></div>
     <button class="delete" (click)='deleteProfile()' type="button">
-      <img src="../../../../../assets/icons/trash-red.png" alt="">
+      <img src="/assets/icons/trash-red.png" alt="">
       Delete Profile
     </button>
   </div>
@@ -18,10 +18,28 @@
       <p class="alert" *ngIf='settingsForm.get("about").touched && settingsForm.get("about").invalid'>About must be
         filled</p>
 
-      <label>Address:</label>
-      <input class='input' formControlName="address" type="text">
-      <p class="alert" *ngIf='settingsForm.get("address").touched && settingsForm.get("address").invalid'>Address must
-        be filled</p>
+      <div formGroupName="address">
+        <h3>Address</h3>
+
+        <label>Country:</label>
+        <select type="text" formControlName="country">
+          <option *ngFor="let country of countries" [ngValue]="country">{{ country }}</option>
+        </select>
+      
+        <label>Street:</label>
+        <input type="text" class='input' formControlName="street">
+      
+        <label>City:</label>
+        <input type="text" class='input' formControlName="city">
+        
+        
+        <label>State/Region:</label>
+        <input type="text" class='input' formControlName="region">
+      
+        <label>Postal code:</label>
+        <input type="text" class='input' formControlName="postalCode">
+
+      </div>
 
       <label>Phone:</label>
       <input class='input' formControlName="phone" type="text">

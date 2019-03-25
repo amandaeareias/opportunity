@@ -15,6 +15,7 @@ import {
   navbarUIStateSelector,
   navbarLoadingStateSelector
 } from '../ui.reducers';
+import { GeocodeService } from 'src/app/data/services/google-maps/geocode.service';
 
 @Component({
   selector: 'app-navbar',
@@ -28,7 +29,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private store: Store<any>,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private maps: GeocodeService,
   ) {}
 
   ngOnInit() {

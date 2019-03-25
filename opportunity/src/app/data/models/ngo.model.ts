@@ -9,10 +9,11 @@ export class NGO {
   rating?: number;
   contact?: {
     website?: string;
-    address: string;
+    address: any;
     publicEmail: string;
     phone: string;
   };
+  location?: any;
   opportunitiesCount?: number;
   isComplete?: boolean;
 
