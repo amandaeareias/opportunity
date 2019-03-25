@@ -3,15 +3,16 @@
     <h2>{{opportunity.name}}</h2>
     <h3 routerLink='/ngo/{{opportunity.ngo.id}}'>{{opportunity.ngo.name}}</h3>
     <p>{{opportunity.about}}</p>
+    <ul class="prerequisitesList" *ngIf='opportunity.prerequisites'>
+      <p class="prerequisitesTitle">Pre-Requisites:</p>
+      <li class="prerequisite" *ngFor='let prerequisite of opportunity.prerequisites'>- {{prerequisite}}</li>
+    </ul>
   </div>
 
   <div class="rightContainer">
-    <div>
-      <h4>9h</h4>
-      <p>per week</p>
-    </div>
     <button class="btn" (click)='applyClicked()' *ngIf='!applying && !applied && !isNgo'>Apply now!</button>
     <p *ngIf='!applying && applied && !isNgo'>Applied</p>
+    <img *ngIf='isNgoOwner' (click)='editOpportunity()' src="/assets/icons/edit-blue.png" alt="">
   </div>
 </div>
 
@@ -19,7 +20,8 @@
   <form [formGroup]="applyForm" (ngSubmit)="formSubmit()">
     <label>Tell us, why do you want this opportunity?: </label>
     <textarea required formControlName="apply" #apply rows="10" cols="80"> </textarea>
-    <p class="alert" *ngIf='applyForm.get("apply").touched && applyForm.get("apply").invalid'>Must be filled and minimum 20 characters</p>
+    <p class="alert" *ngIf='applyForm.get("apply").touched && applyForm.get("apply").invalid'>Must be filled and minimum
+      20 characters</p>
     <input class="btn" class="submit" type="submit">
   </form>
 </div>

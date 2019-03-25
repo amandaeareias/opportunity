@@ -1,9 +1,9 @@
 <div *ngIf='applications.length > 0' class="applicationsContainer">
 
   <div *ngFor='let application of applications' class="applicationCard">
-    <div class="volunteerPic"></div>
+    <div class="volunteerPic" [ngStyle]="{'background-image': 'url(' + application.volunteerData.image + ')'}"></div>
     <div class="volunteerInfo">
-      <p class="volunteerName">{{application.volunteerId}}</p>
+      <p class="volunteerName" (click)='goToApplicant()' routerLink='/volunteer/{{application.volunteerId}}'>{{application.volunteerData.name}}</p>
       <p class="volunteerText">{{application.text}}</p>
     </div>
   </div>

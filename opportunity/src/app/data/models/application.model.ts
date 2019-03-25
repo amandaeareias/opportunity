@@ -1,4 +1,5 @@
 export class Application {
+  id?: string;
   volunteerId: string;
   opportunityId: string;
   timeCreated: string;
@@ -11,6 +12,7 @@ export class Application {
   };
   opportunityData?: {
     ngoName: string;
+    ngoImage: string;
     name: string; //from here all regarding opportunity itself
     about: string;
     location: string;

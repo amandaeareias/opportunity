@@ -8,13 +8,17 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 })
 export class VolunteerapplicationsComponent implements OnInit {
 
+
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public applications,
     private dialog: MatDialogRef<VolunteerapplicationsComponent>,
   ) { }
 
   ngOnInit() {
-    console.log(this.applications)
   }
 
+  closeDialog() {
+    this.dialog.close()
+  }
 }

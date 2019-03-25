@@ -9,14 +9,17 @@
 .volunteerPic {
   height: 50px;
   width: 50px;
-  background-color: red;
   border-radius: 3px;
   margin-right: 10px;
+  background-size: cover;
+  background-position: center;
 }
 
 .volunteerName {
   font-size: 18px;
   margin-bottom: 7px;
+  cursor: pointer;
+  outline: none;
 }
 
 .volunteerText {

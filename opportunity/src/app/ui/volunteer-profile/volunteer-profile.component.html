@@ -7,7 +7,7 @@
     <div class="volunteerInfo">
       <h2 class="name">{{profileVolunteer.name}}</h2>
       <p class="description">{{profileVolunteer.about}}</p>
-      <button *ngIf='this.currentUser.id === this.profileId' (click)='seeApplications()'>See Applications</button>
     </div>
   </div>
+  <button class="seeApplications" *ngIf='this.currentUser && this.currentUser.id === this.profileId' (click)='seeApplications()'>See Applications</button>
 </div>
