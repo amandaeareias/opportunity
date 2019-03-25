@@ -1,5 +1,3 @@
-import { Application } from './application.model';
-
 export class Opportunity {
   id?: string;
   name: string;
@@ -7,6 +5,7 @@ export class Opportunity {
     id: string;
     name: string;
     image: string;
+    category?: string;
   };
   about: string;
   location: string; // change to geo location
