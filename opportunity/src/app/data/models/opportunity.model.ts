@@ -5,6 +5,7 @@ export class Opportunity {
     id: string;
     name: string;
     image: string;
+    category?: string;
   };
   about: string;
   location: string; // change to geo location
