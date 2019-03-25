@@ -119,8 +119,13 @@ export class FirebaseCrudService {
   updateVolunteer = (volId: string, data: any) => {
     //1. check for updates relevant for the applications of this volunteer
     const {name, image} = data;
-    const update = {name, image};
-    const volData = {volunteerData: {...update}}
+    const volData: any = {volunteerData: {}};
+    if (name) {
+      volData.volunteerData.name = name;
+    }
+    if (image) {
+      volData.volunteerData.image = image;
+    }
 
     //2. get all applications of this volunteer
     this.getAllApplicationsOfVolunteer(volId).pipe(first()).subscribe(
@@ -136,8 +141,16 @@ export class FirebaseCrudService {
   updateNGO = (ngoId: string, data: any) => {
     //1. check for updates relevant for the opportunities of this ngo
     const {id, name, image} = data;
-    const update = {id, name, image};
-    const ngoData = {ngo: {...update}}
+    const ngoData: any = {ngo: {}}
+    if (id) {
+      ngoData.ngo.id = id;
+    }
+    if (name) {
+      ngoData.ngo.name = name;
+    }
+    if (image) {
+      ngoData.ngo.image = image;
+    }
 
     //2. get all opportunities of this ngo
     this.getAllOpportunitiesOfNGO(ngoId).pipe(first()).subscribe(
