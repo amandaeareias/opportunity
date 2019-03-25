@@ -4,10 +4,9 @@ agm-map {
 }
 
 :host {
-  margin-bottom: 2vh;
+  margin-top: 50px;
   border-radius: 10px;
   background-color: rgb(237, 237, 237);
-  margin: 0 5px 20px 5px;
   box-shadow: 6px 12px 16px -12px rgba(0, 0, 0, 0.35),
     -6px -6px 16px -12px rgba(0, 0, 0, 0.35);
   text-align: center;

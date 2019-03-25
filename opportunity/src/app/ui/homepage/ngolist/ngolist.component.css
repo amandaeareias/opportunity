@@ -1,9 +1,9 @@
 :host {
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   width: 95vw;
   overflow: scroll;
-  margin-bottom: 40px;
 }
 
 .ngoContainer {
@@ -11,7 +11,6 @@
   flex-direction: row;
   width: 95vw;
   overflow: scroll;
-  margin-bottom: 40px;
 }
 
 select {

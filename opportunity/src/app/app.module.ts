@@ -74,6 +74,7 @@ import { userReducer } from './user/user.reducers';
 import { uiReducer } from './ui/ui.reducers';
 import { UserEffects } from './user/user.effects';
 import { SingleapplicationComponent } from './ui/volunteer-profile/volunteerapplications/singleapplication/singleapplication.component';
+import { CategoriesListComponent } from './ui/homepage/categories-list/categories-list.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import { SingleapplicationComponent } from './ui/volunteer-profile/volunteerappl
     SnackbarComponent,
     SummaryPipe,
     SingleapplicationComponent,
+    CategoriesListComponent,
   ],
   entryComponents: [
     CreateOpportunityComponent,
