@@ -9,6 +9,7 @@ export interface UserState {
   isLoggedIn: boolean;
   isAuthed: boolean;
   user: Volunteer | NGO;
+  location: any;
 }
 
 export const initialState: UserState = {
@@ -16,6 +17,7 @@ export const initialState: UserState = {
   isNgo: false,
   isLoggedIn: false,
   isAuthed: false,
+  location: null,
 };
 
 export function userReducer(state = initialState, action: UserActions) {
@@ -30,9 +32,6 @@ export function userReducer(state = initialState, action: UserActions) {
     case ActionTypes.USER_LOGOUT_SUCCESS:
       return initialState;
 
-    case ActionTypes.GET_USER_PENDING:
-      return state;
-
     case ActionTypes.GET_USER_SUCCESS:
       const { user, isNgo } = action.payload;
       return {
@@ -43,23 +42,22 @@ export function userReducer(state = initialState, action: UserActions) {
       };
     
     case ActionTypes.UPDATE_USER_SUCCESS:
-      const { name, about, website, address, email, phone, isComplete } = action.payload;
+      const userData = {
+        ...state.user,
+        ...action.payload,
+      };
+
       return {
         ...state,
-        user: {
-          ...state.user,
-          name,
-          about,
-          isComplete,
-          contact: {
-            ...state.user.contact,
-            website,
-            address,
-            phone,
-            publicEmail: email,
-          }
-        }
+        user: userData,
+      };
+    
+    case ActionTypes.GET_USER_LOCATION_SUCCESS:
+      return {
+        ...state,
+        location: action.payload,
       }
+
     default:
       return state;
   }
@@ -84,6 +82,11 @@ export const isUserLoggedInSelector = createSelector(
   getUserState,
   (state: UserState) => state.isLoggedIn,
 );
+
+export const userLocationSelector = createSelector(
+  getUserState,
+  (state: UserState) => state.location,
+)
 
 export const userDetailsSelector = createSelector(
   getUserState,

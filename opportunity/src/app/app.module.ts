@@ -1,5 +1,6 @@
 /* Angular core imports */
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -124,6 +125,7 @@ import { SingleapplicationComponent } from './ui/volunteer-profile/volunteerappl
     AngularFireAuthModule,
     AngularFireStorageModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MatButtonModule,
     MatToolbarModule,
     MatMenuModule,
