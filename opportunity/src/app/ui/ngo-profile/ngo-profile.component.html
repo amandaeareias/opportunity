@@ -6,6 +6,7 @@
     <div class="profilePicture" [ngStyle]="{'background-image': 'url(' + profileNgo.image + ')'}"></div>
     <div class='ngoInfo'>
       <h2 class="name">{{profileNgo.name}}</h2>
+      <app-review-stars [rating]='profileNgo.rating'></app-review-stars>
       <p>{{profileNgo.contact.website}}</p>
       <p>{{profileNgo.contact.phone}}</p>
       <p>{{profileNgo.contact.address}}</p>
