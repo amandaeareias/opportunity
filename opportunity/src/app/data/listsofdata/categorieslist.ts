@@ -1,1 +1,1 @@
-export const categoriesList = ['Animals', 'Children', 'Elderly', 'Homeless', 'Environmental', 'Refugees', 'Women', 'Other'];
+export const categoriesList = ['Animals', 'Children', 'Elderly', 'Environment', 'Poverty', 'Refugees', 'Women', 'Other'];
