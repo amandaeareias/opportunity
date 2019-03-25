@@ -2,7 +2,7 @@ import { ContactPoint } from './contactPoint';
 import { Location } from './location';
 import { Review } from './review';
 
-export class Organization {
+export interface Organization {
   category: string;
   contact: ContactPoint[];
   description: string;

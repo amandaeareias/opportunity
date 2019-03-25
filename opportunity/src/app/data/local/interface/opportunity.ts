@@ -2,7 +2,7 @@ import { Application } from './application';
 import { Location } from './location';
 import { Review } from './review';
 
-export class Opportunity {
+export interface Opportunity {
   ageRange: string; // format: 12-80
   category: string;
   description: string;
