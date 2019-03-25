@@ -5,6 +5,7 @@ import { NGO } from '../models/ngo.model';
 import { Volunteer } from '../models/volunteer.model';
 import { Opportunity } from '../models/opportunity.model';
 import { Application } from '../models/application.model';
+import { Review } from '../models/review.model';
 import {map, first } from 'rxjs/operators'
 import {Observable} from 'rxjs';
 import { applySourceSpanToStatementIfNeeded } from '@angular/compiler/src/output/output_ast';
@@ -81,6 +82,11 @@ export class FirebaseCrudService {
         return this.db.collection('opportunities').add({ ...new Opportunity(), ...opportunity });
       }
     )
+  }
+
+  createReview = (review: Review) => {
+    const path = 'ngos/'+ review.ngoId
+    return this.db.doc(path).collection('reviews').add({ ...new Review(), ...review })
   }
 
   createApplication = (application: Application) => {
