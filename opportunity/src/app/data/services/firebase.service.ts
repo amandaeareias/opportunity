@@ -199,12 +199,10 @@ export class FirebaseCrudService {
     this.getAllOpportunitiesOfNGO(ngoId).pipe(first()).subscribe(
       (opportunitiesArray) => {
         //and then delete them
-        const promisesArray = [];
-        opportunitiesArray.map((opportunity) => {
+        Promise.all(opportunitiesArray.map((opportunity) => {
           const { id } = opportunity;
-          promisesArray.push(this.deleteOpportunity(id, ngoId))
-        })
-        Promise.all(promisesArray).then(() =>
+          this.deleteOpportunity(id, ngoId)
+        })).then(() =>
           //2. delete the object from ngo collection
           this.db.collection('ngos').doc(ngoId).delete()
         )
