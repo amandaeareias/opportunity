@@ -7,7 +7,6 @@ export class Review {
   timeCreated: string;
 
   constructor() {
-    this.id = null;
     this.ngoId = null;
     this.volunteerId = null;
     this.rating = null;
