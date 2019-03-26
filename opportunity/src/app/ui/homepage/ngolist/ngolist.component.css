@@ -1,16 +1,5 @@
-:host {
-  margin-top: 50px;
-  display: flex;
-  flex-direction: column;
-  width: 95vw;
-  overflow: scroll;
-}
-
-.ngoContainer {
-  display: flex;
-  flex-direction: row;
-  width: 95vw;
-  overflow: scroll;
+app-ngocard {
+  margin-bottom: 10px;
 }
 
 select {
