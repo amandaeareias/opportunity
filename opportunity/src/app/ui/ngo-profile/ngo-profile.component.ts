@@ -49,7 +49,6 @@ export class NgoProfileComponent implements OnInit {
     this.fbService.getOne('ngos', this.profileId)
       .subscribe(ngo => {
         this.profileNgo = ngo
-        console.log(ngo)
 
         this.getprofileOpportunities()
         this.compare()
