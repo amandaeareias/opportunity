@@ -18,6 +18,7 @@ export class VolunteerProfileComponent implements OnInit {
   currentUser;
   profileVolunteer;
   profileId;
+  volunteerOwner: boolean = false
 
   constructor(
     private store: Store<any>,
@@ -52,9 +53,9 @@ export class VolunteerProfileComponent implements OnInit {
 
   compare() {
     if (this.currentUser && this.currentUser.id === this.profileId) {
-      console.log('same user')
+      this.volunteerOwner = true
     } else {
-      console.log('other user')
+      this.volunteerOwner = false
     }
   }
 
