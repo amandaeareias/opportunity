@@ -7,9 +7,9 @@
     <div class='ngoInfo'>
       <h2 class="name">{{profileNgo.name}}</h2>
       <app-review-stars [rating]='profileNgo.rating' [new]='true'></app-review-stars>
-      <p>{{profileNgo.contact.website}}</p>
-      <p>{{profileNgo.contact.phone}}</p>
-      <p>{{profileNgo.location.formattedAddress}}</p>
+      <p *ngIf="profileNgo.contact">{{ profileNgo.contact.website }}</p>
+      <p *ngIf="profileNgo.contact">{{ profileNgo.contact.phone }}</p>
+      <p *ngIf="profileNgo.location">{{ profileNgo.location.formattedAddress }}</p>
     </div>
   </div>
 

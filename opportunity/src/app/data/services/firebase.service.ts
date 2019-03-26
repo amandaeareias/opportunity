@@ -6,9 +6,7 @@ import { Volunteer } from '../models/volunteer.model';
 import { Opportunity } from '../models/opportunity.model';
 import { Application } from '../models/application.model';
 import { Review } from '../models/review.model';
-import {map, first, filter } from 'rxjs/operators'
-import {Observable} from 'rxjs';
-import { applySourceSpanToStatementIfNeeded } from '@angular/compiler/src/output/output_ast';
+import { map, first } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +15,7 @@ export class FirebaseCrudService {
   constructor(public db: AngularFirestore) {}
 
   /* Search */
-  searchByName<T>(collection: string, word: string) { //Usage: ...searchByName('opportunities', 'xxx').subscribe((arrayOfMatches) => {...});
+  searchByName<T>(collection: string, word: string) {
     return this.db.collection<T>(collection).snapshotChanges().pipe(
       map(actions => {
         let result:any = actions.map(action => {
