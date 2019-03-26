@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ReviewStarsComponent implements OnInit {
 
   @Input()rating: number;
+  @Input()new: boolean;
   ratingArr: number[] = [0, 0, 0, 0, 0];
   objStyle = {
     'background-image': 'url(' + '/assets/icons/star-full.png' + ')'
