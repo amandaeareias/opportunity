@@ -14,7 +14,6 @@ export class NGOapplicationsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('applications', this.applications)
   }
 
   goToApplicant() {

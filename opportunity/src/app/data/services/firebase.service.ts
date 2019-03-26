@@ -103,7 +103,7 @@ export class FirebaseCrudService {
                 active: fullOpportunityData.active,
               }
             };
-            
+
             const applicationsCountVol = fullVolunteerData.applicationsCount || 0;
             const applicationsCountOpp = fullOpportunityData.applicationsCount || 0;
 
