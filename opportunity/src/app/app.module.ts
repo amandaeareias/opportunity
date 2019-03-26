@@ -128,7 +128,7 @@ import { AddReviewComponent } from './ui/ngo-profile/review-stars/add-review/add
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
     AngularFireStorageModule,
     BrowserAnimationsModule,

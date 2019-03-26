@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FirebaseCrudService } from '../../../../data/services/firebase.service'
@@ -9,7 +9,14 @@ import { Observable } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Store } from '@ngrx/store';
 import { UPDATE_USER_PENDING, USER_LOGOUT_PENDING } from 'src/app/user/user.actions';
+<<<<<<< HEAD
 import { Router } from '@angular/router';
+=======
+import { CountryListService } from 'src/app/data/services/country-list.service';
+import { GeocodeService } from 'src/app/data/services/google-maps/geocode.service';
+import _ from 'lodash';
+
+>>>>>>> 21e08e691a1eaeb73fa8cc3ba25b6108ee8e878e
 
 @Component({
   selector: 'app-settings-ngo',
@@ -18,6 +25,7 @@ import { Router } from '@angular/router';
 })
 export class SettingsNgoComponent {
 
+  countries = this.countryService.getCountryList();
   uploadPercent: Observable<number>;
   downloadURL: Observable<string>;
   selectedImage: string = this.currentUser.user.image
@@ -25,7 +33,13 @@ export class SettingsNgoComponent {
   settingsForm = new FormGroup({
     name: new FormControl(this.currentUser.user.name, Validators.required),
     about: new FormControl(this.currentUser.user.about, Validators.required),
-    address: new FormControl(this.currentUser.user.contact.address, Validators.required),
+    address: new FormGroup({
+      country: new FormControl(this.currentUser.user.contact.address.country),
+      street: new FormControl(this.currentUser.user.contact.address.street),
+      city: new FormControl(this.currentUser.user.contact.address.city),
+      region: new FormControl(this.currentUser.user.contact.address.region),
+      postalCode: new FormControl(this.currentUser.user.contact.address.postalCode),
+    }),
     phone: new FormControl(this.currentUser.user.contact.phone, Validators.required),
     website: new FormControl(this.currentUser.user.contact.website),
   });
@@ -37,15 +51,22 @@ export class SettingsNgoComponent {
     private db: FirebaseCrudService,
     private dialog: MatDialogRef<SettingsNgoComponent>,
     private snackBar: MatSnackBar,
+    private countryService: CountryListService,
+    private maps: GeocodeService,
     private storage: AngularFireStorage,
+<<<<<<< HEAD
     private router: Router,
   ) { }
 
   ngOnInit() {
   }
+=======
+  ) {}
+>>>>>>> 21e08e691a1eaeb73fa8cc3ba25b6108ee8e878e
 
   formSubmit() {
     if (this.settingsForm.valid) {
+      
       const data = {
         name: this.settingsForm.value.name,
         about: this.settingsForm.value.about,
@@ -56,16 +77,35 @@ export class SettingsNgoComponent {
         }
       };
 
-      this.store.dispatch(new UPDATE_USER_PENDING({
-        id: this.currentUser.user.id,
-        isNgo: this.currentUser.isNgo,
-        data: { ...this.settingsForm.value, image: this.selectedImage },
-      }));
+      if (!_.isEqual(data.contact.address, this.currentUser.user.contact.address)) {
+        this.maps.getLocation(data.contact.address)
+          .subscribe(res => {
+            this.updateProfile(
+              this.currentUser.user.id,
+              this.currentUser.isNgo,
+              { ...data, location: res, image: this.selectedImage }
+            );
+          });
+      } else {
+        this.updateProfile(
+          this.currentUser.user.id,
+          this.currentUser.isNgo,
+          { ...data, image: this.selectedImage }
+        );
+      }
       this.dialog.close();
       this.snackBar.openFromComponent(SnackbarComponent, {
           duration: 3000,
       });
     }
+  }
+
+  updateProfile(id, isNgo, data) {
+    this.store.dispatch(new UPDATE_USER_PENDING({
+      id,
+      isNgo,
+      data,
+    }));
   }
 
   deleteProfile() {

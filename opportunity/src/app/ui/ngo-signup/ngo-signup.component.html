@@ -1,9 +1,8 @@
-<form [formGroup]="formData" (ngSubmit)="submitNGO()">
+<form *ngIf="formData && currentUser" [formGroup]="formData" (ngSubmit)="submitNGO()">
   <h1 mat-dialog-title>You almost our member!</h1>
 
   <label>NGO name: *</label>
   <input class="input" type="text" formControlName="orgNameForm">
-  <p class="alert" *ngIf='formData.get("orgNameForm").touched && formData.get("orgNameForm").invalid'>Name must be filled</p>
 
   <label>Category: *</label>
   <select formControlName="categoryForm">
@@ -13,18 +12,35 @@
 
   <label>Description: *</label>
   <textarea formControlName="descriptionForm" rows="10" cols="80"> </textarea>
-  <p class="alert" *ngIf='formData.get("descriptionForm").touched && formData.get("descriptionForm").invalid'>Description must be filled and must have minimum 20 characters</p>
 
   <label>Website:</label>
   <input class="input" type="text" formControlName="websiteForm">
 
-  <label>Address: *</label>
-  <input class="input" type="text" formControlName="addressForm">
-  <p class="alert" *ngIf='formData.get("addressForm").touched && formData.get("addressForm").invalid'>Address must be filled</p>
+  <div formGroupName="address">
+      <h3>Address</h3>
+
+      <label>Country:</label>
+      <select type="text" formControlName="country">
+        <option *ngFor="let country of countries" [ngValue]="country">{{ country }}</option>
+      </select>
+    
+      <label>Street:</label>
+      <input type="text" class='input' formControlName="street">
+    
+      <label>City:</label>
+      <input type="text" class='input' formControlName="city">
+      
+      
+      <label>State/Region:</label>
+      <input type="text" class='input' formControlName="region">
+    
+      <label>Postal code:</label>
+      <input type="text" class='input' formControlName="postalCode">
+
+    </div>
 
   <label>E-mail: *</label>
   <input class="input" type="text" formControlName="emailForm">
-  <p class="alert" *ngIf='formData.get("emailForm").touched && formData.get("emailForm").invalid'>E-mail must be filled</p>
 
   <label>Phone number:</label>
   <input class="input" type="text" formControlName="phoneForm">
