@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FirebaseCrudService } from '../../../data/services/firebase.service'
 import { HomepageComponent } from '../homepage.component'
 
@@ -9,7 +9,7 @@ import { HomepageComponent } from '../homepage.component'
 })
 export class OpportunitieslistComponent implements OnInit {
 
-  opportunities;
+  @Input() opportunities;
 
   constructor(
     private fbService: FirebaseCrudService,
@@ -17,17 +17,6 @@ export class OpportunitieslistComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.homePage.cast.subscribe(category => this.getOpportunities(category))
-  }
-
-  getOpportunities(category) {
-    if (!category || category == 'All') {
-      this.fbService.getMany('opportunities').subscribe(opportunities => {
-        this.opportunities = opportunities;
-      })
-    } else {
-      this.fbService.getMany('opportunities', (ref) => ref.where('category', '==', category)).subscribe(opportunities => this.opportunities = opportunities)
-    }
   }
 
 }

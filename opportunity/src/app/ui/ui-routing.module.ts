@@ -8,6 +8,7 @@ import { NgoSignupComponent } from './ngo-signup/ngo-signup.component';
 import { VolunteerSignupComponent } from './volunteer-signup/volunteer-signup.component';
 import { AllOpportunitiesComponent } from './all-opportunities/all-opportunities.component';
 import { AllNgosComponent } from './all-ngos/all-ngos.component';
+import { SearchComponent } from './navbar/search/search.component'
 
 const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'ngo/:id', component: NgoProfileComponent },
   { path: 'all-opportunities', component: AllOpportunitiesComponent },
   { path: 'all-ngos', component: AllNgosComponent },
+  { path: 'search/:path', component: SearchComponent },
   { path: '**', component: HomepageComponent },
 ];
 

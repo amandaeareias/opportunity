@@ -9,7 +9,7 @@ import { HomepageComponent } from '../homepage.component'
 })
 export class NgolistComponent implements OnInit {
 
-  ngos;
+  @Input() ngos;
 
   constructor(
     private service: FirebaseCrudService,
@@ -17,15 +17,6 @@ export class NgolistComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.homePage.cast.subscribe(category => this.getNgos(category))
-  }
-
-  getNgos(category) {
-    if(!category || category == 'All') {
-      this.service.getMany('ngos').subscribe(ngos => this.ngos = ngos)
-    } else {
-      this.service.getMany('ngos', (ref) => ref.where('category', '==', category)).subscribe(ngos => this.ngos = ngos)
-    }
   }
 
 }
