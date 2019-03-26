@@ -9,5 +9,5 @@
       <p class="description">{{profileVolunteer.about}}</p>
     </div>
   </div>
-  <button class="seeApplications" *ngIf='this.currentUser && this.currentUser.id === this.profileId' (click)='seeApplications()'>See Applications</button>
+  <button class="seeApplications" *ngIf='currentUser && volunteerOwner' (click)='seeApplications()'>See Applications</button>
 </div>

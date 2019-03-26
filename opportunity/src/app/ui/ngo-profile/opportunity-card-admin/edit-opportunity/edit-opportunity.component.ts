@@ -56,7 +56,6 @@ export class EditOpportunityComponent implements OnInit {
   }
 
   deleteOpportunity() {
-    console.log(this.opportunity)
     let confirmation = confirm("Are you sure you want to delete this opportunity?");
     if (confirmation) {
       this.fbService.deleteOpportunity(this.opportunity.id, this.opportunity.ngo.id)

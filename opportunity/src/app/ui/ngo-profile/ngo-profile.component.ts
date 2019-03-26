@@ -49,6 +49,8 @@ export class NgoProfileComponent implements OnInit {
     this.fbService.getOne('ngos', this.profileId)
       .subscribe(ngo => {
         this.profileNgo = ngo
+        console.log(ngo)
+
         this.getprofileOpportunities()
         this.compare()
       })
@@ -63,7 +65,7 @@ export class NgoProfileComponent implements OnInit {
     if (this.currentUser && this.currentUser.id === this.profileId) {
       this.profileOwner = true;
     } else {
-      // console.log('other user')
+      this.profileOwner = false
     }
   }
 

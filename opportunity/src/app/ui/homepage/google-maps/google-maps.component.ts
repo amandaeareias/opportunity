@@ -5,6 +5,8 @@ import { FormControl } from "@angular/forms";
 import { filter, debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { Store } from '@ngrx/store';
 import { userLocationSelector } from 'src/app/user/user.reducers';
+import { FirebaseCrudService } from 'src/app/data/services/firebase.service';
+import { NGO } from 'src/app/data/models/ngo.model';
 
 @Component({
   selector: "app-google-maps",
@@ -23,10 +25,13 @@ export class GoogleMapsComponent implements OnInit {
       stylers: [{ visibility: "off" }]
     }
   ];
+  ngos = [];
+
   constructor(
     private router: Router,
     private searchService: GoogleSearchService,
     private store: Store<any>,
+    private db: FirebaseCrudService,
   ) {}
 
   ngOnInit() {
@@ -36,7 +41,12 @@ export class GoogleMapsComponent implements OnInit {
         debounceTime(300),
         distinctUntilChanged()
       ).subscribe(value => this.loadGooglePlaces(value));
-
+    
+    this.db.getMany('ngos')
+      .subscribe(res => {
+        this.ngos = res;
+      });
+    
     this.store.select(userLocationSelector)
       .subscribe(location => {
         if (location) {
@@ -45,7 +55,7 @@ export class GoogleMapsComponent implements OnInit {
             lng: +location.longitude,
           }
         }
-      })
+      });
   }
 
   locateMe() {

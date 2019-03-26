@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 import { getUserState } from '../../user/user.reducers'
 import { USER_LOGOUT_PENDING, UPDATE_USER_PENDING } from '../../user/user.actions';
@@ -15,6 +16,7 @@ import {
   navbarUIStateSelector,
   navbarLoadingStateSelector
 } from '../ui.reducers';
+import { GeocodeService } from 'src/app/data/services/google-maps/geocode.service';
 
 @Component({
   selector: 'app-navbar',
@@ -28,7 +30,9 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private store: Store<any>,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+private maps: GeocodeService,
+private router: Router,
   ) {}
 
   ngOnInit() {
@@ -42,13 +46,24 @@ export class NavbarComponent implements OnInit {
           const dialogRef = this.openSignUpForm(user.isNgo ? NgoSignupComponent : VolunteerSignupComponent);
 
           dialogRef.afterClosed()
-            .subscribe((res = {}) => {
-              this.store.dispatch(new UPDATE_USER_PENDING({
-                id: user.user.id,
-                isNgo: user.isNgo,
-                data: { ...res, isComplete: true },
-              }));
-            })
+            .subscribe((data = {}) => {
+              if (user.isNgo) {
+                this.maps.getLocation(data.contact.address)
+                  .subscribe(res => {
+                    this.updateProfile(
+                      user.user.id,
+                      user.isNgo,
+                      { ...data, isComplete: true, location: res }
+                    );
+                  });
+              } else {
+                this.updateProfile(
+                  this.currentUser.user.id,
+                  this.currentUser.isNgo,
+                  { ...data, isComplete: true }
+                );
+              }
+            });
         }
       }
     });
@@ -56,6 +71,7 @@ export class NavbarComponent implements OnInit {
 
   logOut() {
     this.store.dispatch(new USER_LOGOUT_PENDING());
+    this.router.navigate(['']);
   }
 
   openSettings() {
@@ -68,5 +84,13 @@ export class NavbarComponent implements OnInit {
 
   openSignUpForm(component) {
     return this.dialog.open(component, { disableClose: true });
+  }
+
+  updateProfile(id, isNgo, data) {
+    this.store.dispatch(new UPDATE_USER_PENDING({
+      id,
+      isNgo,
+      data,
+    }));
   }
 }

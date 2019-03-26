@@ -13,7 +13,8 @@
     <img src="/assets/icons/findme.png" alt="" />
   </div>
 
-  <agm-map [latitude]="location.lat" [longitude]="location.lng" [zoom]="12" [styles]="disableStyles">
+  <agm-map *ngIf="ngos.length" [latitude]="location.lat" [longitude]="location.lng" [zoom]="12" [styles]="disableStyles">
     <agm-marker [latitude]="location.lat" [longitude]="location.lng"></agm-marker>
+    <agm-marker *ngFor="let ngo of ngos" [latitude]="ngo.location ? ngo.location.geoPin.lat : 0" [longitude]="ngo.location ? ngo.location.geoPin.lng : 0" [label]="ngo.name"></agm-marker>
   </agm-map>
 </div>
