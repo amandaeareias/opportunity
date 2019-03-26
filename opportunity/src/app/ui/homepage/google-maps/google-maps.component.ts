@@ -4,9 +4,8 @@ import { GoogleSearchService } from "./google-search.service";
 import { FormControl } from "@angular/forms";
 import { filter, debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { Store } from '@ngrx/store';
-import { userLocationSelector } from 'src/app/user/user.reducers';
+import { userLocationSelector } from '../../../user/user.reducers';
 import { FirebaseCrudService } from 'src/app/data/services/firebase.service';
-import { NGO } from 'src/app/data/models/ngo.model';
 
 @Component({
   selector: "app-google-maps",
