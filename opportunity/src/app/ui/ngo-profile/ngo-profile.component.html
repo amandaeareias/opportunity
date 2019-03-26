@@ -6,7 +6,7 @@
     <div class="profilePicture" [ngStyle]="{'background-image': 'url(' + profileNgo.image + ')'}"></div>
     <div class='ngoInfo'>
       <h2 class="name">{{profileNgo.name}}</h2>
-      <app-review-stars [rating]='profileNgo.rating'></app-review-stars>
+      <app-review-stars [rating]='profileNgo.rating' [new]='true'></app-review-stars>
       <p>{{profileNgo.contact.website}}</p>
       <p>{{profileNgo.contact.phone}}</p>
       <p>{{profileNgo.contact.address}}</p>
@@ -15,20 +15,45 @@
 
   <p class="description">{{profileNgo.about}}</p>
 
-  <div class="createNewOpportunity" (newOpportunity)='newOpportunity()' (click)='createOpportunity()' *ngIf='profileOwner'>ADD OPPORTUNITY</div>
+  <div class="createNewOpportunity" (newOpportunity)='newOpportunity()' (click)='createOpportunity()'
+    *ngIf='profileOwner'>ADD OPPORTUNITY</div>
 
   <div class="opportunities">
     <div class="opportunitiesList" *ngIf='profileOpportunities.length > 0'>
       <div *ngFor='let opportunity of profileOpportunities'>
-        <app-opportunity-card-admin *ngIf='profileOwner' #opp (click)='editOpportunity(opp)' [opportunity]='opportunity'></app-opportunity-card-admin>
+        <app-opportunity-card-admin *ngIf='profileOwner' #opp (click)='editOpportunity(opp)'
+          [opportunity]='opportunity'></app-opportunity-card-admin>
         <app-opportunitycard *ngIf='!profileOwner' [opportunity]='opportunity'></app-opportunitycard>
       </div>
     </div>
   </div>
 
   <div class="reviewsContainer">
-    <div class="review">
 
+    <div class="review">
+      <div class="volunteerInfo">
+        <div class="picture"></div>
+        <p class="volunteer">Amanda</p>
+      </div>
+      <div class="reviewInfo">
+        <app-review-stars [rating]='5' [new]='false'></app-review-stars>
+        <p class="date">22/03/2019</p>
+        <p class="text">I loved been a part of this NGO for such a long time, it really changed my life, their work is amazing!</p>
+      </div>
+    </div>
+
+
+    <div class="review">
+      <div class="volunteerInfo">
+        <div class="picture"></div>
+        <p class="volunteer">Ekaterina</p>
+      </div>
+      <div class="reviewInfo">
+        <app-review-stars [rating]='4' [new]='false'></app-review-stars>
+        <p class="date">10/03/2019</p>
+        <p class="text">This organization does a great job!</p>
+      </div>
     </div>
   </div>
+
 </div>

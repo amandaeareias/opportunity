@@ -1,4 +1,4 @@
 <div class="starsContainer">
   <div class="star" *ngFor='let star of ratingArr' [style.backgroundImage]="star===1 ? 'url('+ '/assets/icons/star-full.png' +')' : 'url('+ '/assets/icons/star-empty.png' +')'"></div>
-  <button (click)='addReview()'>+</button>
+  <button (click)='addReview()' *ngIf='new'>+</button>
 </div>
