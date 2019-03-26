@@ -9,14 +9,11 @@ import { Observable } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Store } from '@ngrx/store';
 import { UPDATE_USER_PENDING, USER_LOGOUT_PENDING } from 'src/app/user/user.actions';
-<<<<<<< HEAD
-import { Router } from '@angular/router';
-=======
 import { CountryListService } from 'src/app/data/services/country-list.service';
+import { Router } from '@angular/router';
 import { GeocodeService } from 'src/app/data/services/google-maps/geocode.service';
 import _ from 'lodash';
 
->>>>>>> 21e08e691a1eaeb73fa8cc3ba25b6108ee8e878e
 
 @Component({
   selector: 'app-settings-ngo',
@@ -54,19 +51,15 @@ export class SettingsNgoComponent {
     private countryService: CountryListService,
     private maps: GeocodeService,
     private storage: AngularFireStorage,
-<<<<<<< HEAD
     private router: Router,
   ) { }
 
   ngOnInit() {
   }
-=======
-  ) {}
->>>>>>> 21e08e691a1eaeb73fa8cc3ba25b6108ee8e878e
 
   formSubmit() {
     if (this.settingsForm.valid) {
-      
+
       const data = {
         name: this.settingsForm.value.name,
         about: this.settingsForm.value.about,
