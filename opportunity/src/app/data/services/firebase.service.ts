@@ -5,7 +5,8 @@ import { NGO } from '../models/ngo.model';
 import { Volunteer } from '../models/volunteer.model';
 import { Opportunity } from '../models/opportunity.model';
 import { Application } from '../models/application.model';
-import {map, first } from 'rxjs/operators'
+import { Review } from '../models/review.model';
+import {map, first, filter } from 'rxjs/operators'
 import {Observable} from 'rxjs';
 import { applySourceSpanToStatementIfNeeded } from '@angular/compiler/src/output/output_ast';
 
@@ -14,6 +15,20 @@ import { applySourceSpanToStatementIfNeeded } from '@angular/compiler/src/output
 })
 export class FirebaseCrudService {
   constructor(public db: AngularFirestore) {}
+
+  /* Search */
+  searchByName<T>(collection: string, word: string) { //Usage: ...searchByName('opportunities', 'xxx').subscribe((arrayOfMatches) => {...});
+    return this.db.collection<T>(collection).snapshotChanges().pipe(
+      map(actions => {
+        let result:any = actions.map(action => {
+        const data = action.payload.doc.data()
+        const id = action.payload.doc.id;
+        return {id, ...data};
+        })
+        return result = result.filter((el:any) => {return el.name.includes(word)})
+      }),
+    );
+  }
 
   /* Getters */
   getAllOpportunitiesOfNGO(id: string) {
@@ -46,6 +61,17 @@ export class FirebaseCrudService {
     );
   }
 
+  getAllReviewOfNGO(ngoId: string) {
+    return this.db.collection('ngos/'+ngoId+'/reviews').snapshotChanges().pipe(
+      map(actions => actions.map(action => {
+        const data: any = action.payload.doc.data()
+        const id = action.payload.doc.id;
+        data.id = id;
+        return data;
+      })),
+    );
+  }
+
   /* generic getters */
   getOne(collection: string, id: string) {
     return this.db.collection(collection).doc(id).valueChanges();
@@ -59,13 +85,15 @@ export class FirebaseCrudService {
   /* getMany uses optional QueryFn type for querying DB: */
   /* QueryFn: (ref) => ref.where('fieldName', 'operator', 'fieldValue') */
   getMany<T>(collection: string, queryFn?: QueryFn) {
-    return this.db.collection<T>(collection, queryFn).snapshotChanges().pipe(
-      map(actions => actions.map(action => {
-        const data = action.payload.doc.data()
-        const id = action.payload.doc.id;
-
-        return {id, ...data};
-      })),
+    return this.db.collection<T>(collection, queryFn)
+      .snapshotChanges()
+      .pipe(
+        map(actions => actions.map(action => {
+          const data = action.payload.doc.data()
+          const id = action.payload.doc.id;
+          return {id, ...data};
+        }),
+      ),
     );
   }
 
@@ -79,6 +107,18 @@ export class FirebaseCrudService {
         const opportunitiesCountNgo = fullNgoData.opportunitiesCount || 0;
         await this.db.collection('ngos').doc(opportunity.ngo.id).update({opportunitiesCount: opportunitiesCountNgo+1})
         return this.db.collection('opportunities').add({ ...new Opportunity(), ...opportunity });
+      }
+    )
+  }
+
+  createReview = async (review: Review) => {
+    const path = 'ngos/'+ review.ngoId
+    await this.db.doc(path).collection('reviews').add({ ...new Review(), ...review })
+    const path2 = path + '/reviews'
+    this.getMany(path2).subscribe(
+      (reviewsArray: any) => {
+        const average = Math.round(reviewsArray.reduce((a,b) => { return a+(b.rating || 0) }, 0)/reviewsArray.length);
+        return this.db.collection('ngos').doc(review.ngoId).update({rating: average})
       }
     )
   }
@@ -140,11 +180,8 @@ export class FirebaseCrudService {
 
   updateNGO = (ngoId: string, data: any) => {
     //1. check for updates relevant for the opportunities of this ngo
-    const {id, name, image, category} = data;
+    const {name, image, category} = data;
     const ngoData: any = {ngo: {}}
-    if (id) {
-      ngoData.ngo.id = id;
-    }
     if (name) {
       ngoData.ngo.name = name;
     }
@@ -154,6 +191,7 @@ export class FirebaseCrudService {
     if (category) {
       ngoData.ngo.category = category;
     }
+    console.log('ngoData', ngoData)
 
     //2. get all opportunities of this ngo
     this.getAllOpportunitiesOfNGO(ngoId).pipe(first()).subscribe(
@@ -163,7 +201,7 @@ export class FirebaseCrudService {
       }
     );
     //3. update the object in the ngo collection
-    return this.db.collection('ngos').doc(id).update(data);
+    return this.db.collection('ngos').doc(ngoId).update(data);
   }
 
   updateOpportunity = (oppId: string, data: any) => {
