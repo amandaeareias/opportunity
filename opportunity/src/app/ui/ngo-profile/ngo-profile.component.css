@@ -87,10 +87,13 @@
 .reviewsContainer {
   display: flex;
   flex-direction: column;
+  margin-top: 40px;
+  width: 100%;
 }
 
 .review {
   display: flex;
+  justify-content: space-between;
   margin-bottom: 30px;
 }
 
@@ -114,6 +117,7 @@
 .volunteer {
   font-size: 14px;
   cursor: pointer;
+  text-align: center;
 }
 
 .volunteer:hover {
@@ -121,7 +125,7 @@
 }
 
 .reviewInfo {
-  width: 87%;
+  width: 83%;
 }
 
 .date {

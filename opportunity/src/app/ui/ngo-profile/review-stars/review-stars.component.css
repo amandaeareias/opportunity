@@ -1,13 +1,15 @@
 .starsContainer {
   display: flex;
-  width: 130px;
   justify-content: flex-start;
+}
+
+.stars{
+  display: flex;
 }
 
 .star {
   height: 20px;
   width: 20px;
-  /* margin: 0 2px; */
   background-size: cover;
   background-position: center;
   cursor: pointer;
