@@ -87,14 +87,19 @@
 .reviewsContainer {
   display: flex;
   flex-direction: column;
+  /* border: green solid 1px; */
+  width: 100%;
 }
 
 .review {
+  /* border: red solid 1px; */
   display: flex;
+  justify-content: space-between;
   margin-bottom: 30px;
 }
 
 .volunteerInfo {
+  /* border: orange solid 1px; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -121,7 +126,8 @@
 }
 
 .reviewInfo {
-  width: 87%;
+  /* border: pink solid 1px; */
+  width: 83%;
 }
 
 .date {
