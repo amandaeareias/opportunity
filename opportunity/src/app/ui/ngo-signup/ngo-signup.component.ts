@@ -4,6 +4,7 @@ import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { Store } from '@ngrx/store'
 import { getUserState, UserState } from '../../user/user.reducers'
 import { CountryListService } from 'src/app/data/services/country-list.service';
+import { categoriesList } from '../../data/listsofdata/categorieslist'
 
 @Component({
   selector: 'app-ngo-signup',
@@ -14,6 +15,7 @@ export class NgoSignupComponent implements OnInit {
   public currentUser: UserState;
   public formData;
   public countries = this.countryService.getCountryList();
+  categoriesList: string[] = categoriesList
 
   constructor(
     private dialogRef: MatDialogRef<NgoSignupComponent>,
@@ -65,7 +67,7 @@ export class NgoSignupComponent implements OnInit {
         phone: phoneForm,
       }
     };
-
+    console.log('data: ', data)
     if (this.formData.valid) {
       this.dialogRef.close(data);
       this.snackBar.open('You just joined our opprtunities network!', 'close', {
