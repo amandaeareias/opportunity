@@ -9,6 +9,7 @@
 .category {
   height: 120px;
   width: 120px;
+  min-width: 100px;
   margin: 5px;
   border: 3px;
   box-shadow: 6px 12px 16px -12px rgba(0,0,0,0.35), -6px -6px 16px -12px rgba(0,0,0,0.35);
