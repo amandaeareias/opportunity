@@ -6,7 +6,9 @@ import { getUserState, UserState } from './user/user.reducers';
 import { navbarUIStateSelector } from './ui/ui.reducers';
 import { GOOGLE_LOGIN_SUCCESS, GET_USER_PENDING, GET_USER_LOCATION_PENDING } from './user/user.actions';
 
-//import { FirebaseCrudService } from './data/services/firebase.service'
+import { FirebaseCrudService } from './data/services/firebase.service'
+import { MappingService } from './data/services/mapping.service'
+
 
 @Component({
   selector: 'app-root',
@@ -21,7 +23,8 @@ export class AppComponent implements OnInit {
   constructor(
     private auth: AngularFireAuth,
     private store: Store<any>,
-    //private db: FirebaseCrudService,
+    private db: FirebaseCrudService,
+    private ms: MappingService,
   ) {}
 
   ngOnInit() {
@@ -52,14 +55,22 @@ export class AppComponent implements OnInit {
 
     //TO BE DELETED
 
-    // this.db.createReview({
+    //this.db.searchByName('opportunities', 'O').subscribe(x => console.log(x));
+    // const x = this.db.getAllReviewOfNGO('NBZCMGO9eVNM7aFgaqVf')
+    // x.subscribe(x=> console.log(x))
+
+    // const review = {
     //   ngoId: 'NBZCMGO9eVNM7aFgaqVf',
     //   volunteerId: '9Ceu0TrxYTFYKHtKi3x8',
     //   rating: 4,
-    //   text: 'whatever',
-    //   timeCreated: 'now',
-    // })
+    //   text: 'whatever'
+    // } 
+    // const maped = this.ms.mapReviewInputToProps(review)
+    // console.log('here')
+    // this.db.createReview(maped)
 
+    
+    // const x = this.db.getAllReviewOfNGO('NBZCMGO9eVNM7aFgaqVf')
 
     //this.db.getAllApplicationsOfOpportunity('2tX7RWp7MaVcPox5bAhU').subscribe((res) => console.log(res))
     //this.db.deleteApplication('5f6agl130RnZjoJ9jcSl', 'PDgzHTyTvCQLvu4yL9hN', '2mVEFD2D2jYjhoMYHI79');
