@@ -16,7 +16,6 @@ export class CategoriesListComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.chosenCategoryy)
   }
 
   chooseCategory(category) {

@@ -42,7 +42,6 @@ export class AddReviewComponent implements OnInit {
     .subscribe(user => {
       this.userId = user.id
     })
-    console.log(this.ngoId)
   }
 
   formSubmit() {

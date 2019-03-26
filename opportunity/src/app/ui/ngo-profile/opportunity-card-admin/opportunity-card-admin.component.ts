@@ -19,7 +19,6 @@ export class OpportunityCardAdminComponent implements OnInit {
 
   ngOnInit() {
     this.getApplications()
-    // console.log('opp: ', this.opportunity)
   }
 
   getApplications() {
