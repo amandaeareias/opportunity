@@ -85,13 +85,15 @@ export class FirebaseCrudService {
   /* getMany uses optional QueryFn type for querying DB: */
   /* QueryFn: (ref) => ref.where('fieldName', 'operator', 'fieldValue') */
   getMany<T>(collection: string, queryFn?: QueryFn) {
-    return this.db.collection<T>(collection, queryFn).snapshotChanges().pipe(
-      map(actions => actions.map(action => {
-        const data = action.payload.doc.data()
-        const id = action.payload.doc.id;
-
-        return {id, ...data};
-      })),
+    return this.db.collection<T>(collection, queryFn)
+      .snapshotChanges()
+      .pipe(
+        map(actions => actions.map(action => {
+          const data = action.payload.doc.data()
+          const id = action.payload.doc.id;
+          return {id, ...data};
+        }),
+      ),
     );
   }
 
@@ -141,7 +143,7 @@ export class FirebaseCrudService {
                 active: fullOpportunityData.active,
               }
             };
-            
+
             const applicationsCountVol = fullVolunteerData.applicationsCount || 0;
             const applicationsCountOpp = fullOpportunityData.applicationsCount || 0;
 
@@ -178,7 +180,7 @@ export class FirebaseCrudService {
 
   updateNGO = (ngoId: string, data: any) => {
     //1. check for updates relevant for the opportunities of this ngo
-    const { name, image, category} = data;
+    const {name, image, category} = data;
     const ngoData: any = {ngo: {}}
     if (name) {
       ngoData.ngo.name = name;
@@ -189,6 +191,7 @@ export class FirebaseCrudService {
     if (category) {
       ngoData.ngo.category = category;
     }
+    console.log('ngoData', ngoData)
 
     //2. get all opportunities of this ngo
     this.getAllOpportunitiesOfNGO(ngoId).pipe(first()).subscribe(

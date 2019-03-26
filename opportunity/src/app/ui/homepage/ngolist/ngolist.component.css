@@ -1,6 +1,23 @@
-:host, .ngoContainer {
+:host {
+  margin-top: 50px;
   display: flex;
+  flex-direction: column;
   width: 95vw;
   overflow: scroll;
-  margin-bottom: 40px;
+}
+
+.ngoContainer {
+  display: flex;
+  flex-direction: row;
+  width: 95vw;
+  overflow: scroll;
+}
+
+select {
+  background-color: white;
+  border: none;
+  font-size: 14px;
+  margin-bottom: 20px;
+  width: 120px;
+  outline: none;
 }

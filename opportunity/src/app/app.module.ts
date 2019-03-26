@@ -9,6 +9,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 /* Material design imports */
 import {
@@ -73,6 +74,9 @@ import { userReducer } from './user/user.reducers';
 import { uiReducer } from './ui/ui.reducers';
 import { UserEffects } from './user/user.effects';
 import { SingleapplicationComponent } from './ui/volunteer-profile/volunteerapplications/singleapplication/singleapplication.component';
+import { CategoriesListComponent } from './ui/homepage/categories-list/categories-list.component';
+import { ReviewStarsComponent } from './ui/ngo-profile/review-stars/review-stars.component';
+import { AddReviewComponent } from './ui/ngo-profile/review-stars/add-review/add-review.component';
 
 @NgModule({
   declarations: [
@@ -103,6 +107,9 @@ import { SingleapplicationComponent } from './ui/volunteer-profile/volunteerappl
     SnackbarComponent,
     SummaryPipe,
     SingleapplicationComponent,
+    CategoriesListComponent,
+    ReviewStarsComponent,
+    AddReviewComponent,
   ],
   entryComponents: [
     CreateOpportunityComponent,
@@ -115,13 +122,15 @@ import { SingleapplicationComponent } from './ui/volunteer-profile/volunteerappl
     SnackbarComponent,
     VolunteerSignupComponent,
     NgoSignupComponent,
+    AddReviewComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
+    AngularFireStorageModule,
     BrowserAnimationsModule,
     HttpClientModule,
     MatButtonModule,
@@ -154,6 +163,7 @@ import { SingleapplicationComponent } from './ui/volunteer-profile/volunteerappl
   ],
   providers: [
     LoginComponent,
+    HomepageComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -36,7 +36,6 @@ export class VolunteerSignupComponent implements OnInit {
   getUser() {
     this.store.select(userDetailsSelector)
       .subscribe(user => {
-        console.log(user)
         this.currentUser = user;
         this.createFormData()
       })
