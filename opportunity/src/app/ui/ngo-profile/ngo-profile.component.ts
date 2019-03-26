@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-
+import { map, first, take } from 'rxjs/operators'
 import { FirebaseCrudService } from '../../data/services/firebase.service'
 import { MappingService } from '../../data/services/mapping.service'
 import { userDetailsSelector } from '../../user/user.reducers'
@@ -21,7 +21,8 @@ export class NgoProfileComponent implements OnInit {
   currentUser;
   profileOpportunities = [];
   profileOwner: boolean = false
-  reviews;
+  reviews = [];
+  test;
 
   constructor(private dialog: MatDialog,
     private route: ActivatedRoute,
@@ -31,7 +32,6 @@ export class NgoProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getCurrentUser()
     this.route.params.subscribe(routeParams => {
       this.getCurrentUser()
     });
@@ -40,8 +40,10 @@ export class NgoProfileComponent implements OnInit {
   getCurrentUser() {
     this.store.select(userDetailsSelector)
       .subscribe(user => {
-        this.currentUser = user;
-        this.getProfileNgo()
+        if (user) {
+          this.currentUser = user;
+          this.getProfileNgo()
+        }
       })
   }
 
@@ -53,9 +55,22 @@ export class NgoProfileComponent implements OnInit {
         this.getprofileOpportunities()
         this.compare()
       })
-    this.fbService.getAllReviewOfNGO(this.profileId).subscribe(reviews => {
-      this.reviews = reviews.sort((a:any, b:any) => new Date(b.timeCreated).getTime() - new Date(a.timeCreated).getTime())
-    })
+
+    this.fbService.getAllReviewOfNGO(this.profileId)
+      .subscribe(reviews => {
+        reviews.map((review: any) => {
+          this.fbService.getOne('volunteers', review.volunteerId)
+          .subscribe((volunteer: any) => {
+            if (volunteer) {
+              review.volunteerName = volunteer.name
+              review.volunteerImage = volunteer.volunteerImage
+            }
+          })
+        });
+        this.reviews = reviews
+        // this.reviews = this.reviews.sort((a:any, b:any) => new Date(b.timeCreated).getTime() - new Date(a.timeCreated).getTime());
+        console.log('this.reviews', this.reviews)
+      })
   }
 
   getprofileOpportunities() {
@@ -77,12 +92,12 @@ export class NgoProfileComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
-    this.dialog.open(CreateOpportunityComponent, {data: this.currentUser})
+    this.dialog.open(CreateOpportunityComponent, { data: this.currentUser })
   }
 
   editOpportunity(card) {
     let opportunity = card.opportunity
-    this.dialog.open(EditOpportunityComponent, {data: opportunity})
+    this.dialog.open(EditOpportunityComponent, { data: opportunity })
   }
 
 
