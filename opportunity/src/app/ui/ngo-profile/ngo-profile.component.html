@@ -32,8 +32,8 @@
 
     <div class="review" *ngFor='let review of reviews'>
       <div class="volunteerInfo">
-        <div class="picture"></div>
-        <p class="volunteer" routerLink='/volunteer/{{review.volunteerId}}'>Name here</p>
+        <div class="picture" [ngStyle]="{'background-image': 'url(' + review.volunteerImage + ')'}"></div>
+        <p class="volunteer" routerLink='/volunteer/{{review.volunteerId}}'>{{review.volunteerName}}</p>
       </div>
       <div class="reviewInfo">
         <app-review-stars [rating]='review.rating' [new]='false'></app-review-stars>

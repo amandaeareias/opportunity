@@ -119,6 +119,7 @@
 .volunteer {
   font-size: 14px;
   cursor: pointer;
+  text-align: center;
 }
 
 .volunteer:hover {
