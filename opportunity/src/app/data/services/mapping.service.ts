@@ -52,6 +52,16 @@ export class MappingService {
     }
   }
 
+  mapReviewInputToProps({ ngoId, volunteerId, rating, text }) {
+    return {
+      ngoId,
+      volunteerId,
+      rating,
+      text,
+      timeCreated: new Date().toISOString(),
+    }
+  }
+
   mapApplicationInputToProps({volunteerId, opportunityId, text}) {
     return {
       volunteerId,
