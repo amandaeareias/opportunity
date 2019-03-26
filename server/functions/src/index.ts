@@ -1,11 +1,11 @@
-import * as functions from 'firebase-functions';
-import * as nodemailer from 'nodemailer';
-import * as admin from 'firebase-admin';
-import { Application } from './model/application';
+const admin = require('firebase-admin');
+const functions = require('firebase-functions');
+const nodemailer = require('nodemailer');
 
 /* Initialize cloud functions */
 try {
-  admin.initializeApp(functions.config().firebase);
+  admin.initializeApp();
+  console.log('Functions running...')
 } catch (e) {
   console.log('db failure', e);
 }
@@ -24,26 +24,35 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-export default functions.database.ref('/applications/{applicationId}')
-  .onCreate((event: any) => {
-    const application: Application = event.data.val();
+module.exports.emailFunction = functions.firestore.document('/applications/{applicationId}')
+  .onCreate((snapshot: any, context: any) => {
+    const application: any = snapshot.data();
     return sendEmail(application);
   });
     
 async function sendEmail(application: any) {
   const db = admin.firestore();
-  const opportunity = await db.collection('opportunities').doc(application.opportunityId).get();
-  if (opportunity.exists) {
-    const ngo = await db.collection('ngos').doc(opportunity.data().ngo.id).get();
-    const toEmail = ngo.exists ? ngo.data().username : functions.config().gmail.user;
-    const volunteer = await db.collection('volunteers').doc(application.volunteerId).get();
-    const { about, username, name, dateOfBirth } = volunteer.data();
+  const opportunityRef = await db.collection('opportunities').doc(application.opportunityId).get();
+  if (opportunityRef.exists) {
+    const opportunity: any = opportunityRef.data();
+
+    const ngoRef = await db.collection('ngos').doc(opportunity.ngo.id).get();
+    const ngo: any = ngoRef.data();
+    const toEmail = ngo.username;
+
+    const volunteerRef = await db.collection('volunteers').doc(application.volunteerId).get();
+    const volunteer: any = volunteerRef.data();
+    const { about, username, name, dateOfBirth } = volunteer;
+
+    console.log('NGO', ngo);
+    console.log('Volunteer', volunteer);
+
     const mailOpts = {
       from: `Team Opportunity <${functions.config().gmail.user}>`,
       to: toEmail,
-      subject: `You have new application for ${opportunity.data().name}!`,
+      subject: `You have new application for ${opportunity.name}!`,
       html: `
-        <h1>You have new application for ${opportunity.data().name}!</h1>
+        <h1>You have new application for ${opportunity.name}!</h1>
         <p>Data:</p>
         <ul>
           <li>Volunteer name: ${name}</li>
