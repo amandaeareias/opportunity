@@ -67,7 +67,7 @@ export class NgoSignupComponent implements OnInit {
         phone: phoneForm,
       }
     };
-    console.log('data: ', data)
+
     if (this.formData.valid) {
       this.dialogRef.close(data);
       this.snackBar.open('You just joined our opprtunities network!', 'close', {

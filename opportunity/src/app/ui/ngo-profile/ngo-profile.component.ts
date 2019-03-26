@@ -21,6 +21,7 @@ export class NgoProfileComponent implements OnInit {
   currentUser;
   profileOpportunities = [];
   profileOwner: boolean = false
+  reviews;
 
   constructor(private dialog: MatDialog,
     private route: ActivatedRoute,
@@ -49,11 +50,12 @@ export class NgoProfileComponent implements OnInit {
     this.fbService.getOne('ngos', this.profileId)
       .subscribe(ngo => {
         this.profileNgo = ngo
-        console.log(ngo)
-
         this.getprofileOpportunities()
         this.compare()
       })
+    this.fbService.getAllReviewOfNGO(this.profileId).subscribe(reviews => {
+      this.reviews = reviews.sort((a:any, b:any) => new Date(b.timeCreated).getTime() - new Date(a.timeCreated).getTime())
+    })
   }
 
   getprofileOpportunities() {
