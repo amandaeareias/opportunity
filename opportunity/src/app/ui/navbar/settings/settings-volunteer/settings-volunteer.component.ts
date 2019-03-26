@@ -10,7 +10,7 @@ import { SnackbarComponent } from '../../../snackbar/snackbar.component'
 import { UPDATE_USER_PENDING, USER_LOGOUT_PENDING } from 'src/app/user/user.actions';
 import { FirebaseCrudService } from 'src/app/data/services/firebase.service';
 import { AngularFireStorage } from '@angular/fire/storage';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings-volunteer',
@@ -36,6 +36,7 @@ export class SettingsVolunteerComponent {
     private db: FirebaseCrudService,
     private snackBar: MatSnackBar,
     private storage: AngularFireStorage,
+    private router: Router,
   ) {}
 
 
@@ -83,6 +84,7 @@ export class SettingsVolunteerComponent {
       this.dialog.close();
       this.store.dispatch(new USER_LOGOUT_PENDING());
       this.db.deleteVolunteer(this.currentUser.user.id);
+      this.router.navigate(['']);
     }
   }
 

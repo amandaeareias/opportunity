@@ -12,7 +12,7 @@ import { CountryListService } from 'src/app/data/services/country-list.service';
 })
 export class NgoSignupComponent implements OnInit {
   public currentUser: UserState;
-  public formData; 
+  public formData;
   public countries = this.countryService.getCountryList();
 
   constructor(
@@ -37,6 +37,7 @@ export class NgoSignupComponent implements OnInit {
 
     this.formData = new FormGroup({
       orgNameForm: new FormControl(name, [Validators.required, Validators.minLength(2),]),
+      categoryForm: new FormControl('', Validators.required),
       descriptionForm: new FormControl('', [Validators.required, Validators.minLength(20)]),
       websiteForm: new FormControl(''),
       address: new FormGroup({
@@ -52,9 +53,10 @@ export class NgoSignupComponent implements OnInit {
   }
 
   submitNGO() {
-    const { orgNameForm, descriptionForm, websiteForm, address, emailForm, phoneForm } = this.formData.value;
+    const { orgNameForm, categoryForm, descriptionForm, websiteForm, address, emailForm, phoneForm } = this.formData.value;
     const data = {
       name: orgNameForm,
+      category: categoryForm,
       about: descriptionForm,
       contact: {
         website: websiteForm,
@@ -68,6 +70,13 @@ export class NgoSignupComponent implements OnInit {
       this.dialogRef.close(data);
       this.snackBar.open('You just joined our opprtunities network!', 'close', {
         duration: 3000,
+      });
+    } else {
+      Object.keys(this.formData.controls).forEach(field => {
+        const control = this.formData.get(field);
+        if (control instanceof FormControl) {
+          control.markAsTouched({ onlySelf: true });
+        }
       });
     }
   }

@@ -53,7 +53,6 @@ export class OpportunityComponent implements OnInit {
       .subscribe(user => {
         this.currentUser = user
         if (this.currentUser && this.currentUser.id === this.opportunity.ngo.id) {
-          console.log('same')
           this.isNgoOwner = true
         }
       })
@@ -71,10 +70,8 @@ export class OpportunityComponent implements OnInit {
 
   applyClicked() {
     if (this.isNgo) {
-      console.log('only volunteers can apply')
       this.dialogOpp.close()
     } else if (!this.currentUser) {
-      console.log('please log-in')
       this.dialogOpp.close()
       this.LoginComponent.loginGoogle(false) // call the function again IF LOG-IN SUCCESS so the user can apply without clicking again
     } else {
@@ -91,7 +88,6 @@ export class OpportunityComponent implements OnInit {
       });
       this.dialogOpp.close()
     } else {
-      console.log('not valid')
     }
   }
 

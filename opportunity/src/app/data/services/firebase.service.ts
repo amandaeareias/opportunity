@@ -92,7 +92,7 @@ export class FirebaseCrudService {
     const path2 = path + '/reviews'
     this.getMany(path2).subscribe(
       (reviewsArray: any) => {
-        const average = reviewsArray.reduce((a,b) => { return a+(b.rating || 0) }, 0)/reviewsArray.length;
+        const average = Math.round(reviewsArray.reduce((a,b) => { return a+(b.rating || 0) }, 0)/reviewsArray.length);
         return this.db.collection('ngos').doc(review.ngoId).update({rating: average})
       }
     )
@@ -118,7 +118,7 @@ export class FirebaseCrudService {
                 active: fullOpportunityData.active,
               }
             };
-            
+
             const applicationsCountVol = fullVolunteerData.applicationsCount || 0;
             const applicationsCountOpp = fullOpportunityData.applicationsCount || 0;
 
