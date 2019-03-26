@@ -50,10 +50,10 @@ export class AddReviewComponent implements OnInit {
       if(key!=='review' && this.reviewForm.value[key] !== null)
       rating = this.reviewForm.value[key]
     }
-    console.log(this.ngoId, this.userId, rating, this.reviewForm.value.review)
-    // const review = this.mappingService.mapReviewInputToProps({this.ngoId, this.userId, rating, this.reviewForm.value.review})
-    // this.fbService.createReview(review)
+    const review = this.mappingService.mapReviewInputToProps({ngoId: this.ngoId, volunteerId: this.userId, rating, text: this.reviewForm.value.review})
+    // console.log('review: ', review)
     this.dialog.close()
+    return this.fbService.createReview(review)
   }
 
   cancel() {

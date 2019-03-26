@@ -56,7 +56,7 @@ export class MappingService {
     return {
       ngoId,
       volunteerId,
-      rating,
+      rating: +rating,
       text,
       timeCreated: new Date().toISOString(),
     }
