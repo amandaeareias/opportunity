@@ -27,6 +27,7 @@ export class NavbarComponent implements OnInit {
   componentUIState$: Observable<string>;
   componentLoadingState$: Observable<boolean>;
   currentUser;
+  newPath: string;
 
   constructor(
     private store: Store<any>,
@@ -86,9 +87,8 @@ export class NavbarComponent implements OnInit {
     return this.dialog.open(component, { disableClose: true });
   }
 
-  keyUpSearch(event) {
-    let path = event.target.value
-    this.router.navigate(['/search', path]);
+  keyUpSearch() {
+    this.router.navigate(['/search', this.newPath]);
   }
 
   updateProfile(id, isNgo, data) {
@@ -98,4 +98,5 @@ export class NavbarComponent implements OnInit {
       data,
     }));
   }
+
 }

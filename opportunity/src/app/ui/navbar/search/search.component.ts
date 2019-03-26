@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { FirebaseCrudService } from '../../../data/services/firebase.service'
 
 @Component({
   selector: 'app-search',
@@ -8,17 +10,30 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class SearchComponent implements OnInit {
 
-  path: string;
+  newPath: string;
+  ngosFound;
+  opportunitiesFound;
+
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
+    private fbService: FirebaseCrudService,
   ) { }
 
   ngOnInit() {
-    // console.log(this.route.snapshot.paramMap.get('path'))
     this.route.params.subscribe(routeParams => {
-      this.path = routeParams.path
-      console.log(this.path)
+      this.newPath = routeParams.path
+      this.checkPath()
     });
+  }
+
+  checkPath() {
+    if(this.newPath.length <= 0) {
+      this.router.navigate(['']);
+    } else {
+      this.fbService.searchByName('ngos', this.newPath).subscribe(result => this.ngosFound = result)
+      this.fbService.searchByName('opportunities', this.newPath).subscribe(result => this.opportunitiesFound = result)
+    }
   }
 
 }
