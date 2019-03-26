@@ -53,9 +53,9 @@ export class AppComponent implements OnInit {
     //TO BE DELETED
 
     // this.db.createReview({
-    //   ngoId: '5R1661sYim3UvIDuEgaz',
+    //   ngoId: 'NBZCMGO9eVNM7aFgaqVf',
     //   volunteerId: '9Ceu0TrxYTFYKHtKi3x8',
-    //   rating: 2,
+    //   rating: 4,
     //   text: 'whatever',
     //   timeCreated: 'now',
     // })
