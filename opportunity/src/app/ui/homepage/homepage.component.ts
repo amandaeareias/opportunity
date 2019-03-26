@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs'
+import { FirebaseCrudService } from '../../data/services/firebase.service'
 
 @Component({
   selector: 'app-homepage',
@@ -8,16 +9,38 @@ import { BehaviorSubject } from 'rxjs'
 })
 export class HomepageComponent implements OnInit {
 
-  private category$ = new BehaviorSubject<string>('All');
-  cast = this.category$.asObservable();
+  ngos;
+  opportunities;
 
-  constructor() { }
+  constructor(
+    private service: FirebaseCrudService,
+  ) { }
 
   ngOnInit() {
+    this.getNgosByCategory('All')
+    this.getOpportunitiesByCategories('All')
   }
 
   categoryChanged(event) {
-    this.category$.next(event)
+    this.getNgosByCategory(event)
+    this.getOpportunitiesByCategories(event)
+  }
+
+  getNgosByCategory(category) {
+    if (!category || category == 'All') {
+      this.service.getMany('ngos').subscribe(ngos => this.ngos = ngos)
+    } else {
+      this.service.getMany('ngos', (ref) => ref.where('category', '==', category)).subscribe(ngos => this.ngos = ngos)
+    }
+  }
+
+  getOpportunitiesByCategories(category) {
+    if (!category || category == 'All') {
+      this.service.getMany('opportunities').subscribe(opportunities => this.opportunities = opportunities)
+    } else {
+      this.service.getMany('opportunities', (ref) => ref.where('category', '==', category)).subscribe(opportunities => this.opportunities = opportunities)
+    }
+
   }
 
 }
