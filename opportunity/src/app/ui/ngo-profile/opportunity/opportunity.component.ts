@@ -51,21 +51,23 @@ export class OpportunityComponent implements OnInit {
       })
     this.store.select(userDetailsSelector)
       .subscribe(user => {
-        this.currentUser = user
+        this.currentUser = user;
         if (this.currentUser && this.currentUser.id === this.opportunity.ngo.id) {
           this.isNgoOwner = true
         }
       })
-    this.fbService.getAllApplicationsOfVolunteer(this.currentUser.id).subscribe(res => {
-      if (res.length > 0) {
-        for (let appx of res) {
-          const app: any = appx
-          if (app.opportunityId === this.opportunity.id) {
-            this.applied = true
+    if (this.currentUser) {
+      this.fbService.getAllApplicationsOfVolunteer(this.currentUser.id).subscribe(res => {
+        if (res.length > 0) {
+          for (let appx of res) {
+            const app: any = appx
+            if (app.opportunityId === this.opportunity.id) {
+              this.applied = true
+            }
           }
         }
-      }
-    })
+      })
+    }
   }
 
   applyClicked() {
