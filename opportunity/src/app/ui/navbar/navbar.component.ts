@@ -44,13 +44,24 @@ export class NavbarComponent implements OnInit {
           const dialogRef = this.openSignUpForm(user.isNgo ? NgoSignupComponent : VolunteerSignupComponent);
 
           dialogRef.afterClosed()
-            .subscribe((res = {}) => {
-              this.store.dispatch(new UPDATE_USER_PENDING({
-                id: user.user.id,
-                isNgo: user.isNgo,
-                data: { ...res, isComplete: true },
-              }));
-            })
+            .subscribe((data = {}) => {
+              if (user.isNgo) {
+                this.maps.getLocation(data.contact.address)
+                  .subscribe(res => {
+                    this.updateProfile(
+                      user.user.id,
+                      user.isNgo,
+                      { ...data, isComplete: true, location: res }
+                    );
+                  });
+              } else {
+                this.updateProfile(
+                  this.currentUser.user.id,
+                  this.currentUser.isNgo,
+                  { ...data, isComplete: true }
+                );
+              }
+            });
         }
       }
     });
@@ -70,5 +81,13 @@ export class NavbarComponent implements OnInit {
 
   openSignUpForm(component) {
     return this.dialog.open(component, { disableClose: true });
+  }
+
+  updateProfile(id, isNgo, data) {
+    this.store.dispatch(new UPDATE_USER_PENDING({
+      id,
+      isNgo,
+      data,
+    }));
   }
 }

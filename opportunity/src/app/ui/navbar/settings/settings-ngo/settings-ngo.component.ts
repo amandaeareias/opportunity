@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FirebaseCrudService } from '../../../../data/services/firebase.service'
@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { UPDATE_USER_PENDING, USER_LOGOUT_PENDING } from 'src/app/user/user.actions';
 import { CountryListService } from 'src/app/data/services/country-list.service';
 import { GeocodeService } from 'src/app/data/services/google-maps/geocode.service';
+import _ from 'lodash';
 
 
 @Component({
@@ -46,6 +47,7 @@ export class SettingsNgoComponent {
 
   formSubmit() {
     if (this.settingsForm.valid) {
+      
       const data = {
         name: this.settingsForm.value.name,
         about: this.settingsForm.value.about,
@@ -55,23 +57,36 @@ export class SettingsNgoComponent {
           website: this.settingsForm.value.website,
         }
       };
-      console.log(data.contact.address);
-      this.maps.getLocation(data.contact.address)
-        .subscribe(res => {
-          this.store.dispatch(new UPDATE_USER_PENDING({
-            id: this.currentUser.user.id,
-            isNgo: this.currentUser.isNgo,
-            data: {
-              ...data,
-              location: res,
-            },
-          }));
-        })
+
+      if (!_.isEqual(data.contact.address, this.currentUser.user.contact.address)) {
+        this.maps.getLocation(data.contact.address)
+          .subscribe(res => {
+            this.updateProfile(
+              this.currentUser.user.id,
+              this.currentUser.isNgo,
+              { ...data, location: res }
+            );
+          });
+      } else {
+        this.updateProfile(
+          this.currentUser.user.id,
+          this.currentUser.isNgo,
+          data
+        );
+      }
       this.dialog.close();
       this.snackBar.openFromComponent(SnackbarComponent, {
           duration: 3000,
       });
     }
+  }
+
+  updateProfile(id, isNgo, data) {
+    this.store.dispatch(new UPDATE_USER_PENDING({
+      id,
+      isNgo,
+      data,
+    }));
   }
 
   deleteProfile() {

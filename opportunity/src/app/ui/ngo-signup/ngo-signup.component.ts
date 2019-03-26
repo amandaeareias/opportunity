@@ -11,16 +11,16 @@ import { CountryListService } from 'src/app/data/services/country-list.service';
   styleUrls: ['./ngo-signup.component.css']
 })
 export class NgoSignupComponent implements OnInit {
+  public currentUser: UserState;
+  public formData; 
+  public countries = this.countryService.getCountryList();
+
   constructor(
     private dialogRef: MatDialogRef<NgoSignupComponent>,
     private snackBar: MatSnackBar,
     private store: Store<any>,
     private countryService: CountryListService,
   ) { }
-
-  public currentUser: UserState;
-  public formData; 
-  countries = this.countryService.getCountryList();
 
   ngOnInit() {
     this.store.select(getUserState)
