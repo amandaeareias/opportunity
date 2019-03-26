@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseCrudService } from '../../../data/services/firebase.service'
+import { HomepageComponent } from '../homepage.component'
 
 @Component({
   selector: 'app-opportunitieslist',
@@ -12,16 +13,21 @@ export class OpportunitieslistComponent implements OnInit {
 
   constructor(
     private fbService: FirebaseCrudService,
+    private homePage: HomepageComponent,
   ) { }
 
   ngOnInit() {
-    this.getOpportunities()
+    this.homePage.cast.subscribe(category => this.getOpportunities(category))
   }
 
-  getOpportunities() {
-    this.fbService.getMany('opportunities').subscribe(opportunities => {
-      this.opportunities = opportunities;
-    })
+  getOpportunities(category) {
+    if (!category || category == 'All') {
+      this.fbService.getMany('opportunities').subscribe(opportunities => {
+        this.opportunities = opportunities;
+      })
+    } else {
+      this.fbService.getMany('opportunities', (ref) => ref.where('category', '==', category)).subscribe(opportunities => this.opportunities = opportunities)
+    }
   }
 
 }
