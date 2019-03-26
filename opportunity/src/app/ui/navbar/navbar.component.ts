@@ -72,4 +72,9 @@ export class NavbarComponent implements OnInit {
   openSignUpForm(component) {
     return this.dialog.open(component, { disableClose: true });
   }
+
+  keyUpSearch(event) {
+    let path = event.target.value
+    this.router.navigate(['/search', path]);
+  }
 }

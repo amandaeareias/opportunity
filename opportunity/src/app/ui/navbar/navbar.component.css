@@ -8,10 +8,37 @@ mat-toolbar {
   z-index: 10;
 }
 
+.leftSideNav {
+  display: flex;
+  align-items: center;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  color: #0E3D5E;
+}
+
+.search img {
+  height: 20px;
+  margin-right: 5px;
+}
+
+.search input {
+  height: 30px;
+  border: none;
+  width: 170px;
+  font-weight: lighter;
+  font-size: 18px;
+  outline: none;
+  color: #0E3D5E;
+}
+
 .logo {
   height: 38px;
   cursor: pointer;
   outline: none;
+  margin-right: 40px;
 }
 
 .rightSideNav {
