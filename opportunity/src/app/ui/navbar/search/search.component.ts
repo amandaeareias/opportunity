@@ -8,12 +8,17 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class SearchComponent implements OnInit {
 
+  path: string;
   constructor(
     private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
-    console.log(this.route.snapshot.paramMap.get('path'))
+    // console.log(this.route.snapshot.paramMap.get('path'))
+    this.route.params.subscribe(routeParams => {
+      this.path = routeParams.path
+      console.log(this.path)
+    });
   }
 
 }
