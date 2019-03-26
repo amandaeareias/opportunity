@@ -6,7 +6,7 @@ import { Volunteer } from '../models/volunteer.model';
 import { Opportunity } from '../models/opportunity.model';
 import { Application } from '../models/application.model';
 import { Review } from '../models/review.model';
-import {map, first } from 'rxjs/operators'
+import {map, first, filter } from 'rxjs/operators'
 import {Observable} from 'rxjs';
 import { applySourceSpanToStatementIfNeeded } from '@angular/compiler/src/output/output_ast';
 
@@ -15,6 +15,20 @@ import { applySourceSpanToStatementIfNeeded } from '@angular/compiler/src/output
 })
 export class FirebaseCrudService {
   constructor(public db: AngularFirestore) {}
+
+  /* Search */
+  searchByName<T>(collection: string, word: string) { //Usage: ...searchByName('opportunities', 'xxx').subscribe((arrayOfMatches) => {...});
+    return this.db.collection<T>(collection).snapshotChanges().pipe(
+      map(actions => {
+        let result:any = actions.map(action => {
+        const data = action.payload.doc.data()
+        const id = action.payload.doc.id;
+        return {id, ...data};
+        })
+        return result = result.filter((el:any) => {return el.name.includes(word)})
+      }),
+    );
+  }
 
   /* Getters */
   getAllOpportunitiesOfNGO(id: string) {
@@ -43,6 +57,17 @@ export class FirebaseCrudService {
         const data = action.payload.doc.data()
         const id = action.payload.doc.id;
         return {id, ...data};
+      })),
+    );
+  }
+
+  getAllReviewOfNGO(ngoId: string) {
+    return this.db.collection('ngos/'+ngoId+'/reviews').snapshotChanges().pipe(
+      map(actions => actions.map(action => {
+        const data: any = action.payload.doc.data()
+        const id = action.payload.doc.id;
+        data.id = id;
+        return data;
       })),
     );
   }
@@ -90,7 +115,7 @@ export class FirebaseCrudService {
     const path2 = path + '/reviews'
     this.getMany(path2).subscribe(
       (reviewsArray: any) => {
-        const average = reviewsArray.reduce((a,b) => { return a+(b.rating || 0) }, 0)/reviewsArray.length;
+        const average = Math.round(reviewsArray.reduce((a,b) => { return a+(b.rating || 0) }, 0)/reviewsArray.length);
         return this.db.collection('ngos').doc(review.ngoId).update({rating: average})
       }
     )
@@ -153,11 +178,8 @@ export class FirebaseCrudService {
 
   updateNGO = (ngoId: string, data: any) => {
     //1. check for updates relevant for the opportunities of this ngo
-    const {id, name, image, category} = data;
+    const { name, image, category} = data;
     const ngoData: any = {ngo: {}}
-    if (id) {
-      ngoData.ngo.id = id;
-    }
     if (name) {
       ngoData.ngo.name = name;
     }
@@ -176,7 +198,7 @@ export class FirebaseCrudService {
       }
     );
     //3. update the object in the ngo collection
-    return this.db.collection('ngos').doc(id).update(data);
+    return this.db.collection('ngos').doc(ngoId).update(data);
   }
 
   updateOpportunity = (oppId: string, data: any) => {
