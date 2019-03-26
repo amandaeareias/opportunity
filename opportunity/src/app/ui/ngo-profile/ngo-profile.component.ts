@@ -17,7 +17,7 @@ import { EditOpportunityComponent } from './opportunity-card-admin/edit-opportun
 export class NgoProfileComponent implements OnInit {
 
   profileNgo;
-  profileId
+  profileId;
   currentUser;
   profileOpportunities = [];
   profileOwner: boolean = false
@@ -28,7 +28,6 @@ export class NgoProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private fbService: FirebaseCrudService,
     private store: Store<any>,
-    private mappingService: MappingService,
   ) { }
 
   ngOnInit() {
@@ -39,12 +38,12 @@ export class NgoProfileComponent implements OnInit {
 
   getCurrentUser() {
     this.store.select(userDetailsSelector)
-      .subscribe(user => {
-        if (user) {
-          this.currentUser = user;
-          this.getProfileNgo()
-        }
-      })
+    .subscribe(user => {
+      if (user) {
+        this.currentUser = user;
+      }
+      this.getProfileNgo()
+    })
   }
 
   getProfileNgo() {
@@ -63,13 +62,12 @@ export class NgoProfileComponent implements OnInit {
           .subscribe((volunteer: any) => {
             if (volunteer) {
               review.volunteerName = volunteer.name
-              review.volunteerImage = volunteer.volunteerImage
+              review.volunteerImage = volunteer.image
             }
           })
         });
         this.reviews = reviews
-        // this.reviews = this.reviews.sort((a:any, b:any) => new Date(b.timeCreated).getTime() - new Date(a.timeCreated).getTime());
-        console.log('this.reviews', this.reviews)
+        this.reviews = this.reviews.sort((a:any, b:any) => new Date(b.timeCreated).getTime() - new Date(a.timeCreated).getTime());
       })
   }
 
