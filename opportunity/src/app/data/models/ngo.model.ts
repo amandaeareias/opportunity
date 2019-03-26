@@ -1,4 +1,4 @@
-import { Opportunity } from './opportunity.model';
+import { Review } from './review.model';
 
 export class NGO {
   id?: string;
@@ -16,6 +16,8 @@ export class NGO {
   location?: any;
   opportunitiesCount?: number;
   isComplete?: boolean;
+  category?: string;
+  reviews?: Review[];
 
   constructor() {
     this.name = null;
