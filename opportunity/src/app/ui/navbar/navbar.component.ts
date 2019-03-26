@@ -27,12 +27,13 @@ export class NavbarComponent implements OnInit {
   componentUIState$: Observable<string>;
   componentLoadingState$: Observable<boolean>;
   currentUser;
+  newPath: string;
 
   constructor(
     private store: Store<any>,
     private dialog: MatDialog,
-private maps: GeocodeService,
-private router: Router,
+    private router: Router,
+    private maps: GeocodeService,
   ) {}
 
   ngOnInit() {
@@ -86,6 +87,10 @@ private router: Router,
     return this.dialog.open(component, { disableClose: true });
   }
 
+  keyUpSearch() {
+    this.router.navigate(['/search', this.newPath]);
+  }
+
   updateProfile(id, isNgo, data) {
     this.store.dispatch(new UPDATE_USER_PENDING({
       id,
@@ -93,4 +98,5 @@ private router: Router,
       data,
     }));
   }
+
 }

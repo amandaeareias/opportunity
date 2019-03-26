@@ -6,10 +6,10 @@
     <div class="profilePicture" [ngStyle]="{'background-image': 'url(' + profileNgo.image + ')'}"></div>
     <div class='ngoInfo'>
       <h2 class="name">{{profileNgo.name}}</h2>
-      <app-review-stars [rating]='profileNgo.rating' [new]='true'></app-review-stars>
+      <app-review-stars [rating]='profileNgo.rating' [new]='true' [profileOwner]='profileOwner' [currentUser]='currentUser'></app-review-stars>
       <p>{{profileNgo.contact.website}}</p>
       <p>{{profileNgo.contact.phone}}</p>
-      <p>{{profileNgo.contact.address}}</p>
+      <p>{{profileNgo.location.formattedAddress}}</p>
     </div>
   </div>
 
@@ -30,30 +30,18 @@
 
   <div class="reviewsContainer">
 
-    <div class="review">
+    <div class="review" *ngFor='let review of reviews'>
       <div class="volunteerInfo">
-        <div class="picture"></div>
-        <p class="volunteer">Amanda</p>
+        <div class="picture" [ngStyle]="{'background-image': 'url(' + review.volunteerImage + ')'}"></div>
+        <p class="volunteer" routerLink='/volunteer/{{review.volunteerId}}'>{{review.volunteerName}}</p>
       </div>
       <div class="reviewInfo">
-        <app-review-stars [rating]='5' [new]='false'></app-review-stars>
-        <p class="date">22/03/2019</p>
-        <p class="text">I loved been a part of this NGO for such a long time, it really changed my life, their work is amazing!</p>
+        <app-review-stars [rating]='review.rating' [new]='false'></app-review-stars>
+        <p class="date">{{review.timeCreated | date:'shortDate'}}</p>
+        <p class="text">{{review.text}}</p>
       </div>
     </div>
 
-
-    <div class="review">
-      <div class="volunteerInfo">
-        <div class="picture"></div>
-        <p class="volunteer">Ekaterina</p>
-      </div>
-      <div class="reviewInfo">
-        <app-review-stars [rating]='4' [new]='false'></app-review-stars>
-        <p class="date">10/03/2019</p>
-        <p class="text">This organization does a great job!</p>
-      </div>
-    </div>
   </div>
 
 </div>
