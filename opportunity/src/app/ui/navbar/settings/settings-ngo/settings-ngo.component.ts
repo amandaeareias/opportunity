@@ -52,10 +52,7 @@ export class SettingsNgoComponent {
     private maps: GeocodeService,
     private storage: AngularFireStorage,
     private router: Router,
-  ) { }
-
-  ngOnInit() {
-  }
+  ) {}
 
   formSubmit() {
     if (this.settingsForm.valid) {
