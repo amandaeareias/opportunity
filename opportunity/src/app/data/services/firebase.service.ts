@@ -155,11 +155,8 @@ export class FirebaseCrudService {
 
   updateNGO = (ngoId: string, data: any) => {
     //1. check for updates relevant for the opportunities of this ngo
-    const {id, name, image, category} = data;
+    const {name, image, category} = data;
     const ngoData: any = {ngo: {}}
-    if (id) {
-      ngoData.ngo.id = id;
-    }
     if (name) {
       ngoData.ngo.name = name;
     }
@@ -169,6 +166,7 @@ export class FirebaseCrudService {
     if (category) {
       ngoData.ngo.category = category;
     }
+    console.log('ngoData', ngoData)
 
     //2. get all opportunities of this ngo
     this.getAllOpportunitiesOfNGO(ngoId).pipe(first()).subscribe(
@@ -178,7 +176,7 @@ export class FirebaseCrudService {
       }
     );
     //3. update the object in the ngo collection
-    return this.db.collection('ngos').doc(id).update(data);
+    return this.db.collection('ngos').doc(ngoId).update(data);
   }
 
   updateOpportunity = (oppId: string, data: any) => {

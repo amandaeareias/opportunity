@@ -9,8 +9,8 @@ import { Observable } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Store } from '@ngrx/store';
 import { UPDATE_USER_PENDING, USER_LOGOUT_PENDING } from 'src/app/user/user.actions';
-import { Router } from '@angular/router';
 import { CountryListService } from 'src/app/data/services/country-list.service';
+import { Router } from '@angular/router';
 import { GeocodeService } from 'src/app/data/services/google-maps/geocode.service';
 import _ from 'lodash';
 
@@ -56,7 +56,7 @@ export class SettingsNgoComponent {
 
   formSubmit() {
     if (this.settingsForm.valid) {
-      
+
       const data = {
         name: this.settingsForm.value.name,
         about: this.settingsForm.value.about,
