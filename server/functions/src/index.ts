@@ -1,82 +1,48 @@
-// The Cloud Functions for Firebase SDK to create Cloud Functions and setup triggers.
-import * as functions from 'firebase-functions';
-
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
-
-// The Firebase Admin SDK to access the Firebase Realtime Database.
-const admin = require('firebase-admin'); //all these functions have admin access!
-admin.initializeApp();
-
-
-// Listens for new applications added to "/applications" and 
-// appends the volunteer and opportunity data to the object
-// as well as updated applications count on volunteer and opportunity
-
-export const appendApplicationData = functions.firestore
-    .document('/applications/{applicationId}')
-    .onCreate(async (snapshot, context) => {
-         // Grab the current value of what was written to the Realtime Database.
-         let application = await snapshot.data();
-         console.log('Appending', application);
-        const pr = await snapshot.ref.parent.get();
-        console.log(pr.)
-
-        
-         
-        //  const refVolunteer = functions.database('/volunteers/application.volunteerId').;
-        //  const refVolunteer = functions.database.document('/volunteers/application.volunteerId').;
-        //  const refOpportunity = functions.database.ref('/opportunities/application.opportunityId');
-
-        //  const volunteerFullData = await refVolunteer.data();
-        //  const opportunityFullData = await refOpportunity.data();
- 
-
-        //  const volunteerData = {
-        //      name: volunteerFullData.name,
-        //      image: volunteerFullData.image
-        //  };
-        //  const opportunityData = {
-        //      ngoName: opportunityFullData.ngo.name,
-        //      name: opportunityFullData.name,
-        //      about: opportunityFullData.about,
-        //      location: opportunityFullData.location,
-        //      prerequisites: opportunityFullData.prerequisites,
-        //      active: opportunityFullData.active,
-        //  };
-
-        //  This function returns a Promise.
-         return snapshot.ref.update({volunteerData: null, opportunityData: null});
-    });
-
-// export const appendApplicationData = functions.database.ref('/applications/{doc}')
-//     .onCreate((snapshot, context) => {
-        // Grab the current value of what was written to the Realtime Database.
-        // const application = snapshot.val();
-        // console.log('Appending', application);
-        // const volunteerData = await admin.database().ref('/volunteers/{original.volunteerId}').val();
-        // const opportunityData = await admin.database().ref('/opportunities/{original.opportunityId}').val();
-
-        // application.volunteerData = {
-        //     name: volunteerData.name,
-        //     image: volunteerData.image
-        // };
-        // application.applicationData = {
-        //     ngoName: opportunityData.ngo.name,
-        //     name: opportunityData.name,
-        //     about: opportunityData.about,
-        //     location: opportunityData.location,
-        //     prerequisites: opportunityData.prerequisites,
-        //     active: opportunityData.active,
-        // };
-        // You must return a Promise when performing asynchronous tasks inside a Functions such as
-        // writing to the Firebase Realtime Database.
-        // This function returns a Promise.
-    //     return snapshot.ref.update(application);
-    // });
-
-
+    //1. Set-up
+    const functions = require('firebase-functions')
+    const nodemailer = require('nodemailer')
+    const postmarkTransport = require('nodemailer-postmark-transport')
+    const admin = require('firebase-admin')
+    
+    // 2. Admin SDK can only be initialized once
+    try {admin.initializeApp(functions.config().firebase)} catch(e) {
+            console.log('db failure')
+    }
+    
+    // 3. Google Cloud environment variable used:
+    // firebase functions:config:set postmark.key="API-KEY-HERE"        //!!!!!!!!!!!
+    const postmarkKey = functions.config().postmark.key
+    const mailTransport = nodemailer.createTransport(postmarkTransport({
+            auth: {
+                    apiKey: postmarkKey
+            }
+    }))
+    
+    // 4. Watch for new applications
+    exports = module.exports = functions.database.ref('/applications/{applicationId}').onCreate((event: any) => {
+            const snapshot = event.data
+            const application = snapshot.val()
+            // Use nodemailer to send email
+            return sendEmail(application);
+    })
+    
+    function sendEmail(application: any) {
+            // 5. Geather relevant data
+            const db = admin.firestore();
+            db.collection('opportunities').doc(application.opportunityId).get().then((opportunityData:any) => {
+                db.collection('ngos').doc(opportunityData.ngo.id).get().then((ngoData:any) => {
+                    const ngoEmail = ngoData.username;
+                    // 6. Send application email to ngo and volunteer
+                    const mailOptions = {
+                        from: '"Dave" <dave@example.net>',        //!!!!!!!!!!!
+                        to: '${ngoEmail}',
+                        subject: 'A new application!!!',
+                        html: `<YOUR-WELCOME-MESSAGE-HERE>`
+                    }
+                    // 7. Process the sending of this email via nodemailer
+                    return mailTransport.sendMail(mailOptions)
+                            .then(() => console.log('Application confirmation email'))
+                            .catch((error) => console.error('There was an error while sending the email:', error))
+                            })
+            })
+    }
