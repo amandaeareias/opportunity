@@ -17,6 +17,7 @@ export class GeocodeService {
   ) { }
 
   getLocation(addressObject) {
+    console.log('Show me if this function runs...');
     const query = this.formatAddress(addressObject).query;
     return this.http
       .get<any>(`${this.GOOGLE_MAPS_API_HOST}/json?address=${query}&key=${this.GOOGLE_MAPS_API_KEY}`)
