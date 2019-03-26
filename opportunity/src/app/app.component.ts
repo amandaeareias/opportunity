@@ -6,6 +6,8 @@ import { getUserState, UserState } from './user/user.reducers';
 import { navbarUIStateSelector } from './ui/ui.reducers';
 import { GOOGLE_LOGIN_SUCCESS, GET_USER_PENDING, GET_USER_LOCATION_PENDING } from './user/user.actions';
 
+//import { FirebaseCrudService } from './data/services/firebase.service'
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,6 +21,7 @@ export class AppComponent implements OnInit {
   constructor(
     private auth: AngularFireAuth,
     private store: Store<any>,
+    //private db: FirebaseCrudService,
   ) {}
 
   ngOnInit() {
@@ -48,6 +51,14 @@ export class AppComponent implements OnInit {
     });
 
     //TO BE DELETED
+
+    // this.db.createReview({
+    //   ngoId: 'NBZCMGO9eVNM7aFgaqVf',
+    //   volunteerId: '9Ceu0TrxYTFYKHtKi3x8',
+    //   rating: 4,
+    //   text: 'whatever',
+    //   timeCreated: 'now',
+    // })
 
 
     //this.db.getAllApplicationsOfOpportunity('2tX7RWp7MaVcPox5bAhU').subscribe((res) => console.log(res))

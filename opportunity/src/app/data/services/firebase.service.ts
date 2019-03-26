@@ -5,6 +5,7 @@ import { NGO } from '../models/ngo.model';
 import { Volunteer } from '../models/volunteer.model';
 import { Opportunity } from '../models/opportunity.model';
 import { Application } from '../models/application.model';
+import { Review } from '../models/review.model';
 import {map, first } from 'rxjs/operators'
 import {Observable} from 'rxjs';
 import { applySourceSpanToStatementIfNeeded } from '@angular/compiler/src/output/output_ast';
@@ -79,6 +80,18 @@ export class FirebaseCrudService {
         const opportunitiesCountNgo = fullNgoData.opportunitiesCount || 0;
         await this.db.collection('ngos').doc(opportunity.ngo.id).update({opportunitiesCount: opportunitiesCountNgo+1})
         return this.db.collection('opportunities').add({ ...new Opportunity(), ...opportunity });
+      }
+    )
+  }
+
+  createReview = async (review: Review) => {
+    const path = 'ngos/'+ review.ngoId
+    await this.db.doc(path).collection('reviews').add({ ...new Review(), ...review })
+    const path2 = path + '/reviews'
+    this.getMany(path2).subscribe(
+      (reviewsArray: any) => {
+        const average = reviewsArray.reduce((a,b) => { return a+(b.rating || 0) }, 0)/reviewsArray.length;
+        return this.db.collection('ngos').doc(review.ngoId).update({rating: average})
       }
     )
   }
