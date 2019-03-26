@@ -6,7 +6,7 @@ import { Volunteer } from '../models/volunteer.model';
 import { Opportunity } from '../models/opportunity.model';
 import { Application } from '../models/application.model';
 import { Review } from '../models/review.model';
-import {map, first } from 'rxjs/operators'
+import {map, first, filter } from 'rxjs/operators'
 import {Observable} from 'rxjs';
 import { applySourceSpanToStatementIfNeeded } from '@angular/compiler/src/output/output_ast';
 
@@ -15,6 +15,20 @@ import { applySourceSpanToStatementIfNeeded } from '@angular/compiler/src/output
 })
 export class FirebaseCrudService {
   constructor(public db: AngularFirestore) {}
+
+  /* Search */
+  searchByName<T>(collection: string, word: string) { //Usage: ...searchByName('opportunities', 'xxx').subscribe((arrayOfMatches) => {...});
+    return this.db.collection<T>(collection).snapshotChanges().pipe(
+      map(actions => {
+        let result:any = actions.map(action => {
+        const data = action.payload.doc.data()
+        const id = action.payload.doc.id;
+        return {id, ...data};
+        })
+        return result = result.filter((el:any) => {return el.name.includes(word)})
+      }),
+    );
+  }
 
   /* Getters */
   getAllOpportunitiesOfNGO(id: string) {
@@ -43,6 +57,17 @@ export class FirebaseCrudService {
         const data = action.payload.doc.data()
         const id = action.payload.doc.id;
         return {id, ...data};
+      })),
+    );
+  }
+
+  getAllReviewOfNGO(ngoId: string) {
+    return this.db.collection('ngos/'+ngoId+'/reviews').snapshotChanges().pipe(
+      map(actions => actions.map(action => {
+        const data: any = action.payload.doc.data()
+        const id = action.payload.doc.id;
+        data.id = id;
+        return data;
       })),
     );
   }
