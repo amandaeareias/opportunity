@@ -82,4 +82,8 @@ export class GoogleMapsComponent implements OnInit {
       };
     });
   }
+
+  showMarkerDetails(id) {
+    this.router.navigate([`/ngo/${id}`]);
+  }
 }
