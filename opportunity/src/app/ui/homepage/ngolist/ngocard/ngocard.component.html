@@ -2,9 +2,9 @@
   <div class="opacityLayer"></div>
   <div class="info">
     <h4>{{ ngo.name }}</h4>
-    <div class="location" *ngIf='ngo.contact && ngo.contact.address'>
+    <div class="location" *ngIf="ngo.location">
       <img src="/assets/icons/position.png" alt="">
-      <p>{{ngo.contact.address}}</p>
+      <p title="{{ ngo.location.formattedAddress }}">{{ ngo.location.formattedAddress | summary:25 }}</p>
     </div>
   </div>
 </div>
