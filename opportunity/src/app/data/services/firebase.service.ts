@@ -25,7 +25,7 @@ export class FirebaseCrudService {
         const id = action.payload.doc.id;
         return {id, ...data};
         })
-        return result = result.filter((el:any) => {return el.name.includes(word)})
+        return result = result.filter((el:any) => {return el.name.toLowerCase().includes(word.toLowerCase())})
       }),
     );
   }
