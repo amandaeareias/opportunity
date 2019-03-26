@@ -15,6 +15,7 @@ import {
   navbarUIStateSelector,
   navbarLoadingStateSelector
 } from '../ui.reducers';
+import { GeocodeService } from 'src/app/data/services/google-maps/geocode.service';
 
 @Component({
   selector: 'app-navbar',
@@ -28,7 +29,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private store: Store<any>,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private maps: GeocodeService,
   ) {}
 
   ngOnInit() {
@@ -42,13 +44,24 @@ export class NavbarComponent implements OnInit {
           const dialogRef = this.openSignUpForm(user.isNgo ? NgoSignupComponent : VolunteerSignupComponent);
 
           dialogRef.afterClosed()
-            .subscribe((res = {}) => {
-              this.store.dispatch(new UPDATE_USER_PENDING({
-                id: user.user.id,
-                isNgo: user.isNgo,
-                data: { ...res, isComplete: true },
-              }));
-            })
+            .subscribe((data = {}) => {
+              if (user.isNgo) {
+                this.maps.getLocation(data.contact.address)
+                  .subscribe(res => {
+                    this.updateProfile(
+                      user.user.id,
+                      user.isNgo,
+                      { ...data, isComplete: true, location: res }
+                    );
+                  });
+              } else {
+                this.updateProfile(
+                  this.currentUser.user.id,
+                  this.currentUser.isNgo,
+                  { ...data, isComplete: true }
+                );
+              }
+            });
         }
       }
     });
@@ -68,5 +81,13 @@ export class NavbarComponent implements OnInit {
 
   openSignUpForm(component) {
     return this.dialog.open(component, { disableClose: true });
+  }
+
+  updateProfile(id, isNgo, data) {
+    this.store.dispatch(new UPDATE_USER_PENDING({
+      id,
+      isNgo,
+      data,
+    }));
   }
 }

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { Store } from '@ngrx/store'
-import { userDetailsSelector } from '../../user/user.reducers'
+import { getUserState, UserState } from '../../user/user.reducers'
+import { CountryListService } from 'src/app/data/services/country-list.service';
 
 @Component({
   selector: 'app-ngo-signup',
@@ -10,48 +11,57 @@ import { userDetailsSelector } from '../../user/user.reducers'
   styleUrls: ['./ngo-signup.component.css']
 })
 export class NgoSignupComponent implements OnInit {
+  public currentUser: UserState;
+  public formData; 
+  public countries = this.countryService.getCountryList();
+
   constructor(
     private dialogRef: MatDialogRef<NgoSignupComponent>,
     private snackBar: MatSnackBar,
     private store: Store<any>,
+    private countryService: CountryListService,
   ) { }
 
-  formData;
-  currentUser;
-
   ngOnInit() {
-    this.getUser()
-  }
-
-  getUser() {
-    this.store.select(userDetailsSelector)
+    this.store.select(getUserState)
       .subscribe(user => {
-        console.log(user)
         this.currentUser = user;
-        this.createFormData()
-      })
+        this.generateFormData(user);
+      });
   }
 
-  createFormData() {
+  generateFormData(user) {
+    const countryName = user.location.country_name || '';
+    const name = user.user.name || '';
+    const email = user.user.username || '';
+
     this.formData = new FormGroup({
-      orgNameForm: new FormControl(this.currentUser.name, [Validators.required, Validators.minLength(2),]),
+      orgNameForm: new FormControl(name, [Validators.required, Validators.minLength(2),]),
       descriptionForm: new FormControl('', [Validators.required, Validators.minLength(20)]),
       websiteForm: new FormControl(''),
-      addressForm: new FormControl('', [Validators.required]),
-      emailForm: new FormControl(this.currentUser.username, [Validators.required, Validators.email]),
+      address: new FormGroup({
+        country: new FormControl(countryName, [Validators.required]),
+        street: new FormControl('', [Validators.required]),
+        city: new FormControl('', [Validators.required]),
+        region: new FormControl('', [Validators.required]),
+        postalCode: new FormControl('', [Validators.required]),
+      }),
+      emailForm: new FormControl(email, [Validators.required, Validators.email]),
       phoneForm: new FormControl(''),
     });
   }
 
   submitNGO() {
-    const { orgNameForm, descriptionForm, websiteForm, addressForm, emailForm, phoneForm } = this.formData.value;
+    const { orgNameForm, descriptionForm, websiteForm, address, emailForm, phoneForm } = this.formData.value;
     const data = {
       name: orgNameForm,
       about: descriptionForm,
-      website: websiteForm,
-      address: addressForm,
-      email: emailForm,
-      phone: phoneForm,
+      contact: {
+        website: websiteForm,
+        address,
+        publicEmail: emailForm,
+        phone: phoneForm,
+      }
     };
 
     if (this.formData.valid) {
