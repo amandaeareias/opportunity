@@ -31,8 +31,8 @@ export class NavbarComponent implements OnInit {
   constructor(
     private store: Store<any>,
     private dialog: MatDialog,
-private maps: GeocodeService,
-private router: Router,
+    private router: Router,
+    private maps: GeocodeService,
   ) {}
 
   ngOnInit() {
