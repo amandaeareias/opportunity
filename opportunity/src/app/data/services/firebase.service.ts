@@ -84,9 +84,16 @@ export class FirebaseCrudService {
     )
   }
 
-  createReview = (review: Review) => {
+  createReview = async (review: Review) => {
     const path = 'ngos/'+ review.ngoId
-    return this.db.doc(path).collection('reviews').add({ ...new Review(), ...review })
+    await this.db.doc(path).collection('reviews').add({ ...new Review(), ...review })
+    const path2 = path + '/reviews'
+    this.getMany(path2).subscribe(
+      (reviewsArray: any) => {
+        const average = reviewsArray.reduce((a,b) => { return a+(b.rating || 0) }, 0)/reviewsArray.length;
+        return this.db.collection('ngos').doc(review.ngoId).update({rating: average})
+      }
+    )
   }
 
   createApplication = (application: Application) => {
