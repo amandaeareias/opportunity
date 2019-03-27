@@ -1,44 +1,47 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from "@angular/material";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
-import { SnackbarComponent } from '../../../snackbar/snackbar.component'
+import { UserState } from 'src/app/user/user.reducers';
 import { UPDATE_USER_PENDING, DELETE_USER_LOGOUT } from 'src/app/user/user.actions';
-import { FirebaseCrudService } from 'src/app/data/services/firebase.service';
-import { AngularFireStorage } from '@angular/fire/storage';
-import { Router } from '@angular/router';
+
+import { SnackbarComponent } from '../../../snackbar/snackbar.component';
 
 @Component({
   selector: 'app-settings-volunteer',
   templateUrl: './settings-volunteer.component.html',
   styleUrls: ['./settings-volunteer.component.css']
 })
-export class SettingsVolunteerComponent {
-
-  uploadPercent: Observable<number>;
-  downloadURL: Observable<string>;
-  selectedImage: string = this.currentUser.user.image
-
-  settingsForm = new FormGroup({
-    name: new FormControl(this.currentUser.user.name, Validators.required),
-    about: new FormControl(this.currentUser.user.about),
+export class SettingsVolunteerComponent implements OnDestroy {
+  private storageChangesSubscription: Subscription;
+  private storageFinalizeSubscription: Subscription;
+  public uploadPercent: Observable<number>;
+  public downloadURL: Observable<string>;
+  public selectedImage: string = this.currentUser.user.image;
+  public settingsForm = new FormGroup({
+    name: new FormControl(this.currentUser.user ? this.currentUser.user.name : '', Validators.required),
+    about: new FormControl(this.currentUser.user ? this.currentUser.user.about : ''),
   });
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public currentUser,
+    public currentUser: UserState,
     private store: Store<any>,
     private dialog: MatDialogRef<SettingsVolunteerComponent>,
-    private db: FirebaseCrudService,
     private snackBar: MatSnackBar,
     private storage: AngularFireStorage,
     private router: Router,
   ) {}
 
+  ngOnDestroy() {
+    this.storageChangesSubscription && this.storageChangesSubscription.unsubscribe();
+    this.storageFinalizeSubscription && this.storageFinalizeSubscription.unsubscribe();
+  }
 
   formSubmit() {
     if (this.settingsForm.valid) {
@@ -59,23 +62,21 @@ export class SettingsVolunteerComponent {
     const filePath = file.name.split('.')[0] + '-' + Date.now() + '.' + file.name.split('.')[1];
     const fileRef = this.storage.ref(filePath);
     const task = this.storage.upload(filePath, file);
-
-    // observe percentage changes
+    /* observe percentage changes */
     this.uploadPercent = task.percentageChanges();
-    // get notified when the download URL is available
-    task.snapshotChanges().pipe(
+    /* get notified when the download URL is available */
+    this.storageChangesSubscription = task.snapshotChanges().pipe(
       finalize(() => {
-        this.downloadURL = fileRef.getDownloadURL()
-        this.downloadURL.subscribe(link => {
-          this.selectedImage = link
-        })
-      })
-    )
-      .subscribe()
+        this.downloadURL = fileRef.getDownloadURL();
+        this.storageFinalizeSubscription = this.downloadURL.subscribe(link => {
+          this.selectedImage = link;
+        });
+      }),
+    ).subscribe();
   }
 
   cancel() {
-    this.dialog.close()
+    this.dialog.close();
   }
 
   deleteProfile() {

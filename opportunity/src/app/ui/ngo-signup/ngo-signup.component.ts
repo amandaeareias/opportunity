@@ -1,76 +1,68 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { Store } from '@ngrx/store'
-import { getUserState, UserState } from '../../user/user.reducers'
+import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
+import { Store } from '@ngrx/store';
+
+import { UserState } from '../../user/user.reducers';
 import { CountryListService } from 'src/app/data/services/country-list.service';
-import { categoriesList } from '../../data/listsofdata/categorieslist'
+import { categoriesList } from '../../data/listsofdata/categorieslist';
 
 @Component({
   selector: 'app-ngo-signup',
   templateUrl: './ngo-signup.component.html',
   styleUrls: ['./ngo-signup.component.css']
 })
-export class NgoSignupComponent implements OnInit {
-  public currentUser: UserState;
-  public formData;
+export class NgoSignupComponent {
+  public formData = new FormGroup({
+    orgName: new FormControl(this.currentUser.user
+      ? this.currentUser.user.name
+      : '', [Validators.required, Validators.minLength(2),]),
+    category: new FormControl('', Validators.required),
+    description: new FormControl('', [Validators.required, Validators.minLength(20)]),
+    website: new FormControl(''),
+    address: new FormGroup({
+      country: new FormControl(this.currentUser.location
+        ? this.currentUser.location.countryName
+        : '', [Validators.required]),
+      street: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required]),
+      region: new FormControl('', [Validators.required]),
+      postalCode: new FormControl('', [Validators.required]),
+    }),
+    email: new FormControl(this.currentUser.user
+      ? this.currentUser.user.username
+      : '', [Validators.required, Validators.email]),
+    phone: new FormControl(''),
+  });
   public countries = this.countryService.getCountryList();
-  categoriesList: string[] = categoriesList
+  public categoriesList: string[] = categoriesList;
 
   constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public currentUser: UserState,
     private dialogRef: MatDialogRef<NgoSignupComponent>,
     private snackBar: MatSnackBar,
     private store: Store<any>,
     private countryService: CountryListService,
   ) { }
 
-  ngOnInit() {
-    this.store.select(getUserState)
-      .subscribe(user => {
-        this.currentUser = user;
-        this.generateFormData(user);
-      });
-  }
-
-  generateFormData(user) {
-    const countryName = user.location.country_name || '';
-    const name = user.user.name || '';
-    const email = user.user.username || '';
-
-    this.formData = new FormGroup({
-      orgNameForm: new FormControl(name, [Validators.required, Validators.minLength(2),]),
-      categoryForm: new FormControl('', Validators.required),
-      descriptionForm: new FormControl('', [Validators.required, Validators.minLength(20)]),
-      websiteForm: new FormControl(''),
-      address: new FormGroup({
-        country: new FormControl(countryName, [Validators.required]),
-        street: new FormControl('', [Validators.required]),
-        city: new FormControl('', [Validators.required]),
-        region: new FormControl('', [Validators.required]),
-        postalCode: new FormControl('', [Validators.required]),
-      }),
-      emailForm: new FormControl(email, [Validators.required, Validators.email]),
-      phoneForm: new FormControl(''),
-    });
-  }
-
   submitNGO() {
-    const { orgNameForm, categoryForm, descriptionForm, websiteForm, address, emailForm, phoneForm } = this.formData.value;
+    const { orgName, category, description, website, address, email, phone } = this.formData.value;
     const data = {
-      name: orgNameForm,
-      category: categoryForm,
-      about: descriptionForm,
+      name: orgName,
+      category,
+      about: description,
       contact: {
-        website: websiteForm,
+        website,
         address,
-        publicEmail: emailForm,
-        phone: phoneForm,
-      }
+        publicEmail: email,
+        phone,
+      },
     };
 
     if (this.formData.valid) {
       this.dialogRef.close(data);
-      this.snackBar.open('You just joined our opprtunities network!', 'close', {
+      this.snackBar.open('You just joined our opportunities network!', 'close', {
         duration: 3000,
       });
     } else {
@@ -82,4 +74,5 @@ export class NgoSignupComponent implements OnInit {
       });
     }
   }
+  
 }

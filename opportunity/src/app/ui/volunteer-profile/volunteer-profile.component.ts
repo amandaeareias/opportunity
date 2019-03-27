@@ -39,7 +39,7 @@ export class VolunteerProfileComponent implements OnInit {
       .subscribe((user: Volunteer | NGO) => {
         this.currentUser = user;
         this.getProfile();
-      })
+      });
   }
 
   ngOnDestroy() {

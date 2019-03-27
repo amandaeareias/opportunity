@@ -101,7 +101,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   openSignUpForm(component) {
-    return this.dialog.open(component, { disableClose: true, data: this.currentUser.user });
+    return this.dialog.open(component, { disableClose: true, data: this.currentUser });
   }
 
   keyUpSearch() {
