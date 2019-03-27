@@ -41,7 +41,7 @@
   font-size: 16px;
 }
 
-@media (min-width: 0px) and (max-width: 940px) {
+@media (min-width: 500px) and (max-width: 940px) {
   .categoriesContainer {
     flex-wrap: wrap;
   }
@@ -60,5 +60,29 @@
   .category p {
     font-size: 13px;
     margin-top: 5px;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 600px) {
+  .categoriesContainer {
+    flex-wrap: wrap;
+    width: 90vw;
+    margin-top: 30px;
+  }
+  .category {
+    height: 60px;
+    width: 60px;
+    min-width: 60px;
+    padding-bottom: 3px;
+    margin: 2px;
+  }
+
+  .category img {
+    height: 35px;
+  }
+
+  .category p {
+    font-size: 10px;
+    margin-top: 3px;
   }
 }
