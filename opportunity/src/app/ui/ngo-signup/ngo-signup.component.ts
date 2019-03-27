@@ -77,6 +77,7 @@ export class NgoSignupComponent implements OnInit {
       Object.keys(this.formData.controls).forEach(field => {
         const control = this.formData.get(field);
         if (control instanceof FormControl) {
+          console.log(control)
           control.markAsTouched({ onlySelf: true });
         }
       });
