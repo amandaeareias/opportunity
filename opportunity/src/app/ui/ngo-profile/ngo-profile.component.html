@@ -6,7 +6,8 @@
     <div class="profilePicture" [ngStyle]="{'background-image': 'url(' + profileNgo.image + ')'}"></div>
     <div class='ngoInfo'>
       <h2 class="name">{{profileNgo.name}}</h2>
-      <app-review-stars [rating]='profileNgo.rating' [new]='true' [profileOwner]='profileOwner' [currentUser]='currentUser'></app-review-stars>
+      <app-review-stars [rating]='profileNgo.rating' [new]='true' [profileOwner]='profileOwner'
+        [currentUser]='currentUser'></app-review-stars>
       <a *ngIf="profileNgo.contact" href="{{ profileNgo.contact.website }}">{{ profileNgo.contact.website }}</a>
       <p *ngIf="profileNgo.contact">{{ profileNgo.contact.phone }}</p>
       <p *ngIf="profileNgo.location">{{ profileNgo.location.formattedAddress }}</p>
@@ -27,9 +28,11 @@
       </div>
     </div>
   </div>
+</div>
 
+<div class="reviews" *ngIf='reviews && reviews.length > 0'>
+  <h3>{{reviews.length}} Reviews</h3>
   <div class="reviewsContainer">
-
     <div class="review" *ngFor='let review of reviews'>
       <div class="volunteerInfo">
         <div class="picture" [ngStyle]="{'background-image': 'url(' + review.volunteerImage + ')'}"></div>
@@ -41,7 +44,5 @@
         <p class="text">{{review.text}}</p>
       </div>
     </div>
-
   </div>
-
 </div>
