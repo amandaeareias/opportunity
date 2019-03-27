@@ -9,10 +9,13 @@
 .volunteerPic {
   height: 50px;
   width: 50px;
+  min-width: 50px;
   border-radius: 3px;
-  margin-right: 10px;
+  margin-right: 20px;
   background-size: cover;
   background-position: center;
+  cursor: pointer;
+  outline: none;
 }
 
 .volunteerName {
@@ -20,6 +23,10 @@
   margin-bottom: 7px;
   cursor: pointer;
   outline: none;
+}
+
+.volunteerName:hover {
+  text-decoration: underline;
 }
 
 .volunteerText {
