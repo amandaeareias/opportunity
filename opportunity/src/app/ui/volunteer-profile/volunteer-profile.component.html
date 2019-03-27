@@ -4,10 +4,10 @@
 <div class="profile" *ngIf='profileVolunteer'>
   <div class="upperContainer">
     <div class="profilePicture" [ngStyle]="{'background-image': 'url(' + profileVolunteer.image + ')'}"></div>
-    <div class="volunteerInfo">
-      <h2 class="name">{{profileVolunteer.name}}</h2>
-      <p class="description">{{profileVolunteer.about}}</p>
-    </div>
+    <h2 class="name">{{profileVolunteer.name}}</h2>
+    <!-- <div class="volunteerInfo"> -->
+    <!-- </div> -->
   </div>
+  <p class="description">{{profileVolunteer.about}}</p>
   <button class="seeApplications" *ngIf='currentUser && volunteerOwner' (click)='seeApplications()'>See Applications</button>
 </div>

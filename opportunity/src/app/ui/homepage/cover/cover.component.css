@@ -6,16 +6,76 @@
 }
 
 .coverImage {
-  background-image: url('/assets/cover-15.png');
-  background-size: cover;
-  background-position: left 100px bottom;
-  background-repeat: no-repeat;
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
   height: 90vh;
   z-index: -2;
+}
+
+#cloud1 {
+  position: absolute;
+  z-index: 5;
+  height: 80px;
+  top: 40%;
+  left: 9%;
+  transition: 3s ease all;
+}
+
+#cloud2 {
+  position: absolute;
+  z-index: 5;
+  height: 130px;
+  top: 13%;
+  left: 17%;
+  transition: 3s ease all;
+}
+
+#cloud3 {
+  position: absolute;
+  z-index: 5;
+  height: 130px;
+  top: 20%;
+  left: 45%;
+  transition: 3s ease all;
+}
+
+#cloud4 {
+  position: absolute;
+  z-index: 5;
+  height: 90px;
+  top: 3%;
+  left: 75%;
+  transition: 3s ease all;
+}
+
+#cloud5 {
+  position: absolute;
+  z-index: 5;
+  height: 80px;
+  top: 55%;
+  left: 27%;
+  transition: 3s ease all;
+}
+
+#earth {
+  position: absolute;
+  height: 520px;
+  left: 570px;
+  z-index: 10;
+  bottom: -20px;
+}
+
+#people {
+  z-index: 15;
+  /* display: none; */
+  position: absolute;
+  height: 360px;
+  /* top: 270px; */
+  bottom: -20px;
+  left: 930px;
+  transform: translateX(-50%);
 }
 
 .slogan {

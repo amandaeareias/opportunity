@@ -29,15 +29,15 @@ export class SettingsNgoComponent {
 
   settingsForm = new FormGroup({
     name: new FormControl(this.currentUser.user.name, Validators.required),
-    about: new FormControl(this.currentUser.user.about, Validators.required),
+    about: new FormControl(this.currentUser.user.about, [Validators.required, Validators.minLength(20)]),
     address: new FormGroup({
-      country: new FormControl(this.currentUser.user.contact.address.country),
-      street: new FormControl(this.currentUser.user.contact.address.street),
-      city: new FormControl(this.currentUser.user.contact.address.city),
-      region: new FormControl(this.currentUser.user.contact.address.region),
-      postalCode: new FormControl(this.currentUser.user.contact.address.postalCode),
+      country: new FormControl(this.currentUser.user.contact.address.country, [Validators.required]),
+      street: new FormControl(this.currentUser.user.contact.address.street, [Validators.required]),
+      city: new FormControl(this.currentUser.user.contact.address.city, [Validators.required]),
+      region: new FormControl(this.currentUser.user.contact.address.region, [Validators.required]),
+      postalCode: new FormControl(this.currentUser.user.contact.address.postalCode, [Validators.required]),
     }),
-    phone: new FormControl(this.currentUser.user.contact.phone, Validators.required),
+    phone: new FormControl(this.currentUser.user.contact.phone),
     website: new FormControl(this.currentUser.user.contact.website),
   });
 

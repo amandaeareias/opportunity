@@ -14,6 +14,15 @@ export class SearchComponent implements OnInit {
   ngosFound;
   opportunitiesFound;
 
+  displayNgoListOnHP = {
+    'margin-top': '50px',
+    'display': 'flex',
+    'align-items': 'center',
+    'justify-content': 'center',
+    'width': '100vw',
+    'overflow': 'scroll'
+  }
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
