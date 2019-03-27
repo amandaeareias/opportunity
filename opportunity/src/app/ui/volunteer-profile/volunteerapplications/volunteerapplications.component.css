@@ -1,5 +1,6 @@
 .applicationsContainer {
   width: 60vw;
+  overflow: scroll;
 }
 
 .applicationCard {
