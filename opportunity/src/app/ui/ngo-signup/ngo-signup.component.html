@@ -19,7 +19,7 @@
     <div class="elementDescription">
       <label>Description: *</label>
       <textarea formControlName="descriptionForm" rows="10" cols="80"></textarea>
-      <p class="alert" *ngIf='formData.get("descriptionForm").touched && formData.get("descriptionForm").invalid'>Description must be filled</p>
+      <p class="alert" *ngIf='formData.get("descriptionForm").touched && formData.get("descriptionForm").invalid'>Description must be filled and minimum 20 characters</p>
     </div>
   </div>
 

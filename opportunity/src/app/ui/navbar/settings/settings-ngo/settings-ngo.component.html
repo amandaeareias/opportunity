@@ -24,7 +24,7 @@
         <div class="elementDescription">
           <label class="about">About: *</label>
           <textarea formControlName="about" rows="10" cols="80"> </textarea>
-          <p class="alert" *ngIf='settingsForm.get("about").touched && settingsForm.get("about").invalid'>About must be filled</p>
+          <p class="alert" *ngIf='settingsForm.get("about").touched && settingsForm.get("about").invalid'>About must be filled and 20 characters</p>
         </div>
       </div>
 

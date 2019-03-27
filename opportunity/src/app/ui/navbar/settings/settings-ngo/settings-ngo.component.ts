@@ -29,7 +29,7 @@ export class SettingsNgoComponent {
 
   settingsForm = new FormGroup({
     name: new FormControl(this.currentUser.user.name, Validators.required),
-    about: new FormControl(this.currentUser.user.about, Validators.required),
+    about: new FormControl(this.currentUser.user.about, [Validators.required, Validators.minLength(20)]),
     address: new FormGroup({
       country: new FormControl(this.currentUser.user.contact.address.country, [Validators.required]),
       street: new FormControl(this.currentUser.user.contact.address.street, [Validators.required]),
