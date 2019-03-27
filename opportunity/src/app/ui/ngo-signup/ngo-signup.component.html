@@ -1,20 +1,23 @@
-<form *ngIf="formData && currentUser" [formGroup]="formData" (ngSubmit)="submitNGO()">
+<form *ngIf="currentUser" [formGroup]="formData" (ngSubmit)="submitNGO()">
   <h1 mat-dialog-title>You almost our member!</h1>
 
   <label>NGO name: *</label>
-  <input class="input" type="text" formControlName="orgNameForm">
+  <input class="input" type="text" formControlName="orgName">
 
   <label>Category: *</label>
-  <select formControlName="categoryForm">
+  <select formControlName="category">
     <option *ngFor='let category of categoriesList' value='{{category}}'>{{category}}</option>
   </select>
-  <p class="alert" *ngIf='formData.get("categoryForm").touched && formData.get("categoryForm").invalid'>Category must be chosen</p>
+  <p
+    class="alert"
+    *ngIf='formData.get("category").touched && formData.get("category").invalid'
+  >Category must be chosen</p>
 
   <label>Description: *</label>
-  <textarea formControlName="descriptionForm" rows="10" cols="80"></textarea>
+  <textarea formControlName="description" rows="10" cols="80"></textarea>
 
   <label>Website:</label>
-  <input class="input" type="text" formControlName="websiteForm">
+  <input class="input" type="text" formControlName="website">
 
   <div formGroupName="address">
       <h3>Address</h3>
@@ -40,10 +43,10 @@
     </div>
 
   <label>E-mail: *</label>
-  <input class="input" type="text" formControlName="emailForm">
+  <input class="input" type="text" formControlName="email">
 
   <label>Phone number:</label>
-  <input class="input" type="text" formControlName="phoneForm">
+  <input class="input" type="text" formControlName="phone">
 
   <input class="submit" type="submit">
 </form>

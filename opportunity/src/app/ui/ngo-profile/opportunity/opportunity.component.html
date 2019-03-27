@@ -11,8 +11,8 @@
 
   <div class="rightContainer">
     <button class="btn" (click)='applyClicked()' *ngIf='!applying && !applied && !isNgo'>Apply now!</button>
-    <p *ngIf='!applying && applied && !isNgo'>Applied</p>
-    <img *ngIf='isNgoOwner' (click)='editOpportunity()' src="/assets/icons/edit-blue.png" alt="">
+    <p *ngIf="!applying && applied && !currentUser.isNgo">Applied</p>
+    <img *ngIf="isMe" (click)="editOpportunity()" src="/assets/icons/edit-blue.png" alt="">
   </div>
 </div>
 

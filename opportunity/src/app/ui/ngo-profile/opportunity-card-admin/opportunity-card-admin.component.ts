@@ -1,39 +1,43 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FirebaseCrudService } from '../../../data/services/firebase.service'
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NGOapplicationsComponent } from '../ngoapplications/ngoapplications.component'
+import { Subscription } from 'rxjs';
+
+import { FirebaseCrudService } from 'src/app/data/services/firebase.service'
+import { Opportunity } from 'src/app/data/models/opportunity.model';
+import { Application } from 'src/app/data/models/application.model';
+
+import { NGOapplicationsComponent } from '../ngoapplications/ngoapplications.component';
 
 @Component({
   selector: 'app-opportunity-card-admin',
   templateUrl: './opportunity-card-admin.component.html',
   styleUrls: ['./opportunity-card-admin.component.css']
 })
-export class OpportunityCardAdminComponent implements OnInit {
-
-  @Input() opportunity;
-  applications;
+export class OpportunityCardAdminComponent implements OnInit, OnDestroy {
+  @Input()
+  public opportunity: Opportunity;
+  private dbApplicationsSubscription: Subscription;
+  public applications: Application[];
+  
   constructor(
-    private fbService: FirebaseCrudService,
-    private dialog: MatDialog
+    private db: FirebaseCrudService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit() {
-    this.getApplications()
-    console.log(this.opportunity)
+    this.db.getAllApplicationsOfOpportunity(this.opportunity.id)
+      .subscribe((result: any) => {
+        this.applications = result;
+      });
   }
 
-  getApplications() {
-    this.fbService.getAllApplicationsOfOpportunity(this.opportunity.id)
-      .subscribe(result => this.applications = result)
+  ngOnDestroy() {
+    this.dbApplicationsSubscription.unsubscribe();
   }
 
   seeApplicants(event) {
-    event.stopPropagation()
-    this.dialog.open(NGOapplicationsComponent, {data: this.applications});
+    event.stopPropagation();
+    this.dialog.open(NGOapplicationsComponent, { data: this.applications });
   }
-
-  editOpportunity(){
-
-  }
-
+  
 }

@@ -14,12 +14,12 @@ import { GOOGLE_LOGIN_SUCCESS, GET_USER_PENDING, GET_USER_LOCATION_PENDING } fro
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-
   private me: UserState;
   private navbarUIState: string;
   private userStateSubscription: Subscription;
   private authStateSubscription: Subscription;
   private uiStateSubscription: Subscription;
+  public displayApp: boolean = true;
 
   constructor(
     private auth: AngularFireAuth,
@@ -63,6 +63,13 @@ export class AppComponent implements OnInit, OnDestroy {
   /* @TODO: Move helper functions to the dedicated service */
   parseNgoUIState(uiState: string): boolean {
     return /^NGO/i.test(uiState);
+  }
+
+  refresh(ms = 1000) {
+    this.displayApp = false;
+    setTimeout(() => {
+      this.displayApp = true;
+    }, ms);
   }
 
 }

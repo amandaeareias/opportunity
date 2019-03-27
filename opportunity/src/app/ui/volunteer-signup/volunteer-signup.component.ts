@@ -2,8 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 
-import { Volunteer } from 'src/app/data/models/volunteer.model';
-import { NGO } from 'src/app/data/models/ngo.model';
+import { UserState } from 'src/app/user/user.reducers';
 
 @Component({
   selector: 'app-volunteer-signup',
@@ -13,14 +12,14 @@ import { NGO } from 'src/app/data/models/ngo.model';
 export class VolunteerSignupComponent {
 
   public formData: FormGroup = new FormGroup({
-    name: new FormControl(this.currentUser ? this.currentUser.name : ''),
+    name: new FormControl(this.currentUser.user ? this.currentUser.user.name : ''),
     about: new FormControl(''),
     dateOfBirth: new FormControl('')
   });
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public currentUser: Volunteer | NGO,
+    public currentUser: UserState,
     private dialogRef: MatDialogRef<VolunteerSignupComponent>,
     private snackBar: MatSnackBar,
   ) {

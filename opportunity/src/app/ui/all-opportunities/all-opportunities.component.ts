@@ -18,9 +18,9 @@ export class AllOpportunitiesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.db.getMany('opportunities')
+    this.dbSubscription = this.db.getMany('opportunities')
       .subscribe((opportunities: any) => {
-        this.opportunities = opportunities
+        this.opportunities = opportunities;
       });
   }
 

@@ -1,6 +1,7 @@
 import { Application } from './application.model';
 
 export class Opportunity {
+  id?: string;
   name: string;
   ngo: {
     id: string;

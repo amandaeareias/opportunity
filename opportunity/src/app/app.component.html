@@ -1,3 +1,4 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<app-navbar></app-navbar>
-<router-outlet></router-outlet>
+<app-navbar *ngIf="displayApp"></app-navbar>
+<router-outlet *ngIf="displayApp"></router-outlet>
+<div *ngIf="!displayApp" class="place-holder--bye">Bye, bye!</div>

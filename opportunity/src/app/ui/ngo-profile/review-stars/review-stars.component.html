@@ -1,6 +1,10 @@
 <div class="starsContainer">
-  <div *ngIf='rating && rating>0' class="stars">
-    <div class="star" *ngFor='let star of ratingArr' [style.backgroundImage]="star===1 ? 'url('+ '/assets/icons/star-full.png' +')' : 'url('+ '/assets/icons/star-empty.png' +')'"></div>
+  <div *ngIf="rating && rating > 0" class="stars">
+    <div
+      class="star"
+      *ngFor="let star of ratingArr"
+      [style.backgroundImage]="star === 1 ? 'url('+ '/assets/icons/star-full.png' +')' : 'url('+ '/assets/icons/star-empty.png' +')'"
+    ></div>
   </div>
-  <button (click)='addReview()' *ngIf='new && !profileOwner'>Add review</button>
+  <button (click)="addReview()" *ngIf="enabled && !isMe">Add review</button>
 </div>

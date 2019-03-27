@@ -1,13 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { map, first, take } from 'rxjs/operators'
-import { FirebaseCrudService } from '../../data/services/firebase.service'
-import { MappingService } from '../../data/services/mapping.service'
-import { userDetailsSelector } from '../../user/user.reducers'
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+
+import { FirebaseCrudService } from '../../data/services/firebase.service';
+import { userDetailsSelector } from '../../user/user.reducers';
+
+import { Volunteer } from 'src/app/data/models/volunteer.model';
+import { NGO } from 'src/app/data/models/ngo.model';
+import { Opportunity } from 'src/app/data/models/opportunity.model';
+import { Review } from 'src/app/data/models/review.model';
+
 import { CreateOpportunityComponent } from './create-opportunity/create-opportunity.component';
-import { EditOpportunityComponent } from './opportunity-card-admin/edit-opportunity/edit-opportunity.component'
+import { EditOpportunityComponent } from './opportunity-card-admin/edit-opportunity/edit-opportunity.component';
 
 @Component({
   selector: 'app-ngo-profile',
@@ -15,89 +21,84 @@ import { EditOpportunityComponent } from './opportunity-card-admin/edit-opportun
   styleUrls: ['./ngo-profile.component.css']
 })
 export class NgoProfileComponent implements OnInit {
+  private userDetailsSubscription: Subscription;
+  private dbNgoSubscription: Subscription;
+  private dbOpportunitiesSubscription: Subscription;
+  private dbReviewsSubscription: Subscription;
+  private dbVolunteerSubscription: Subscription;
+  public currentUser: Volunteer | NGO;
+  public ngo: NGO;
+  public opportunities: Opportunity[] = [];
+  public reviews: Review[] = [];
+  public isMe: boolean;
 
-  profileNgo;
-  profileId;
-  currentUser;
-  profileOpportunities = [];
-  profileOwner: boolean = false
-  reviews = [];
-  test;
-
-  constructor(private dialog: MatDialog,
+  constructor(
+    private dialog: MatDialog,
     private route: ActivatedRoute,
-    private fbService: FirebaseCrudService,
+    private db: FirebaseCrudService,
     private store: Store<any>,
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe(routeParams => {
-      this.getCurrentUser()
-    });
-  }
-
-  getCurrentUser() {
-    this.store.select(userDetailsSelector)
-    .subscribe(user => {
-      if (user) {
+    /* Invoiking getProfile() inside subscription */
+    /* to make sure we've got user to compare */
+    this.userDetailsSubscription = this.store.select(userDetailsSelector)
+      .subscribe((user: Volunteer | NGO) => {
         this.currentUser = user;
-      }
-      this.getProfileNgo()
-    })
+        this.getProfile();
+      });  
   }
 
-  getProfileNgo() {
-    this.profileId = this.route.snapshot.paramMap.get('id')
-    this.fbService.getOne('ngos', this.profileId)
-      .subscribe(ngo => {
-        this.profileNgo = ngo
-        this.getprofileOpportunities()
-        this.compare()
-      })
+  ngOnDestroy() {
+    this.userDetailsSubscription.unsubscribe();
+    this.dbNgoSubscription && this.dbNgoSubscription.unsubscribe();
+    this.dbOpportunitiesSubscription && this.dbOpportunitiesSubscription.unsubscribe();
+    this.dbReviewsSubscription && this.dbReviewsSubscription.unsubscribe();
+    this.dbVolunteerSubscription && this.dbVolunteerSubscription.unsubscribe();
+  }
 
-    this.fbService.getAllReviewOfNGO(this.profileId)
-      .subscribe(reviews => {
-        reviews.map((review: any) => {
-          this.fbService.getOne('volunteers', review.volunteerId)
-          .subscribe((volunteer: any) => {
-            if (volunteer) {
-              review.volunteerName = volunteer.name
-              review.volunteerImage = volunteer.image
-            }
-          })
+  getProfile() {
+    const id = this.route.snapshot.paramMap.get('id');
+    this.dbNgoSubscription = this.db.getOne('ngos', id)
+      .subscribe((ngo: NGO) => {
+        this.ngo = ngo;
+        this.isMe = this.currentUser && this.currentUser.id === ngo.id;
+      });
+
+    this.dbOpportunitiesSubscription = this.db.getAllOpportunitiesOfNGO(id)
+      .subscribe((opportunities: any) => {
+        this.opportunities = opportunities;
+      });
+    
+    this.dbReviewsSubscription = this.db.getAllReviewOfNGO(id)
+      .subscribe((reviews: Review[]) => {
+        reviews.map((review: Review) => {
+          this.db.getOne('volunteers', review.volunteerId)
+            .subscribe((volunteer: Volunteer) => {
+              if (volunteer) {
+                const { name, image } = volunteer;
+                review.volunteerName = name;
+                review.volunteerImage = image;
+              }
+            });
         });
-        this.reviews = reviews
-        this.reviews = this.reviews.sort((a:any, b:any) => new Date(b.timeCreated).getTime() - new Date(a.timeCreated).getTime());
-      })
-  }
-
-  getprofileOpportunities() {
-    this.fbService.getAllOpportunitiesOfNGO(this.profileId)
-      .subscribe(opportunities => this.profileOpportunities = opportunities)
-  }
-
-  compare() {
-    if (this.currentUser && this.currentUser.id === this.profileId) {
-      this.profileOwner = true;
-    } else {
-      this.profileOwner = false
-    }
+        this.reviews = reviews;
+        this.reviews = this.reviews
+          .sort((a: Review, b: Review) => new Date(b.timeCreated).getTime() - new Date(a.timeCreated).getTime());
+      });
   }
 
   createOpportunity() {
     const dialogConfig = new MatDialogConfig();
-
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-
-    this.dialog.open(CreateOpportunityComponent, { data: this.currentUser })
+    this.dialog.open(CreateOpportunityComponent, { data: this.currentUser });
   }
 
   editOpportunity(card) {
-    let opportunity = card.opportunity
-    this.dialog.open(EditOpportunityComponent, { data: opportunity })
+    let opportunity = card.opportunity;
+    this.dialog.open(EditOpportunityComponent, { data: opportunity });
   }
-
 
 }
 
