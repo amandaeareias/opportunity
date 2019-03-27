@@ -1,7 +1,8 @@
 .userContainer {
   display: flex;
   justify-content: space-between;
-  min-width: 70vw;
+  width: 70vw;
+  max-width: 980px;
   overflow: scroll;
 }
 
@@ -28,6 +29,7 @@
   bottom: 3px;
   left: 3px;
   outline: none;
+  border: none;
 }
 
 .profilePicture .timer {
@@ -58,28 +60,39 @@
   margin-right: 10px;
 }
 
-/*  */
+/* RIGHT SIDE */
+
 .userInfo {
   width: 60%;
 }
 
-h1 {
-  margin-bottom: 10px;
+.userInfo input {
+  width: 100%;
 }
 
 h4 {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .container {
   width: 100%;
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 select {
   border: none;
   height: 30px;
+}
+
+#contactContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+#contactContainer .element {
+  width: 47%;
 }
 
 #addressContainer {
@@ -90,12 +103,17 @@ select {
 
 .addressUp, .addressDown {
   display: flex;
+  justify-content: space-between;
+}
+
+.addressUp .element {
+  width: 47%;
 }
 
 .element {
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 32%;
   margin-right: 15px;
 }
 
@@ -104,15 +122,6 @@ select {
   flex-direction: column;
   width: 100%;
 }
-
-/* form {
-  min-width: 50vw;
-  max-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-} */
-
 
 form {
   height: 100%;
@@ -180,7 +189,37 @@ textarea {
 }
 
 
-/*  */
+@media (min-width: 630px) and (max-width: 780px) {
+  label {
+    font-size: 11px;
+  }
+  .container {
+    margin-bottom: 10px;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 630px) {
+  .userContainer {
+    flex-direction: column;
+  }
+  .userActions {
+    width: 50%;
+    align-self: center;
+  }
+  .userInfo {
+    width: 100%;
+  }
+
+  .userContainer {
+    position: relative;
+  }
+
+  .delete {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+}
 
 
 
