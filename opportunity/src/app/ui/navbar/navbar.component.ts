@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription, Subject, of } from 'rxjs';
+import { map, debounceTime, distinctUntilChanged, mergeMap, delay } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
@@ -28,6 +29,8 @@ export class NavbarComponent implements OnInit {
   componentLoadingState$: Observable<boolean>;
   currentUser;
   newPath: string;
+  private subscription: Subscription;
+  public keyUp$ = new Subject<KeyboardEvent>();
 
   constructor(
     private store: Store<any>,
@@ -68,6 +71,18 @@ export class NavbarComponent implements OnInit {
         }
       }
     });
+    this.subscription = this.keyUp$
+      .pipe(
+        map((e:any) => e.target.value),
+        debounceTime(400),
+        distinctUntilChanged(),
+        mergeMap(searchValue => of(searchValue)
+          .pipe(
+            delay(100),
+          )),
+      ).subscribe(() => {
+        this.keyUpSearch();
+      })
   }
 
   logOut() {
