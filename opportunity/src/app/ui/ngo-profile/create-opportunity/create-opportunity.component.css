@@ -12,14 +12,16 @@ label {
 }
 
 .submit {
-  color: white;
-  background-color: #F4A42C;
-  box-shadow: 6px 12px 16px -12px rgba(0,0,0,0.35), -6px -6px 16px -12px rgba(0,0,0,0.35);
   margin-top: 20px;
-  height: 36px;
-  width: 90px;
+  color: white;
+  background-color: #0E3D5E;
+  box-shadow: 6px 12px 16px -12px rgba(0,0,0,0.35), -6px -6px 16px -12px rgba(0,0,0,0.35);
+  height: 40px;
+  width: 100px;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 16px;
+  align-self: flex-end;
+  outline: none;
 }
 
 .alert {
