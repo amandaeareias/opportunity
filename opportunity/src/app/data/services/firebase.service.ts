@@ -112,13 +112,21 @@ export class FirebaseCrudService {
   }
 
   createReview = async (review: Review) => {
-    const path = 'ngos/'+ review.ngoId
-    await this.db.doc(path).collection('reviews').add({ ...new Review(), ...review })
-    const path2 = path + '/reviews'
-    this.getMany(path2).subscribe(
-      (reviewsArray: any) => {
-        const average = Math.round(reviewsArray.reduce((a,b) => { return a+(b.rating || 0) }, 0)/reviewsArray.length);
-        return this.db.collection('ngos').doc(review.ngoId).update({rating: average})
+    const { volunteerId } = review;
+    this.getOne('volunteers', volunteerId).pipe(first()).subscribe(
+      async (fullVolunteerData: Volunteer) => {
+        review.volunteerName = fullVolunteerData.name;
+        review.volunteerImage = fullVolunteerData.image;
+        const path = 'ngos/'+ review.ngoId
+        await this.db.doc(path).collection('reviews').add({ ...new Review(), ...review })
+        const path2 = path + '/reviews'
+        return this.getMany(path2).subscribe(
+          (reviewsArray: any) => {
+            const average = Math.round(reviewsArray.reduce((a,b) => { return a+(b.rating || 0) }, 0)/reviewsArray.length);
+            return this.db.collection('ngos').doc(review.ngoId).update({rating: average})
+          }
+        )
+
       }
     )
   }
@@ -181,7 +189,7 @@ export class FirebaseCrudService {
   updateNGO = (ngoId: string, data: any) => {
     //1. check for updates relevant for the opportunities of this ngo
     const {name, image, category} = data;
-    const ngoData: any = {ngo: {}}
+    const ngoData: any = {ngo: {id: ngoId}}
     if (name) {
       ngoData.ngo.name = name;
     }
@@ -191,31 +199,39 @@ export class FirebaseCrudService {
     if (category) {
       ngoData.ngo.category = category;
     }
-    console.log('ngoData', ngoData)
+    console.log(ngoId)
 
     //2. get all opportunities of this ngo
     this.getAllOpportunitiesOfNGO(ngoId).pipe(first()).subscribe(
       (opportunitiesArray) => {
         //and then update them
-        opportunitiesArray.map((opportunity: any) => this.updateOpportunity(opportunity.id, ngoData))
+        console.log(opportunitiesArray)
+        Promise.all(opportunitiesArray.map(
+          (opportunity: any) => {
+            console.log('entered opp update')
+            this.updateOpportunity(opportunity.id, ngoData)}))
+          .then(() => console.log('updated opportunities'))
       }
     );
-    //3. update the object in the ngo collection
     return this.db.collection('ngos').doc(ngoId).update(data);
   }
 
   updateOpportunity = (oppId: string, data: any) => {
     //1. check for updates relevant for the applications of this opportunity
+    console.log('Updating opportunity '+oppId+' with '+data)
     const {ngo, name, about, location, prerequisites, active} = data;
     const oppData: any = {opportunityData: {}};
-    if (ngo.name) {
-      oppData.opportunityData.ngo.name = ngo.name;
+    if (ngo) {
+      oppData.opportunityData.ngo = {};
     };
-    if (ngo.image) {
-      oppData.opportunityData.ngo.image = ngo.image;
+    if (ngo && ngo.name) {
+      oppData.opportunityData.ngo['name'] = ngo.name;
     };
-    if (ngo.category) {
-      oppData.opportunityData.ngo.category = ngo.category;
+    if (ngo && ngo.image) {
+      oppData.opportunityData.ngo['image'] = ngo.image;
+    };
+    if (ngo && ngo.category) {
+      oppData.opportunityData.ngo['category'] = ngo.category;
     };
     if (name) {
       oppData.opportunityData.name = name;
@@ -232,12 +248,16 @@ export class FirebaseCrudService {
     if (about) {
       oppData.opportunityData.about = about;
     };
+    console.log(oppData)
+
 
     //2. get all applications of this opportunity
     this.getAllApplicationsOfOpportunity(oppId).pipe(first()).subscribe(
       (applicationsArray) => {
+        console.log(oppData)
         //and then update them
-        applicationsArray.map((application: any) => this.updateApplication(application.id, oppData))
+        Promise.all(applicationsArray.map((application: any) => this.updateApplication(application.id, oppData)))
+          .then(() => console.log('updated'))
       }
     );
     //3. update the object in the opportunities collection
@@ -315,7 +335,6 @@ export class FirebaseCrudService {
     //get volunteer data, in particular count of applications
     return this.getOne('volunteers', volId).pipe(first()).subscribe(
       async (fullVolData: Volunteer) => {
-        console.log(fullVolData)
         const applicationsCountVol = fullVolData.applicationsCount || 0;
         //update the count of applications on volunteer
         await this.db.collection('volunteers').doc(volId).update({applicationsCount: applicationsCountVol-1});
