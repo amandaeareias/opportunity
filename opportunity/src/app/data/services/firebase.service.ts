@@ -100,7 +100,9 @@ export class FirebaseCrudService {
   /* Please note: create functions use type constructor in order */
   /* to enforce fixed document structure in the DB */
   createVolunteer = (volunteer: Volunteer) => this.db.collection('volunteers').add({ ...new Volunteer(), ...volunteer })
-  createNGO = (ngo: NGO) => this.db.collection('ngos').add({ ...new NGO(), ...ngo })
+  
+  createNGO = (ngo: NGO) => this.db.collection('ngos').add({ ...new NGO(), ...ngo });
+  
   createOpportunity = (opportunity: Opportunity) => {
     this.getOneNGO(opportunity.ngo.id).pipe(first()).subscribe(
       async (fullNgoData: NGO) => {
