@@ -10,7 +10,7 @@
   </div>
 
   <div class="rightContainer">
-    <button class="btn" (click)='applyClicked()' *ngIf='!applying && !applied && !isNgo'>Apply now!</button>
+    <button class="btn applybtn" (click)='applyClicked()' *ngIf='!applying && !applied && !isNgo'>Apply now!</button>
     <p *ngIf='!applying && applied && !isNgo'>Applied</p>
     <img *ngIf='isNgoOwner' (click)='editOpportunity()' src="/assets/icons/edit-blue.png" alt="">
   </div>
@@ -22,6 +22,6 @@
     <textarea required formControlName="apply" #apply rows="10" cols="80"> </textarea>
     <p class="alert" *ngIf='applyForm.get("apply").touched && applyForm.get("apply").invalid'>Must be filled and minimum
       20 characters</p>
-    <input class="btn" class="submit" type="submit">
+    <input class="btn submit" type="submit">
   </form>
 </div>
