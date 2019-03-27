@@ -2,14 +2,14 @@
   <h1 mat-dialog-title>You are almost our member!</h1>
 
   <label>Name:</label>
-  <input class="input" type="text" formControlName="nameForm">
+  <input class="input" type="text" formControlName="name">
 
   <label>If you want, tell the NGOs something about yourself:</label>
-  <textarea formControlName="aboutForm" rows="10" cols="80"> </textarea>
+  <textarea formControlName="about" rows="10" cols="80"> </textarea>
 
   <label>Birthday:</label>
   <div class="birth">
-    <input [matDatepicker]="picker" class="birthInput" type="text" formControlName="dateOfBirthForm">
+    <input [matDatepicker]="picker" class="birthInput" type="text" formControlName="dateOfBirth">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </div>

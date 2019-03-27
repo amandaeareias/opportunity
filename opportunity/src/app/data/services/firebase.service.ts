@@ -268,7 +268,7 @@ export class FirebaseCrudService {
 
   deleteVolunteer = (volId: string) => {
     //1. get all applications of this volunteer
-    this.getAllApplicationsOfVolunteer(volId).pipe(first()).subscribe(
+    return this.getAllApplicationsOfVolunteer(volId).pipe(first()).subscribe(
       (applicationsArray) => {
         //and then delete them
         const promisesArray = [];
@@ -286,7 +286,7 @@ export class FirebaseCrudService {
 
   deleteNGO = (ngoId: string) => {
     //1. get all opportunities of this ngo
-    this.getAllOpportunitiesOfNGO(ngoId).pipe(first()).subscribe(
+    return this.getAllOpportunitiesOfNGO(ngoId).pipe(first()).subscribe(
       (opportunitiesArray) => {
         //and then delete them
         Promise.all(opportunitiesArray.map((opportunity) => {

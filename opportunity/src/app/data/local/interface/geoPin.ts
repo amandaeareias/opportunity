@@ -1,4 +1,4 @@
 export interface GeoPin {
-  latitude: number;
-  longitude: number;
+  lat: number;
+  lng: number;
 }

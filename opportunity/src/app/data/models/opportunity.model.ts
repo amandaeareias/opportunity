@@ -1,21 +1,27 @@
-import { NGO } from './ngo.model';
+import { Application } from './application.model';
 
 export class Opportunity {
-  about: string;
-  id?: string;
   name: string;
-  ngo: NGO;
+  ngo: {
+    id: string;
+    name: string;
+    image: string;
+  };
+  about: string;
   location: string; // change to geo location
   prerequisites?: string[];
   timeCreated: string;
-
+  active: boolean;
+  applicationsCount?: number;
+  category?: string;
   constructor() {
-    this.about = null;
     this.name = null;
     this.ngo = null;
     this.location = null;
     this.about = null;
     this.prerequisites = [];
+    this.active = false;
+    this.applicationsCount = 0;
   }
 }
 

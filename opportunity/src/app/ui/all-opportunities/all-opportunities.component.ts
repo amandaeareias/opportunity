@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+
 import { FirebaseCrudService } from '../../data/services/firebase.service'
+import { Opportunity } from 'src/app/data/models/opportunity.model';
 
 @Component({
   selector: 'app-all-opportunities',
@@ -7,19 +10,21 @@ import { FirebaseCrudService } from '../../data/services/firebase.service'
   styleUrls: ['./all-opportunities.component.css']
 })
 export class AllOpportunitiesComponent implements OnInit {
-
-  opportunities;
+  private dbSubscription: Subscription;
+  public opportunities: Opportunity[];
 
   constructor(
-    private service: FirebaseCrudService,
+    private db: FirebaseCrudService,
   ) { }
 
   ngOnInit() {
-    this.getOpportunities()
+    this.db.getMany('opportunities')
+      .subscribe((opportunities: any) => {
+        this.opportunities = opportunities
+      });
   }
 
-  getOpportunities() {
-    this.service.getMany('opportunities').subscribe(opportunities => this.opportunities = opportunities)
+  ngOnDestroy() {
+    this.dbSubscription.unsubscribe();
   }
-
 }

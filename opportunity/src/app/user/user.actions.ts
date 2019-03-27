@@ -15,6 +15,9 @@ export enum ActionTypes {
   UPDATE_USER_SUCCESS = '[User] Update request was successfull',
   GET_USER_LOCATION_PENDING = '[User] Get approx user location',
   GET_USER_LOCATION_SUCCESS = '[User] Receive data of user location',
+  DELETE_USER_LOGOUT = '[User] Log user out before deletion',
+  DELETE_USER_PENDING = '[User] Delete user profile',
+  DELETE_USER_SUCCESS = '[User] User profile is deleted',
 }
 
 export class GOOGLE_LOGIN_SUCCESS implements Action {
@@ -78,6 +81,22 @@ export class GET_USER_LOCATION_SUCCESS implements Action {
   constructor(public payload: any) {}
 }
 
+export class DELETE_USER_LOGOUT implements Action {
+  readonly type = ActionTypes.DELETE_USER_LOGOUT;
+
+  constructor(public payload: any) {}
+}
+
+export class DELETE_USER_PENDING implements Action {
+  readonly type = ActionTypes.DELETE_USER_PENDING;
+
+  constructor(public payload: any) {}
+}
+
+export class DELETE_USER_SUCCESS implements Action {
+  readonly type = ActionTypes.DELETE_USER_SUCCESS;
+}
+
 export type UserActions = GOOGLE_LOGIN_SUCCESS
   | GOOGLE_LOGIN_FAILURE
   | USER_LOGOUT_PENDING
@@ -88,4 +107,7 @@ export type UserActions = GOOGLE_LOGIN_SUCCESS
   | UPDATE_USER_PENDING
   | UPDATE_USER_SUCCESS
   | GET_USER_LOCATION_PENDING
-  | GET_USER_LOCATION_SUCCESS;
+  | GET_USER_LOCATION_SUCCESS
+  | DELETE_USER_LOGOUT
+  | DELETE_USER_PENDING
+  | DELETE_USER_SUCCESS;
