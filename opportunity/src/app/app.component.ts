@@ -55,6 +55,10 @@ export class AppComponent implements OnInit {
 
     //TO BE DELETED
 
+    //this.db.updateOpportunity('P5UzM6Uk4IEoPoN3Ieo0', {name: 'Change the world'})
+
+    //this.db.updateNGO('OeSLCQZC0OTI97tY7st0', {name: 'Hiiii'})
+
     //this.db.searchByName('opportunities', 'O').subscribe(x => console.log(x));
     // const x = this.db.getAllReviewOfNGO('NBZCMGO9eVNM7aFgaqVf')
     // x.subscribe(x=> console.log(x))
