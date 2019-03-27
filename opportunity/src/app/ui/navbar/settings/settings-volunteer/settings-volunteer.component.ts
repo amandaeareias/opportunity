@@ -7,7 +7,7 @@ import { finalize } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { SnackbarComponent } from '../../../snackbar/snackbar.component'
-import { UPDATE_USER_PENDING, USER_LOGOUT_PENDING } from 'src/app/user/user.actions';
+import { UPDATE_USER_PENDING, DELETE_USER_LOGOUT } from 'src/app/user/user.actions';
 import { FirebaseCrudService } from 'src/app/data/services/firebase.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Router } from '@angular/router';
@@ -82,8 +82,10 @@ export class SettingsVolunteerComponent {
     let confirmation = confirm('Are you sure you want to delete your account?');
     if (confirmation) {
       this.dialog.close();
-      this.store.dispatch(new USER_LOGOUT_PENDING());
-      this.db.deleteVolunteer(this.currentUser.user.id);
+      this.store.dispatch(new DELETE_USER_LOGOUT({
+        id: this.currentUser.user.id,
+        isNgo: this.currentUser.isNgo,
+      }));
       this.router.navigate(['']);
     }
   }

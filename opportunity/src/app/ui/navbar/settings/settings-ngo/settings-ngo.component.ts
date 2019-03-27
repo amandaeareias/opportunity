@@ -8,7 +8,7 @@ import { finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Store } from '@ngrx/store';
-import { UPDATE_USER_PENDING, USER_LOGOUT_PENDING } from 'src/app/user/user.actions';
+import { UPDATE_USER_PENDING, DELETE_USER_LOGOUT } from 'src/app/user/user.actions';
 import { CountryListService } from 'src/app/data/services/country-list.service';
 import { Router } from '@angular/router';
 import { GeocodeService } from 'src/app/data/services/google-maps/geocode.service';
@@ -102,8 +102,10 @@ export class SettingsNgoComponent {
     let confirmation = confirm('Are you sure you want to delete your account?');
     if (confirmation) {
       this.dialog.close();
-      this.store.dispatch(new USER_LOGOUT_PENDING());
-      this.db.deleteNGO(this.currentUser.user.id);
+      this.store.dispatch(new DELETE_USER_LOGOUT({
+        id: this.currentUser.user.id,
+        isNgo: this.currentUser.isNgo,
+      }));
       this.router.navigate(['']);
     }
   }

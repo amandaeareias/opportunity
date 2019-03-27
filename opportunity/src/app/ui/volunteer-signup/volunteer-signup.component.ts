@@ -1,56 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store'
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { userDetailsSelector } from '../../user/user.reducers'
+import { Component, Inject } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
+
+import { Volunteer } from 'src/app/data/models/volunteer.model';
+import { NGO } from 'src/app/data/models/ngo.model';
 
 @Component({
   selector: 'app-volunteer-signup',
   templateUrl: './volunteer-signup.component.html',
   styleUrls: ['./volunteer-signup.component.css']
 })
-export class VolunteerSignupComponent implements OnInit {
+export class VolunteerSignupComponent {
 
-  currentUser;
-  formData;
+  public formData: FormGroup = new FormGroup({
+    name: new FormControl(this.currentUser ? this.currentUser.name : ''),
+    about: new FormControl(''),
+    dateOfBirth: new FormControl('')
+  });
 
   constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public currentUser: Volunteer | NGO,
     private dialogRef: MatDialogRef<VolunteerSignupComponent>,
     private snackBar: MatSnackBar,
-    private store: Store<any>,
   ) {
   }
 
-  ngOnInit() {
-    this.getUser()
-  }
-
-  createFormData() {
-    this.formData = new FormGroup({
-      nameForm: new FormControl(this.currentUser.name),
-      aboutForm: new FormControl(''),
-      dateOfBirthForm: new FormControl('')
-    });
-  }
-
-  getUser() {
-    this.store.select(userDetailsSelector)
-      .subscribe(user => {
-        this.currentUser = user;
-        this.createFormData()
-      })
-  }
-
   close() {
-    this.dialogRef.close(null);
+    this.dialogRef.close();
   }
 
   submitVolunteer() {
-    const { nameForm, aboutForm, dateOfBirthForm } = this.formData.value;
+    const { name, about, dateOfBirth } = this.formData.value;
     const data = {
-      name: nameForm,
-      about: aboutForm,
-      dateOfBirth: dateOfBirthForm
+      name,
+      about,
+      dateOfBirth,
     };
 
     if (this.formData.valid) {
