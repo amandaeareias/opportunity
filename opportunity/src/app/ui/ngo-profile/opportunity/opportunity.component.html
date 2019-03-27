@@ -3,7 +3,7 @@
     <h2>{{opportunity.name}}</h2>
     <h3 routerLink='/ngo/{{opportunity.ngo.id}}'>{{opportunity.ngo.name}}</h3>
     <p>{{opportunity.about}}</p>
-    <ul class="prerequisitesList" *ngIf='opportunity.prerequisites'>
+    <ul class="prerequisitesList" *ngIf='opportunity.prerequisites.length > 0'>
       <p class="prerequisitesTitle">Pre-Requisites:</p>
       <li class="prerequisite" *ngFor='let prerequisite of opportunity.prerequisites'>- {{prerequisite}}</li>
     </ul>
