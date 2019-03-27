@@ -60,3 +60,9 @@ input{
 .loc img {
   height: 30px;
 }
+
+@media (min-width: 0px) and (max-width: 940px) {
+  agm-map {
+    height: 250px;
+  }
+}

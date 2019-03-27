@@ -1,7 +1,14 @@
 :host {
   display: flex;
-  width: 80vw;
+  width: 1500px;
+  max-width: 80vw;
   justify-content: center;
   flex-wrap: wrap;
   margin-top: 50px;
+}
+
+@media (min-width: 0px) and (max-width: 710px) {
+  :host {
+    margin-top: 30px;
+  }
 }

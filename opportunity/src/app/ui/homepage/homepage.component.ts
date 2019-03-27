@@ -13,7 +13,6 @@ export class HomepageComponent implements OnInit {
   opportunities;
 
   displayNgoListOnHP = {
-    'margin-top': '50px',
     'display': 'flex',
     'align-items': 'center',
     'justify-content': 'center',
