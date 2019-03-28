@@ -35,17 +35,25 @@ export class VolunteerProfileComponent implements OnInit {
   ngOnInit() {
     /* Invoiking getProfile() inside subscription */
     /* to make sure we've got user to compare */
+    
+    this.route.params.subscribe(() => {
+      this.getCurrentUser();
+    });
+  }
+  
+  ngOnDestroy() {
+    this.userDetailsSubscription && this.userDetailsSubscription.unsubscribe();
+    this.dbVolunteerSubscription && this.dbVolunteerSubscription.unsubscribe();
+    this.dbApplicationsSubscription && this.dbApplicationsSubscription.unsubscribe();
+  }
+  
+  getCurrentUser() {
+    this.userDetailsSubscription && this.userDetailsSubscription.unsubscribe();
     this.userDetailsSubscription = this.store.select(userDetailsSelector)
       .subscribe((user: Volunteer | NGO) => {
         this.currentUser = user;
         this.getProfile();
       });
-  }
-
-  ngOnDestroy() {
-    this.userDetailsSubscription.unsubscribe();
-    this.dbVolunteerSubscription && this.dbVolunteerSubscription.unsubscribe();
-    this.dbApplicationsSubscription && this.dbApplicationsSubscription.unsubscribe();
   }
 
   getProfile(): void {
