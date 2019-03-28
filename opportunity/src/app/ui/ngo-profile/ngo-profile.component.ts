@@ -62,7 +62,7 @@ export class NgoProfileComponent implements OnInit {
     this.dbNgoSubscription = this.db.getOne('ngos', id)
       .subscribe((ngo: NGO) => {
         this.ngo = ngo;
-        this.isMe = this.currentUser && this.currentUser.id === ngo.id;
+        this.isMe = this.currentUser && this.currentUser.id === id;
       });
 
     this.dbOpportunitiesSubscription = this.db.getAllOpportunitiesOfNGO(id)

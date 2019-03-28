@@ -18,17 +18,25 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 70vw;
-  margin-top: 100px;
+  width: 70%;
+  margin-top: 90px;
+  max-width: 570px;
 }
 
 .upperContainer {
   display: flex;
-  width: 50vw;
+  width: 100%;
   justify-content: space-between;
 }
 
+.name {
+  text-align: center;
+  width: 40%;
+  padding-top: 150px;
+}
+
 .profilePicture {
+  width: 250px;
   height: 250px;
   width: 250px;
   border-radius: 5px;
@@ -45,7 +53,7 @@
 }
 
 .description {
-  margin-top: 20px;
+  margin-top: 30px;
  }
 
 .applicationsContainer {
@@ -74,4 +82,23 @@
   cursor: pointer;
   box-shadow: 6px 12px 16px -12px rgba(0,0,0,0.35), -6px -6px 16px -12px rgba(0,0,0,0.35);
   padding: 0 15px;
+}
+
+@media (min-width: 0px) and (max-width: 700px) {
+  .upperContainer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .upperContainer {
+    align-items: center;
+  }
+
+  .profilePicture {
+    margin-right: 0;
+  }
+  .name {
+    width: 100%;
+    padding-top: 25px;
+  }
 }

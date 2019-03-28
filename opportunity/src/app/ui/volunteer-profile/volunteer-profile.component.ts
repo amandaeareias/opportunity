@@ -53,7 +53,7 @@ export class VolunteerProfileComponent implements OnInit {
     this.dbVolunteerSubscription = this.db.getOne('volunteers', id)
       .subscribe((volunteer: Volunteer) => {
         this.volunteer = volunteer;
-        this.isMe = this.currentUser && this.currentUser.id === volunteer.id;
+        this.isMe = this.currentUser && this.currentUser.id === id;
       })
   }
 

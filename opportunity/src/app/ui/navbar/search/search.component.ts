@@ -19,6 +19,15 @@ export class SearchComponent implements OnInit, OnDestroy {
   public ngos: NGO[];
   public opportunities: Opportunity[];
 
+  displayNgoListOnHP = {
+    'margin-top': '50px',
+    'display': 'flex',
+    'align-items': 'center',
+    'justify-content': 'center',
+    'width': '100vw',
+    'overflow': 'scroll'
+  }
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,

@@ -9,48 +9,76 @@
       Delete Profile
     </button>
   </div>
+
   <div class="userInfo">
     <form [formGroup]="settingsForm" (ngSubmit)="formSubmit()">
-      <label>Name:</label>
-      <input class='input' formControlName="name" type="text">
-      <p class="alert" *ngIf='settingsForm.get("name").touched && settingsForm.get("name").invalid'>Name must be filled
-      </p>
-
-      <label class="about">About:</label>
-      <textarea formControlName="about" rows="10" cols="80"> </textarea>
-      <p class="alert" *ngIf='settingsForm.get("about").touched && settingsForm.get("about").invalid'>About must be
-        filled</p>
-
-      <div formGroupName="address">
-        <h3>Address</h3>
-
-        <label>Country:</label>
-        <select type="text" formControlName="country">
-          <option *ngFor="let country of countries" [ngValue]="country">{{ country }}</option>
-        </select>
-      
-        <label>Street:</label>
-        <input type="text" class='input' formControlName="street">
-      
-        <label>City:</label>
-        <input type="text" class='input' formControlName="city">
-        
-        
-        <label>State/Region:</label>
-        <input type="text" class='input' formControlName="region">
-      
-        <label>Postal code:</label>
-        <input type="text" class='input' formControlName="postalCode">
-
+      <div id="nameContainer" class="container">
+        <div class="element">
+          <label>Name: *</label>
+          <input class='input' formControlName="name" type="text">
+          <p class="alert" *ngIf='settingsForm.get("name").touched && settingsForm.get("name").invalid'>Name must be filled </p>
+        </div>
       </div>
 
-      <label>Phone:</label>
-      <input class='input' formControlName="phone" type="text">
-      <p class="alert" *ngIf='settingsForm.get("phone").touched && settingsForm.get("phone").invalid'>Phone must be
-        filled</p>
+      <div id="descriptionContainer" class="container">
+        <div class="elementDescription">
+          <label class="about">About: *</label>
+          <textarea formControlName="about" rows="10" cols="80"> </textarea>
+          <p class="alert" *ngIf='settingsForm.get("about").touched && settingsForm.get("about").invalid'>About must be filled and 20 characters</p>
+        </div>
+      </div>
 
-      <label>Website:</label>
-      <input class='input' formControlName="website" type="text">
+      <div id="contactContainer" class="container">
+        <div class="element">
+          <label>Website:</label>
+          <input class='input' formControlName="website" type="text">
+        </div>
+
+        <div class="element">
+          <label>Phone:</label>
+          <input class='input' formControlName="phone" type="text">
+        </div>
+      </div>
+
+      <h4>Address*</h4>
+      <div formGroupName="address" id="addressContainer">
+        <div class="addressUp">
+          <div class="element">
+            <label>Country: *</label>
+            <select type="text" formControlName="country">
+              <option *ngFor="let country of countries" [ngValue]="country">{{ country }}</option>
+            </select>
+            <p class="alert" *ngIf='settingsForm.get("address").get("country").touched && settingsForm.get("address").get("country").invalid'> Country must be filled</p>
+          </div>
+
+          <div class="element">
+            <label>State/Region: *</label>
+            <input type="text" class='input' formControlName="region">
+            <p class="alert" *ngIf='settingsForm.get("address").get("region").touched && settingsForm.get("address").get("region").invalid'> State/Region must be filled</p>
+          </div>
+        </div>
+
+        <div class="addressDown">
+          <div class="element">
+            <label>City: *</label>
+            <input type="text" class='input' formControlName="city">
+            <p class="alert" *ngIf='settingsForm.get("address").get("city").touched && settingsForm.get("address").get("city").invalid'>City must be filled</p>
+          </div>
+
+          <div class="element">
+            <label>Street: *</label>
+            <input type="text" class='input' formControlName="street">
+            <p class="alert" *ngIf='settingsForm.get("address").get("street").touched && settingsForm.get("address").get("street").invalid'> Street must be filled</p>
+          </div>
+
+          <div class="element">
+            <label>Postal code: *</label>
+            <input type="text" class='input' formControlName="postalCode">
+            <p class="alert"  *ngIf='settingsForm.get("address").get("postalCode").touched && settingsForm.get("address").get("postalCode").invalid'>Postal code must be filled</p>
+          </div>
+        </div>
+
+      </div>
 
       <div class="buttons">
         <p class="cancel" (click)='cancel()'>Cancel</p>
@@ -59,4 +87,5 @@
 
     </form>
   </div>
+
 </div>

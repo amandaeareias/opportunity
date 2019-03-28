@@ -51,14 +51,16 @@ export class OpportunityComponent implements OnInit, OnDestroy {
   }
 
   checkUser() {
-    this.store.select(getUserState)
+    this.userStateSubscription = this.store.select(getUserState)
       .subscribe((user: UserState) => {
         this.currentUser = user;
         this.isMe = user.user && user.user.id === this.opportunity.ngo.id;
         if (!user.isNgo) {
           this.dbApplicationsSubscription = this.db.getAllApplicationsOfVolunteer(this.currentUser.user.id)
-            .subscribe((res: any[]) => {
-              this.applied = res.includes((app: Application) => app.opportunityId === this.opportunity.id);
+          .subscribe((res: any[]) => {
+              this.applied = res.filter((app: Application) => {
+                return app.opportunityId === this.opportunity.id;
+              }).length !== 0;
             });
         }
       });
