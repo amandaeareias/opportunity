@@ -49,7 +49,7 @@ export class VolunteerProfileComponent implements OnInit {
   }
 
   getProfile(): void {
-    const id = this.route.snapshot.paramMap.get('id')
+    const id = this.route.snapshot.paramMap.get('id');
     this.dbVolunteerSubscription = this.db.getOne('volunteers', id)
       .subscribe((volunteer: Volunteer) => {
         this.volunteer = volunteer;
