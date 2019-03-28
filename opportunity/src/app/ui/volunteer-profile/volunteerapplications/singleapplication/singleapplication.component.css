@@ -5,21 +5,22 @@
   width: 100%;
 }
 
+.rightSide {
+  padding-left: 20px;
+}
+
 .leftSide, .rightSide {
   display:flex;
 }
 
-.ngoPic {
-  height: 50px;
-  width: 50px;
-  background-color: red;
-  border-radius: 3px;
-  margin-right: 10px;
-}
-
 .opportunityName {
   font-size: 18px;
-  margin-bottom: 7px;
+  margin-bottom: 5px;
+}
+
+.ngoName {
+  margin-bottom: 10px;
+  font-weight: 200;
 }
 
 .applicationText, .ngoName {
@@ -30,6 +31,10 @@ img {
   height: 20px;
   cursor: pointer;
   margin: 10px;
+}
+
+.submit {
+  border: none;
 }
 
 .alert {

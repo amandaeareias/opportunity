@@ -58,7 +58,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   filterByCategory(category: string): void {
     if (category !== 'All') {
       this.ngos = this._ngoCache.filter(ngo => ngo && ngo.category === category);
-      this.opportunities = this._opportunityCache.filter(opportunity => opportunity && opportunity.category === category);
+      this.opportunities = this._opportunityCache.filter(opportunity => opportunity && opportunity.ngo.category === category);
     } else {
       this.ngos = this._ngoCache;
       this.opportunities = this._opportunityCache;

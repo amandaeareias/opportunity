@@ -6,5 +6,5 @@
       [style.backgroundImage]="star === 1 ? 'url('+ '/assets/icons/star-full.png' +')' : 'url('+ '/assets/icons/star-empty.png' +')'"
     ></div>
   </div>
-  <button (click)="addReview()" *ngIf="enabled && !isMe">Add review</button>
+  <button (click)="addReview()" *ngIf="enabled && !isMe && !currentUser.isNgo">Add review</button>
 </div>

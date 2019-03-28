@@ -7,6 +7,7 @@ import { NGO } from 'src/app/data/models/ngo.model';
 
 import { AddReviewComponent } from './add-review/add-review.component'
 import { LoginComponent } from '../../navbar/login/login.component'
+import { UserState } from 'src/app/user/user.reducers';
 
 @Component({
   selector: 'app-review-stars',
@@ -21,7 +22,7 @@ export class ReviewStarsComponent implements OnInit {
   @Input()
   public isMe: boolean;
   @Input()
-  public currentUser: Volunteer | NGO;
+  public currentUser: UserState;
   public ratingArr: number[] = [0, 0, 0, 0, 0];
   public objStyle: any = {
     'background-image': 'url(' + '/assets/icons/star-full.png' + ')'
@@ -44,10 +45,10 @@ export class ReviewStarsComponent implements OnInit {
   }
 
   addReview() {
-    if(this.currentUser) {
+    if(this.currentUser.user) {
       this.dialog.open(AddReviewComponent, { data: {
         id: this.route.snapshot.paramMap.get('id'),
-        user: this.currentUser,
+        user: this.currentUser.user,
       } });
     } else {
       this.LoginComponent.loginGoogle(false);

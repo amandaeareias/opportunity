@@ -32,12 +32,12 @@ export class OpportunityCardAdminComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.dbApplicationsSubscription.unsubscribe();
+    this.dbApplicationsSubscription && this.dbApplicationsSubscription.unsubscribe();
   }
 
   seeApplicants(event) {
     event.stopPropagation();
     this.dialog.open(NGOapplicationsComponent, { data: this.applications });
   }
-  
+
 }

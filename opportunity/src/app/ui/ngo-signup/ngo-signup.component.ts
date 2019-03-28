@@ -22,7 +22,7 @@ export class NgoSignupComponent {
     website: new FormControl(''),
     address: new FormGroup({
       country: new FormControl(this.currentUser.location
-        ? this.currentUser.location.countryName
+        ? this.currentUser.location.country_name
         : '', [Validators.required]),
       street: new FormControl('', [Validators.required]),
       city: new FormControl('', [Validators.required]),
@@ -69,6 +69,7 @@ export class NgoSignupComponent {
       Object.keys(this.formData.controls).forEach(field => {
         const control = this.formData.get(field);
         if (control instanceof FormControl) {
+          console.log(control)
           control.markAsTouched({ onlySelf: true });
         }
       });
