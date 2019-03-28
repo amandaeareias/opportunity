@@ -3,7 +3,7 @@
   <div class="numberApplications" *ngIf='applications && applications.length > 0' (click)='seeApplicants($event)'>
     {{applications.length}}</div>
   <h3>{{opportunity.name | summary:30}}</h3>
-  <h5>{{opportunity.about | summary}}</h5>
+  <h5>{{opportunity.about | summary:30}}</h5>
   <div class="location">
     <img src="assets/icons/position-black.png" alt="">
     <p>{{opportunity.location | summary:30}}</p>
