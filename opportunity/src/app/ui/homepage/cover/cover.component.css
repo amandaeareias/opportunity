@@ -6,10 +6,6 @@
 }
 
 .coverImage {
-  background-image: url('/assets/cover-15.png');
-  background-size: cover;
-  background-position: left 100px bottom;
-  background-repeat: no-repeat;
   position: absolute;
   top: 0;
   left: 0;
@@ -18,10 +14,89 @@
   z-index: -2;
 }
 
+#cloud1 {
+  position: absolute;
+  z-index: 5;
+  width: 20%;
+  max-width: 280px;
+  top: 40%;
+  left: 9%;
+  transition: 3s ease all;
+}
+
+#cloud2 {
+  position: absolute;
+  z-index: 5;
+  max-width: 340px;
+  width: 37%;
+  top: 13%;
+  left: 17%;
+  transition: 3s ease all;
+}
+
+#cloud3 {
+  position: absolute;
+  z-index: 5;
+  max-width: 450px;
+  width: 50%;
+  top: 23%;
+  left: 45%;
+  transition: 3s ease all;
+}
+
+#cloud4 {
+  position: absolute;
+  z-index: 5;
+  width: 22%;
+  max-width: 230px;
+  top: 3%;
+  left: 75%;
+  transition: 3s ease all;
+}
+
+#cloud5 {
+  position: absolute;
+  z-index: 5;
+  width: 20%;
+  max-width: 280px;
+  top: 55%;
+  left: 27%;
+  transition: 3s ease all;
+}
+
+#cloud6 {
+  position: absolute;
+  z-index: 5;
+  max-width: 340px;
+  width: 37%;
+  top: 65%;
+  left: 55%;
+  transition: 3s ease all;
+  display: none;
+}
+
+#earth {
+  position: absolute;
+  z-index: 10;
+  width: 50%;
+  min-width: 880px;
+  left: 45%;
+  bottom: -10%;
+}
+
+#people {
+  position: absolute;
+  z-index: 15;
+  width: 45%;
+  min-width: 760px;
+  bottom: -10%;
+  left: 45%;
+}
+
 .slogan {
   width: 450px;
-  bottom: 50px;
-  left: 50px;
+  bottom: 70px;
+  left: 70px;
   position: absolute;
 }
 
@@ -36,4 +111,59 @@
 
 .logo {
   height: 45px;
+}
+
+@media (min-width: 540px) and (max-width: 800px) {
+  #earth {
+    display: none;
+  }
+  #people {
+    display: none;
+  }
+  #cloud3 {
+    top: 30%;
+  }
+  #cloud6 {
+    display: flex;
+  }
+
+}
+@media (min-width: 0px) and (max-width: 540px) {
+  #earth {
+    display: none;
+  }
+  #people {
+    display: none;
+  }
+  #cloud3 {
+    top: 30%;
+  }
+  #cloud6 {
+    display: flex;
+  }
+
+  .coverContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .slogan {
+    bottom: 0;
+    left: 0;
+    margin: 0 auto;
+    position: relative;
+    padding-bottom: 20px;
+    width: 90vw;
+  }
+
+  .slogan h2 {
+    font-size: 63px;
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+  .logo {
+    height: 35px;
+  }
+
 }

@@ -13,7 +13,7 @@
         [isMe]="isMe"
         [currentUser]="currentUser"
       ></app-review-stars>
-      <p *ngIf="ngo.contact">{{ ngo.contact.website }}</p>
+      <a *ngIf="ngo.contact" href="{{ ngo.contact.website }}">{{ ngo.contact.website }}</a>
       <p *ngIf="ngo.contact">{{ ngo.contact.phone }}</p>
       <p *ngIf="ngo.location">{{ ngo.location.formattedAddress }}</p>
     </div>
@@ -41,7 +41,10 @@
       </div>
     </div>
   </div>
+</div>
 
+<div class="reviews" *ngIf='reviews && reviews.length > 0'>
+  <h3>{{reviews.length}} Reviews</h3>
   <div class="reviewsContainer">
     <div class="review" *ngFor="let review of reviews">
       <div class="volunteerInfo">

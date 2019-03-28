@@ -1,3 +1,7 @@
+:host {
+  margin-top: 50px;
+}
+
 app-ngocard {
   margin-bottom: 10px;
 }
@@ -9,4 +13,10 @@ select {
   margin-bottom: 20px;
   width: 120px;
   outline: none;
+}
+
+@media (min-width: 0px) and (max-width: 710px) {
+  :host {
+    margin-top: 30px;
+  }
 }

@@ -4,7 +4,7 @@ export class Volunteer {
   id?: string;
   username: string; // email
   name: string;
-  about?: string;
+  about?: string | boolean;
   image?: string;
   dateOfBirth?: string;
   applicationsCount?: number;
@@ -15,7 +15,7 @@ export class Volunteer {
     this.name = null;
     this.username = null;
     this.image = null;
-    this.about = null;
+    this.about = false;
     this.applicationsCount = 0;
     this.isComplete = false;
   }
