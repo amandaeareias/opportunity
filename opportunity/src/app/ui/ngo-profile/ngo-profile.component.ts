@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { FirebaseCrudService } from '../../data/services/firebase.service';
-import { userDetailsSelector } from '../../user/user.reducers';
+import { UserState, getUserState } from '../../user/user.reducers';
 
 import { Volunteer } from 'src/app/data/models/volunteer.model';
 import { NGO } from 'src/app/data/models/ngo.model';
@@ -26,7 +26,7 @@ export class NgoProfileComponent implements OnInit {
   private dbOpportunitiesSubscription: Subscription;
   private dbReviewsSubscription: Subscription;
   private dbVolunteerSubscription: Subscription;
-  public currentUser: Volunteer | NGO;
+  public currentUser: UserState;
   public ngo: NGO;
   public opportunities: Opportunity[] = [];
   public reviews: Review[] = [];
@@ -42,19 +42,27 @@ export class NgoProfileComponent implements OnInit {
   ngOnInit() {
     /* Invoiking getProfile() inside subscription */
     /* to make sure we've got user to compare */
-    this.userDetailsSubscription = this.store.select(userDetailsSelector)
-      .subscribe((user: Volunteer | NGO) => {
-        this.currentUser = user;
-        this.getProfile();
-      });  
+    
+    this.route.params.subscribe(() => {
+      this.getCurrentUser();
+    });
   }
-
+  
   ngOnDestroy() {
-    this.userDetailsSubscription.unsubscribe();
+    this.userDetailsSubscription && this.userDetailsSubscription.unsubscribe();
     this.dbNgoSubscription && this.dbNgoSubscription.unsubscribe();
     this.dbOpportunitiesSubscription && this.dbOpportunitiesSubscription.unsubscribe();
     this.dbReviewsSubscription && this.dbReviewsSubscription.unsubscribe();
     this.dbVolunteerSubscription && this.dbVolunteerSubscription.unsubscribe();
+  }
+  
+  getCurrentUser() {
+    this.userDetailsSubscription && this.userDetailsSubscription.unsubscribe();
+    this.userDetailsSubscription = this.store.select(getUserState)
+      .subscribe((user: UserState) => {
+        this.currentUser = user;
+        this.getProfile();
+      });
   }
 
   getProfile() {
@@ -62,7 +70,7 @@ export class NgoProfileComponent implements OnInit {
     this.dbNgoSubscription = this.db.getOne('ngos', id)
       .subscribe((ngo: NGO) => {
         this.ngo = ngo;
-        this.isMe = this.currentUser && this.currentUser.id === ngo.id;
+        this.isMe = this.currentUser.user && this.currentUser.user.id === id;
       });
 
     this.dbOpportunitiesSubscription = this.db.getAllOpportunitiesOfNGO(id)
@@ -92,7 +100,7 @@ export class NgoProfileComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    this.dialog.open(CreateOpportunityComponent, { data: this.currentUser });
+    this.dialog.open(CreateOpportunityComponent, { data: this.currentUser.user });
   }
 
   editOpportunity(card) {

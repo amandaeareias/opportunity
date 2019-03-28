@@ -53,7 +53,7 @@ export class SettingsNgoComponent implements OnDestroy {
     }),
     phone: new FormControl(this.currentUser.user.contact
       ? this.currentUser.user.contact.phone
-      : '', Validators.required),
+      : ''),
     website: new FormControl(this.currentUser.user.contact
       ? this.currentUser.user.contact.website
       : ''),

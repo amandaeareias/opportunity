@@ -7,6 +7,7 @@ export class Opportunity {
     id: string;
     name: string;
     image: string;
+    category?: string;
   };
   about: string;
   location: string; // change to geo location
@@ -14,7 +15,6 @@ export class Opportunity {
   timeCreated: string;
   active: boolean;
   applicationsCount?: number;
-  category?: string;
   constructor() {
     this.name = null;
     this.ngo = null;

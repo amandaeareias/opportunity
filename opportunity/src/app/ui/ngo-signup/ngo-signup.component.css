@@ -2,12 +2,46 @@ h1 {
   margin-bottom: 10px;
 }
 
-h3 {
+h4 {
   margin-top: 20px;
 }
 
+.container {
+  width: 100%;
+  display: flex;
+  margin-bottom: 20px;
+}
+
+select {
+  border: none;
+  height: 30px;
+}
+
+#addressContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.addressUp, .addressDown {
+  display: flex;
+}
+
+.element {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin-right: 15px;
+}
+
+.elementDescription {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 form {
-  min-width: 400px;
+  min-width: 50vw;
   max-height: 80vh;
   display: flex;
   flex-direction: column;
@@ -15,11 +49,11 @@ form {
 }
 
 label {
-  margin: 10px 0;
+  margin: 6px 0;
 }
 
 .input {
-  height: 40px;
+  height: 35px;
   width: 100%;
 }
 
@@ -29,13 +63,13 @@ textarea {
 
 .submit {
   color: white;
-  background-color: #F4A42C;
+  background-color: #0E3D5E;
   box-shadow: 6px 12px 16px -12px rgba(0,0,0,0.35), -6px -6px 16px -12px rgba(0,0,0,0.35);
   margin-top: 20px;
-  height: 36px;
-  width: 90px;
+  height: 40px;
+  width: 100px;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 16px;
   align-self: flex-end;
   outline: none;
 }

@@ -11,6 +11,7 @@ mat-toolbar {
 .leftSideNav {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .search {
@@ -80,4 +81,40 @@ mat-toolbar {
 
 app-login {
   margin-left: 10px;
+}
+
+.rightSideNavHamb {
+  display: none;
+  height: 30px;
+}
+
+.rightSideNavHamb img {
+  height: 30px;
+  cursor: pointer;
+  outline: none;
+}
+
+@media (min-width: 0px) and (max-width: 730px) {
+  mat-toolbar {
+    padding: 0 10px;
+  }
+
+  .logo {
+    margin-right: 20px;
+  }
+  .search input {
+    width: 70px;
+  }
+
+  .search img {
+    margin-right: 0;
+  }
+
+  .userNavbar, .all {
+    display: none;
+  }
+  .rightSideNavHamb {
+    display: block;
+    margin-left: 15px;
+  }
 }

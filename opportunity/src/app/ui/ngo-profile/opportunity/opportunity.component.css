@@ -2,17 +2,22 @@
   height: 250px;
   color: #0E3D5E;
   padding: 20px;
+  width: 60vw;
+  max-width: 870px;
 }
 
 .opportunity {
-  min-width: 60vw;
+  width: 100%;
+  max-width: 870px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* border: 1px solid pink; */
 }
 
 .leftContainer {
-  width: 70%;
+  width: 60%;
+  /* border: 1px solid red; */
 }
 
 h2 {
@@ -32,13 +37,14 @@ h3:hover {
 }
 
 .rightContainer {
-  width: 45%;
+  width: 35%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-left: 40px;
+  /* border: 1px solid blue; */
 }
 
 .rightContainer img {
@@ -64,14 +70,12 @@ h4 {
   width: 150px;
   border-radius: 50px;
   outline: none;
-  margin-top: 20px;
   font-size: 18px;
   cursor: pointer;
 }
 
 .apply {
   margin-top: 30px;
-  /* border: 1px solid red; */
 }
 
 .apply label {
@@ -85,15 +89,7 @@ h4 {
 }
 
 .apply .submit {
-  background-color: #0E3D5E;
-  color: white;
-  height: 50px;
-  width: 150px;
-  border-radius: 50px;
-  outline: none;
   margin-top: 20px;
-  font-size: 18px;
-  cursor: pointer;
   align-self: flex-end;
 }
 
@@ -115,4 +111,30 @@ h4 {
 
 .prerequisite {
   margin-bottom: 4px;
+}
+
+@media (min-width: 0px) and (max-width: 630px) {
+  .opportunity {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .leftContainer {
+    width: 100%;
+  }
+
+  .applybtn {
+    margin-top: 35px;
+  }
+
+  .rightContainer {
+    margin-left: 0px;
+  }
+
+  .btn {
+    height: 40px;
+    width: 120px;
+    border-radius: 50px;
+    font-size: 14px;
+  }
 }
