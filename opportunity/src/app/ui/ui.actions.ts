@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 export enum ActionTypes {
   UpdateLoadingState = '[UI] Update loading state of component',
   UpdateUIState = '[UI] Update UI state of the component',
+  TOGGLE_GLOBAL_PLACEHOLDER = '[UI] Toggle global placeholder'
 }
 
 export class UpdateLoadingState implements Action {
@@ -22,4 +23,8 @@ export class UpdateUIState implements Action {
   }) {}
 }
 
-export type UIActions = UpdateLoadingState | UpdateUIState;
+export class TOGGLE_GLOBAL_PLACEHOLDER implements Action {
+  readonly type = ActionTypes.TOGGLE_GLOBAL_PLACEHOLDER;
+}
+
+export type UIActions = UpdateLoadingState | UpdateUIState | TOGGLE_GLOBAL_PLACEHOLDER;

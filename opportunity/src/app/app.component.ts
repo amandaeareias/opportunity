@@ -4,8 +4,9 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { getUserState, UserState } from './user/user.reducers';
-import { navbarUIStateSelector } from './ui/ui.reducers';
+import { getUIState, UIState } from './ui/ui.reducers';
 import { GOOGLE_LOGIN_SUCCESS, GET_USER_PENDING, GET_USER_LOCATION_PENDING } from './user/user.actions';
+import { TOGGLE_GLOBAL_PLACEHOLDER } from './ui/ui.actions';
 
 
 @Component({
@@ -15,10 +16,10 @@ import { GOOGLE_LOGIN_SUCCESS, GET_USER_PENDING, GET_USER_LOCATION_PENDING } fro
 })
 export class AppComponent implements OnInit, OnDestroy {
   private me: UserState;
-  private navbarUIState: string;
   private userStateSubscription: Subscription;
   private authStateSubscription: Subscription;
   private uiStateSubscription: Subscription;
+  private navbarUIState: string;
   public displayApp: boolean = true;
 
   constructor(
@@ -35,8 +36,11 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.uiStateSubscription = this.store.select(navbarUIStateSelector)
-      .subscribe(navbarUIState => this.navbarUIState = navbarUIState);
+    this.uiStateSubscription = this.store.select(getUIState)
+      .subscribe((uiState: UIState) => {
+        this.navbarUIState = uiState.navbar.uiState;
+        this.displayApp = uiState.global.displayApp;
+      });
 
     this.authStateSubscription = this.auth.authState.subscribe(authResponse => {
       if (authResponse) {
@@ -54,22 +58,15 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /* Being responsible developers, we unsubscribe all subscriptions */
-  ngOnDestroy(): void {
-    this.userStateSubscription.unsubscribe();
-    this.authStateSubscription.unsubscribe();
-    this.uiStateSubscription.unsubscribe();
+  ngOnDestroy() {
+    this.userStateSubscription && this.userStateSubscription.unsubscribe();
+    this.authStateSubscription && this.authStateSubscription.unsubscribe();
+    this.uiStateSubscription && this.uiStateSubscription.unsubscribe();
   }
 
   /* @TODO: Move helper functions to the dedicated service */
   parseNgoUIState(uiState: string): boolean {
     return /^NGO/i.test(uiState);
-  }
-
-  refresh(ms = 1000) {
-    this.displayApp = false;
-    setTimeout(() => {
-      this.displayApp = true;
-    }, ms);
   }
 
 }
