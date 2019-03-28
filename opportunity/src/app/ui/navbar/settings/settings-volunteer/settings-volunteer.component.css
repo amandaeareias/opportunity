@@ -24,6 +24,7 @@
   bottom: 3px;
   left: 3px;
   outline: none;
+  border: none;
 }
 
 .profilePicture .timer {
@@ -124,4 +125,32 @@ label {
 .delete img{
   height: 20px;
   margin-right: 10px;
+}
+
+@media (min-width: 0px) and (max-width: 630px) {
+  .userContainer {
+    flex-direction: column;
+  }
+  .userActions {
+    width: 60%;
+    align-self: center;
+  }
+  .userInfo {
+    width: 100%;
+  }
+
+  .userContainer {
+    position: relative;
+  }
+
+  .delete {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  .cancel {
+    margin-right: 0px;
+    width: 70px;
+  }
 }
