@@ -1,3 +1,5 @@
+import { Application } from './application.model';
+
 export class Opportunity {
   id?: string;
   name: string;
@@ -13,7 +15,6 @@ export class Opportunity {
   timeCreated: string;
   active: boolean;
   applicationsCount?: number;
-
   constructor() {
     this.name = null;
     this.ngo = null;

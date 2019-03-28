@@ -98,7 +98,9 @@ export class FirebaseCrudService {
   /* Please note: create functions use type constructor in order */
   /* to enforce fixed document structure in the DB */
   createVolunteer = (volunteer: Volunteer) => this.db.collection('volunteers').add({ ...new Volunteer(), ...volunteer })
-  createNGO = (ngo: NGO) => this.db.collection('ngos').add({ ...new NGO(), ...ngo })
+  
+  createNGO = (ngo: NGO) => this.db.collection('ngos').add({ ...new NGO(), ...ngo });
+  
   createOpportunity = (opportunity: Opportunity) => {
     this.getOneNGO(opportunity.ngo.id).pipe(first()).subscribe(
       async (fullNgoData: NGO) => {
@@ -266,7 +268,7 @@ export class FirebaseCrudService {
 
   deleteVolunteer = (volId: string) => {
     //1. get all applications of this volunteer
-    this.getAllApplicationsOfVolunteer(volId).pipe(first()).subscribe(
+    return this.getAllApplicationsOfVolunteer(volId).pipe(first()).subscribe(
       (applicationsArray) => {
         //and then delete them
         const promisesArray = [];
@@ -284,7 +286,7 @@ export class FirebaseCrudService {
 
   deleteNGO = (ngoId: string) => {
     //1. get all opportunities of this ngo
-    this.getAllOpportunitiesOfNGO(ngoId).pipe(first()).subscribe(
+    return this.getAllOpportunitiesOfNGO(ngoId).pipe(first()).subscribe(
       (opportunitiesArray) => {
         //and then delete them
         Promise.all(opportunitiesArray.map((opportunity) => {

@@ -130,7 +130,7 @@ import { SearchComponent } from './ui/navbar/search/search.component';
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule.enablePersistence(),
+    AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
     BrowserAnimationsModule,

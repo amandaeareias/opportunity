@@ -1,13 +1,11 @@
 <div class="blueCover">
 </div>
 
-<div class="profile" *ngIf='profileVolunteer'>
+<div class="profile" *ngIf="volunteer">
   <div class="upperContainer">
-    <div class="profilePicture" [ngStyle]="{'background-image': 'url(' + profileVolunteer.image + ')'}"></div>
-    <h2 class="name">{{profileVolunteer.name}}</h2>
-    <!-- <div class="volunteerInfo"> -->
-    <!-- </div> -->
+    <div class="profilePicture" [ngStyle]="{'background-image': 'url(' + volunteer.image + ')'}"></div>
+    <h2 class="name">{{ volunteer.name }}</h2>
   </div>
-  <p class="description">{{profileVolunteer.about}}</p>
-  <button class="seeApplications" *ngIf='currentUser && volunteerOwner' (click)='seeApplications()'>See Applications</button>
+  <p class="description">{{ volunteer.about }}</p>
+  <button class="seeApplications" *ngIf='currentUser && isMe' (click)='openApplications()'>See Applications</button>
 </div>
