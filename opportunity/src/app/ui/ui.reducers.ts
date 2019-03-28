@@ -2,10 +2,8 @@ import { ActionTypes, UIActions } from './ui.actions';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface UIState {
-  navbar: {
-    loadingState: boolean,
-    uiState: string,
-  };
+  navbar: { loadingState: boolean, uiState: string };
+  global: { displayApp: boolean };
 }
 
 export const initialState: UIState = {
@@ -13,6 +11,9 @@ export const initialState: UIState = {
     loadingState: false,
     uiState: 'init',
   },
+  global: {
+    displayApp: true,
+  }
 };
 
 export function uiReducer(state = initialState, action: UIActions) {
@@ -46,6 +47,14 @@ export function uiReducer(state = initialState, action: UIActions) {
         };
       }
       return state;
+    
+    case ActionTypes.TOGGLE_GLOBAL_PLACEHOLDER:
+      return {
+        ...state,
+        global: {
+          displayApp: !state.global.displayApp,
+        }
+      }
 
     default:
       return state;
@@ -67,4 +76,14 @@ export const navbarLoadingStateSelector = createSelector(
 export const navbarUIStateSelector = createSelector(
   navbarComponentSelector,
   (state: { loadingState: boolean, uiState: string }) => state.uiState,
+);
+
+export const globalUISelector = createSelector(
+  getUIState,
+  (state: UIState) => state.global,
+);
+
+export const globalDisplaySelector = createSelector(
+  globalUISelector,
+  (state: { displayApp: boolean }) => state.displayApp,
 );

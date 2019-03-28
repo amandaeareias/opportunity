@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 
 @Component({
@@ -6,17 +6,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
   templateUrl: './volunteerapplications.component.html',
   styleUrls: ['./volunteerapplications.component.css']
 })
-export class VolunteerapplicationsComponent implements OnInit {
-
-
-
+export class VolunteerapplicationsComponent {
+  
   constructor(
-    @Inject(MAT_DIALOG_DATA) public applications,
+    @Inject(MAT_DIALOG_DATA)
+    public applications,
     private dialog: MatDialogRef<VolunteerapplicationsComponent>,
   ) { }
-
-  ngOnInit() {
-  }
 
   closeDialog() {
     this.dialog.close()

@@ -46,6 +46,7 @@ export class MappingService {
         id: ngoData.id,
         name: ngoData.name,
         image: ngoData.image,
+        category: ngoData.category,
       },
       timeCreated: new Date().toISOString(),
       active: true,

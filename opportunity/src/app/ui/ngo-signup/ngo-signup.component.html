@@ -1,43 +1,43 @@
-<form *ngIf="formData && currentUser" [formGroup]="formData" (ngSubmit)="submitNGO()">
+<form *ngIf="currentUser" [formGroup]="formData" (ngSubmit)="submitNGO()">
   <h1 mat-dialog-title>You almost our member!</h1>
 
   <div id="nameAndCategoryContainer" class="container">
     <div class="element">
       <label>NGO name: *</label>
-      <input class="input" type="text" formControlName="orgNameForm">
+      <input class="input" type="text" formControlName="orgName">
     </div>
     <div class="element">
       <label>Category: *</label>
-      <select formControlName="categoryForm">
+      <select formControlName="category">
         <option *ngFor='let category of categoriesList' value='{{category}}'>{{category}}</option>
       </select>
-      <p class="alert" *ngIf='formData.get("categoryForm").touched && formData.get("categoryForm").invalid'>Category must be chosen</p>
+      <p class="alert" *ngIf='formData.get("category").touched && formData.get("category").invalid'>Category must be chosen</p>
     </div>
   </div>
 
   <div id="descriptionContainer" class="container">
     <div class="elementDescription">
       <label>Description: *</label>
-      <textarea formControlName="descriptionForm" rows="10" cols="80"></textarea>
-      <p class="alert" *ngIf='formData.get("descriptionForm").touched && formData.get("descriptionForm").invalid'>Description must be filled and minimum 20 characters</p>
+      <textarea formControlName="description" rows="10" cols="80"></textarea>
+      <p class="alert" *ngIf='formData.get("description").touched && formData.get("description").invalid'>Description must be filled and minimum 20 characters</p>
     </div>
   </div>
 
   <div id="contactContainer" class="container">
     <div class="element">
       <label>Website:</label>
-      <input class="input" type="text" formControlName="websiteForm">
+      <input class="input" type="text" formControlName="website">
     </div>
 
     <div class="element">
       <label>E-mail: *</label>
-      <input class="input" type="text" formControlName="emailForm">
-      <p class="alert" *ngIf='formData.get("emailForm").touched && formData.get("emailForm").invalid'>E-mail must be filled</p>
+      <input class="input" type="text" formControlName="email">
+      <p class="alert" *ngIf='formData.get("email").touched && formData.get("email").invalid'>E-mail must be filled</p>
     </div>
 
     <div class="element">
       <label>Phone number:</label>
-      <input class="input" type="text" formControlName="phoneForm">
+      <input class="input" type="text" formControlName="phone">
     </div>
   </div>
 
@@ -79,7 +79,6 @@
         <p class="alert" *ngIf='formData.get("address").get("postalCode").touched && formData.get("address").get("postalCode").invalid'>Postal code must be filled</p>
       </div>
     </div>
-
   </div>
 
   <input class="submit" type="submit">

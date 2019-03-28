@@ -4,6 +4,10 @@
   align-items: center;
 }
 
+p {
+  word-break: break-all;
+}
+
 .blueCover {
   height: 300px;
   width: 100vw;

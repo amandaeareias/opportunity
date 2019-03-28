@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { from } from 'rxjs';
-import { map, switchMap, catchError, first, tap } from 'rxjs/operators';
+import { from, of } from 'rxjs';
+import { map, switchMap, first } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 import {
   ActionTypes,
@@ -9,10 +10,13 @@ import {
   USER_LOGOUT_SUCCESS,
   UPDATE_USER_SUCCESS,
   GET_USER_LOCATION_SUCCESS,
+  DELETE_USER_PENDING,
+  DELETE_USER_SUCCESS,
 } from './user.actions';
 import { LoginService } from './user-auth/login.service';
 import { FirebaseCrudService } from '../data/services/firebase.service';
 import { IpGeoLocationService } from './ipgeolocation/ipgeolocation.service';
+import { TOGGLE_GLOBAL_PLACEHOLDER } from '../ui/ui.actions';
 
 @Injectable()
 export class UserEffects {
@@ -78,11 +82,46 @@ export class UserEffects {
       }),
     );
   
+  @Effect()
+  deleteUserLogout = this.actions$
+    .pipe(
+      ofType(ActionTypes.DELETE_USER_LOGOUT),
+      switchMap((action: any) => {
+        return from(this.auth.signOut())
+          .pipe(
+            map(() => {
+              this.store.dispatch(new USER_LOGOUT_SUCCESS());
+              this.store.dispatch(new TOGGLE_GLOBAL_PLACEHOLDER());
+              return new DELETE_USER_PENDING(action.payload);
+            }),
+          )
+      }),
+    );
+  
+  @Effect()
+  deleteUser = this.actions$
+    .pipe(
+      ofType(ActionTypes.DELETE_USER_PENDING),
+      switchMap((action: any) => {
+        const subscription$ = action.payload.isNgo
+          ? of(this.db.deleteNGO(action.payload.id))
+          : of(this.db.deleteVolunteer(action.payload.id));
+        return subscription$
+          .pipe(
+            map(() => {
+              this.store.dispatch(new TOGGLE_GLOBAL_PLACEHOLDER());
+              return new DELETE_USER_SUCCESS();
+            }),
+          )
+      }),
+    );
+
   constructor(
     private actions$: Actions,
     private auth: LoginService,
     private db: FirebaseCrudService,
     private ipGeoLocation: IpGeoLocationService,
+    private store: Store<any>,
   ) {}
 
 }
