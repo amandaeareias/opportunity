@@ -43,7 +43,7 @@ export class NgoProfileComponent implements OnInit {
     /* Invoiking getProfile() inside subscription */
     /* to make sure we've got user to compare */
     
-    this.route.params.subscribe(routeParams => {
+    this.route.params.subscribe(() => {
       this.getCurrentUser();
     });
   }
