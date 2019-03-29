@@ -4,6 +4,7 @@
 
 .applicationCard {
   display: flex;
+  margin-bottom: 20px;
 }
 
 .volunteerPic {
