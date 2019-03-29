@@ -12,7 +12,7 @@ export const environment = {
     storageBucket: 'YOUR_FIREBASE_STORAGE',
     messagingSenderId: 'YOUR_FIREBASE_MESSAGING_SENDER_ID'
   },
-  googleMapsApiKey: 'YOUR_GOOGLEMAPS_API_KEY',
+  googleMapsApiKey: 'YOUR_GOOGLE_MAPS_API_KEY',
   ipgeolocationApiKey: 'YOUR_IPGEOLOCATION_API_KEY',
 };
 
