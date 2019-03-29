@@ -17,7 +17,6 @@ export class GeocodeService {
   ) { }
 
   getLocation(addressObject) {
-    console.log('Show me if this function runs...');
     const query = this.formatAddress(addressObject).query;
     return this.http
       .get<any>(`${this.GOOGLE_MAPS_API_HOST}/json?address=${query}&key=${this.GOOGLE_MAPS_API_KEY}`)
@@ -28,7 +27,7 @@ export class GeocodeService {
                 formattedAddress: results[0].formatted_address,
                 geoPin: results[0].geometry.location,
                 placeId: results[0].place_id,
-                plusCode: results[0].plus_code,
+                // plusCode: results[0].plus_code,
               };
             }
           }),

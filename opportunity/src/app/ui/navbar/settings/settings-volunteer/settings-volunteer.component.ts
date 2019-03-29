@@ -23,6 +23,8 @@ export class SettingsVolunteerComponent implements OnDestroy {
   public uploadPercent: Observable<number>;
   public downloadURL: Observable<string>;
   public selectedImage: string = this.currentUser.user.image;
+  public fileTooBig: boolean = false;
+  public wrongFormat: boolean = false;
   public settingsForm = new FormGroup({
     name: new FormControl(this.currentUser.user ? this.currentUser.user.name : '', Validators.required),
     about: new FormControl(this.currentUser.user ? this.currentUser.user.about : ''),
@@ -36,7 +38,7 @@ export class SettingsVolunteerComponent implements OnDestroy {
     private snackBar: MatSnackBar,
     private storage: AngularFireStorage,
     private router: Router,
-  ) {}
+  ) { }
 
   ngOnDestroy() {
     this.storageChangesSubscription && this.storageChangesSubscription.unsubscribe();
@@ -59,20 +61,29 @@ export class SettingsVolunteerComponent implements OnDestroy {
 
   uploadFile(event) {
     const file = event.target.files[0];
-    const filePath = file.name.split('.')[0] + '-' + Date.now() + '.' + file.name.split('.')[1];
-    const fileRef = this.storage.ref(filePath);
-    const task = this.storage.upload(filePath, file);
-    /* observe percentage changes */
-    this.uploadPercent = task.percentageChanges();
-    /* get notified when the download URL is available */
-    this.storageChangesSubscription = task.snapshotChanges().pipe(
-      finalize(() => {
-        this.downloadURL = fileRef.getDownloadURL();
-        this.storageFinalizeSubscription = this.downloadURL.subscribe(link => {
-          this.selectedImage = link;
-        });
-      }),
-    ).subscribe();
+    if (!['png', 'jpeg', 'jpg'].includes(file.type.split('/')[1])) {
+      this.wrongFormat = true
+    } else if (file.size > 10000000) {
+      this.wrongFormat = false
+      this.fileTooBig = true
+    } else {
+      this.fileTooBig = false
+      this.wrongFormat = false
+      const filePath = file.name.split('.')[0] + '-' + Date.now() + '.' + file.name.split('.')[1];
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, file);
+      /* observe percentage changes */
+      this.uploadPercent = task.percentageChanges();
+      /* get notified when the download URL is available */
+      this.storageChangesSubscription = task.snapshotChanges().pipe(
+        finalize(() => {
+          this.downloadURL = fileRef.getDownloadURL();
+          this.storageFinalizeSubscription = this.downloadURL.subscribe(link => {
+            this.selectedImage = link;
+          });
+        }),
+      ).subscribe();
+    }
   }
 
   cancel() {

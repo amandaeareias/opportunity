@@ -4,6 +4,8 @@
     <div class="profilePicture" [style.backgroundImage]="'url('+ selectedImage +')'">
       <input type="file" class="fileInput" (change)="uploadFile($event)">
       <div class="timer">{{ uploadPercent | async }}</div>
+      <div class="alert fileTooBig" *ngIf='fileTooBig'>Max size: 10MB</div>
+      <div class="alert wrongFormat" *ngIf='wrongFormat'>Wrong Format</div>
     </div>
 
 
