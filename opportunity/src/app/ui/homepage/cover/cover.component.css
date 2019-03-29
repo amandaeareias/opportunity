@@ -1,6 +1,6 @@
 .coverContainer {
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh + 50px);
   position: relative;
   margin-top: -64px;
 }
@@ -10,8 +10,9 @@
   top: 0;
   left: 0;
   width: 100vw;
-  height: 90vh;
+  height: calc(100vh + 50px);
   z-index: -2;
+  overflow: hidden;
 }
 
 #cloud1 {
@@ -81,7 +82,7 @@
   width: 50%;
   min-width: 880px;
   left: 45%;
-  bottom: -10%;
+  bottom: 7%;
 }
 
 #people {
@@ -89,13 +90,14 @@
   z-index: 15;
   width: 45%;
   min-width: 760px;
-  bottom: -10%;
+  bottom: 10%;
   left: 45%;
 }
 
 .slogan {
   width: 450px;
-  bottom: 70px;
+  bottom: 10%;
+  /* bottom: 90px; */
   left: 70px;
   position: absolute;
 }
@@ -110,7 +112,8 @@
 }
 
 .logo {
-  height: 45px;
+  width: 430px;
+  max-width: 90vw;
 }
 
 @media (min-width: 540px) and (max-width: 800px) {
@@ -163,7 +166,7 @@
     margin-bottom: 20px;
   }
   .logo {
-    height: 35px;
+    width: 255px;
   }
 
 }
