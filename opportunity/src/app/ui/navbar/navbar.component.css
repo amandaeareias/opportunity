@@ -1,15 +1,59 @@
 mat-toolbar {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 30px;
   background-color: rgba(255, 255, 255, 0);
+  z-index: 10;
+}
+
+.leftSideNav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  color: #0E3D5E;
+}
+
+.search img {
+  height: 20px;
+  margin-right: 5px;
+}
+
+.search input {
+  height: 30px;
+  border: none;
+  width: 170px;
+  font-weight: lighter;
+  font-size: 18px;
+  outline: none;
+  color: #0E3D5E;
+  background: none;
 }
 
 .logo {
   height: 38px;
   cursor: pointer;
   outline: none;
+  margin-right: 40px;
+}
+
+.rightSideNav {
+  display: flex;
+  align-items: center;
+}
+
+.rightSideNav p {
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  margin-right: 20px;
+  color: #0E3D5E;
 }
 
 .userNavbar {
@@ -17,6 +61,7 @@ mat-toolbar {
   align-items: center;
   justify-content: center;
   font-size: 16px;
+  margin-left: 10px;
 }
 
 .profilePicNavBar {
@@ -32,4 +77,44 @@ mat-toolbar {
   height: 8px;
   margin-left: 7px;
   cursor: pointer;
+}
+
+app-login {
+  margin-left: 10px;
+}
+
+.rightSideNavHamb {
+  display: none;
+  height: 30px;
+}
+
+.rightSideNavHamb img {
+  height: 30px;
+  cursor: pointer;
+  outline: none;
+}
+
+@media (min-width: 0px) and (max-width: 730px) {
+  mat-toolbar {
+    padding: 0 10px;
+  }
+
+  .logo {
+    margin-right: 20px;
+  }
+  .search input {
+    width: 70px;
+  }
+
+  .search img {
+    margin-right: 0;
+  }
+
+  .userNavbar, .all {
+    display: none;
+  }
+  .rightSideNavHamb {
+    display: block;
+    margin-left: 15px;
+  }
 }

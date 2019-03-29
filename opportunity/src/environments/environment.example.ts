@@ -5,13 +5,15 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: 'AIzaSyAPCTL47JhArZuABlom6w35uxgIwhVUz9Q',
-    authDomain: 'opportunity-2b39f.firebaseapp.com',
-    databaseURL: 'https://opportunity-2b39f.firebaseio.com',
-    projectId: 'opportunity-2b39f',
-    storageBucket: 'opportunity-2b39f.appspot.com',
-    messagingSenderId: '316945367100'
-  }
+    apiKey: 'YOUR_FIREBASE_KEY',
+    authDomain: 'YOUR_FIREBASE_DOMAIN',
+    databaseURL: 'YOUR_FIREBASE__DATABASE_URL',
+    projectId: 'YOUR_FIREBASE_PROJECT_ID',
+    storageBucket: 'YOUR_FIREBASE_STORAGE',
+    messagingSenderId: 'YOUR_FIREBASE_MESSAGING_SENDER_ID'
+  },
+  googleMapsApiKey: 'YOUR_GOOGLE_MAPS_API_KEY',
+  ipgeolocationApiKey: 'YOUR_IPGEOLOCATION_API_KEY',
 };
 
 /*

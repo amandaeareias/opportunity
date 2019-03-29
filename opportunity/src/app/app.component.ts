@@ -1,70 +1,72 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
 import { getUserState, UserState } from './user/user.reducers';
-import { navbarUIStateSelector } from './ui/ui.reducers';
-import { LoginWithGoogle_SUCCESS, FetchUserDetails } from './user/user.actions';
-import { NgoSignupComponent } from './ui/ngo-signup/ngo-signup.component';
-import { VolunteerSignupComponent } from './ui/volunteer-signup/volunteer-signup.component';
+import { getUIState, UIState } from './ui/ui.reducers';
+import { GOOGLE_LOGIN_SUCCESS, GET_USER_PENDING, GET_USER_LOCATION_PENDING } from './user/user.actions';
+import { TOGGLE_GLOBAL_PLACEHOLDER } from './ui/ui.actions';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-
-  private user: UserState;
+export class AppComponent implements OnInit, OnDestroy {
+  private me: UserState;
+  private userStateSubscription: Subscription;
+  private authStateSubscription: Subscription;
+  private uiStateSubscription: Subscription;
   private navbarUIState: string;
+  public displayApp: boolean = true;
 
   constructor(
     private auth: AngularFireAuth,
     private store: Store<any>,
-    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
-    this.store.select(getUserState)
-      .subscribe(user => this.user = user);
+    this.userStateSubscription = this.store.select(getUserState)
+      .subscribe(user => {
+        this.me = user;
+        if (!user.location) {
+          this.store.dispatch(new GET_USER_LOCATION_PENDING());
+        }
+      });
 
-    this.store.select(navbarUIStateSelector)
-      .subscribe(navbarUIState => this.navbarUIState = navbarUIState);
+    this.uiStateSubscription = this.store.select(getUIState)
+      .subscribe((uiState: UIState) => {
+        this.navbarUIState = uiState.navbar.uiState;
+        this.displayApp = uiState.global.displayApp;
+      });
 
-    this.auth.authState.subscribe(q => {
-      if (q) {
-        this.store.dispatch(new LoginWithGoogle_SUCCESS());
-      }
-      if (q && !this.user.isRegistered) {
-        this.store.dispatch(new FetchUserDetails({
-          logInEmail: q.email,
-          isNgo: this.parseNgoUIState(this.navbarUIState),
-        }));
+    this.authStateSubscription = this.auth.authState.subscribe(authResponse => {
+      if (authResponse) {
+        this.store.dispatch(new GOOGLE_LOGIN_SUCCESS());
+        if (!this.me.isLoggedIn) {
+          this.store.dispatch(new GET_USER_PENDING({
+            logInEmail: authResponse.email,
+            displayName: authResponse.displayName,
+            photoURL: authResponse.photoURL,
+            isNgo: this.parseNgoUIState(this.navbarUIState),
+          }));
+        }
       }
     });
   }
 
+  /* Being responsible developers, we unsubscribe all subscriptions */
+  ngOnDestroy() {
+    this.userStateSubscription && this.userStateSubscription.unsubscribe();
+    this.authStateSubscription && this.authStateSubscription.unsubscribe();
+    this.uiStateSubscription && this.uiStateSubscription.unsubscribe();
+  }
+
+  /* @TODO: Move helper functions to the dedicated service */
   parseNgoUIState(uiState: string): boolean {
     return /^NGO/i.test(uiState);
-  }
-
-  // TODO: remove this code. Is for testing purpose only
-  // this step will be included after the validation check for new users
-  openDialogNGO(registrationData) {
-    this.dialog.open(NgoSignupComponent, {
-      data: {
-        filename: registrationData ? registrationData.name : ''
-      }
-    });
-  }
-
-  openDialogVolunteer(registrationData) {
-    this.dialog.open(VolunteerSignupComponent, {
-      data: {
-        filename: registrationData ? registrationData.name : ''
-      }
-    });
   }
 
 }

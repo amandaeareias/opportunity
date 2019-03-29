@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { FirebaseCrudService } from '../../../data/services/firebase.service'
+import { HomepageComponent } from '../homepage.component'
 
 @Component({
   selector: 'app-ngolist',
@@ -7,7 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NgolistComponent implements OnInit {
 
-  constructor() { }
+  @Input() ngos;
+
+  constructor(
+    private service: FirebaseCrudService,
+    private homePage: HomepageComponent,
+  ) { }
 
   ngOnInit() {
   }

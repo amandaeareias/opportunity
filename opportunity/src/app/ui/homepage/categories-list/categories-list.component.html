@@ -1,0 +1,10 @@
+<div class="categoriesContainer">
+  <div class="category" (click)='chooseCategory("All")' [style.backgroundColor]="chosenCategoryy=='All' ? '#b46c00' : '#F4A42C'">
+    <img src="./assets/icons/categories/Other.png" alt="">
+    <p>All</p>
+  </div>
+  <div *ngFor='let category of categoriesList' class="category" (click)='chooseCategory(category)' [style.backgroundColor]="chosenCategoryy==category ? '#b46c00' : '#F4A42C'">
+    <img src="./assets/icons/categories/{{category}}.png" alt="">
+    <p>{{category}}</p>
+  </div>
+</div>

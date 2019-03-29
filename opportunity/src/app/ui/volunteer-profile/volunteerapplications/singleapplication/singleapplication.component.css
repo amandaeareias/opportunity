@@ -1,0 +1,43 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.rightSide {
+  padding-left: 20px;
+}
+
+.leftSide, .rightSide {
+  display:flex;
+}
+
+.opportunityName {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.ngoName {
+  margin-bottom: 10px;
+  font-weight: 200;
+}
+
+.applicationText, .ngoName {
+  font-size: 12px;
+}
+
+img {
+  height: 20px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.submit {
+  border: none;
+}
+
+.alert {
+  color: red;
+  font-size: 12px;
+}

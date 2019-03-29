@@ -1,0 +1,20 @@
+<div class="leftSide">
+  <div class="opportunityInfo">
+    <p class="opportunityName">{{application.opportunityData.name}}</p>
+    <p class="ngoName">{{application.opportunityData.ngoName}}</p>
+    <p *ngIf='!editTemplate' class="applicationText">{{application.text}}</p>
+    <div *ngIf='editTemplate' class="apply">
+      <form [formGroup]="editApplicationForm" (ngSubmit)="formSubmit()">
+        <textarea required formControlName="text" #text rows="4" cols="80"> </textarea>
+        <p class="alert" *ngIf='editApplicationForm.get("text").invalid'>Must be
+          filled and minimum
+          20 characters</p><br>
+        <input class="btn" class="submit" type="submit">
+      </form>
+    </div>
+  </div>
+</div>
+<div class="rightSide">
+  <img (click)='editApplication($event)' src="../../../../assets/icons/edit.png" alt="">
+  <img (click)='deleteApplication(application)' src="../../../../assets/icons/trash-red.png" alt="">
+</div>

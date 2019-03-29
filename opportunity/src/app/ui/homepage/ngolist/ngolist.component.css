@@ -1,6 +1,22 @@
-.ngoCardsContainer {
-  display: flex;
-  width: 95vw;
-  overflow: scroll;
-  margin-bottom: 50px;
+:host {
+  margin-top: 50px;
+}
+
+app-ngocard {
+  margin-bottom: 10px;
+}
+
+select {
+  background-color: white;
+  border: none;
+  font-size: 14px;
+  margin-bottom: 20px;
+  width: 120px;
+  outline: none;
+}
+
+@media (min-width: 0px) and (max-width: 710px) {
+  :host {
+    margin-top: 30px;
+  }
 }

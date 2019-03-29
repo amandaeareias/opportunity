@@ -1,0 +1,19 @@
+.applicationsContainer {
+  width: 60vw;
+  overflow: scroll;
+}
+
+.applicationCard {
+  display: flex;
+  margin: 10px 0;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.noApplications p {
+  margin-top: 20px;
+  color: #0E3D5E;
+  cursor: pointer;
+  outline: none;
+}

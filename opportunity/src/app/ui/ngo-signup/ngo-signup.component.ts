@@ -1,76 +1,78 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { NGO } from '../models/ngo.model';
-import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatSnackBar
-} from '@angular/material';
+import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
+import { Store } from '@ngrx/store';
+
+import { UserState } from '../../user/user.reducers';
+import { CountryListService } from 'src/app/data/services/country-list.service';
+import { categoriesList } from '../../data/listsofdata/categorieslist';
 
 @Component({
   selector: 'app-ngo-signup',
   templateUrl: './ngo-signup.component.html',
   styleUrls: ['./ngo-signup.component.css']
 })
-export class NgoSignupComponent implements OnInit {
+export class NgoSignupComponent {
+  public formData = new FormGroup({
+    orgName: new FormControl(this.currentUser.user
+      ? this.currentUser.user.name
+      : '', [Validators.required, Validators.minLength(2),]),
+    category: new FormControl('', Validators.required),
+    description: new FormControl('', [Validators.required, Validators.minLength(20)]),
+    website: new FormControl(''),
+    address: new FormGroup({
+      country: new FormControl(this.currentUser.location
+        ? this.currentUser.location.country_name
+        : '', [Validators.required]),
+      street: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required]),
+      region: new FormControl('', [Validators.required]),
+      postalCode: new FormControl('', [Validators.required]),
+    }),
+    email: new FormControl(this.currentUser.user
+      ? this.currentUser.user.username
+      : '', [Validators.required, Validators.email]),
+    phone: new FormControl(''),
+  });
+  public countries = this.countryService.getCountryList();
+  public categoriesList: string[] = categoriesList;
+
   constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public currentUser: UserState,
     private dialogRef: MatDialogRef<NgoSignupComponent>,
     private snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) private data
-  ) {}
-
-  ngoProfile = new FormGroup({
-    orgNameForm: new FormControl('', [
-      Validators.required,
-      Validators.minLength(2)
-    ]),
-    descriptionForm: new FormControl('', [
-      Validators.required,
-      Validators.minLength(20)
-    ]),
-    websiteForm: new FormControl(''),
-    addressForm: new FormControl('', [Validators.required]),
-    emailForm: new FormControl('', [Validators.required, Validators.email]),
-    phoneForm: new FormControl('', [Validators.required])
-  });
-
-  ngOnInit() {}
-
-  close(): void {
-    this.dialogRef.close();
-  }
+    private store: Store<any>,
+    private countryService: CountryListService,
+  ) { }
 
   submitNGO() {
-    const newNGO = this.ngoProfile.value;
-    const result: any = {
-      name: newNGO.orgNameForm,
-      about: newNGO.descriptionForm,
+    const { orgName, category, description, website, address, email, phone } = this.formData.value;
+    const data = {
+      name: orgName,
+      category,
+      about: description,
       contact: {
-        website: newNGO.websiteForm,
-        address: newNGO.addressForm,
-        publicEmail: newNGO.emailForm,
-        phone: newNGO.phone
-      }
+        website,
+        address,
+        publicEmail: email,
+        phone,
+      },
     };
-    console.log(result, 'result');
 
-    // the result together with the data coming from the login service
-    // has to be send to be stored to the DB
-    console.log(this.ngoProfile, 'ngo profile');
-    if (this.ngoProfile.valid) {
-      console.log('form submitted');
-      this.dialogRef.close();
+    if (this.formData.valid) {
+      this.dialogRef.close(data);
+      this.snackBar.open('You just joined our opportunities network!', 'close', {
+        duration: 3000,
+      });
     } else {
-      console.log('form invalid');
-    }
-
-    if (this.ngoProfile.valid) {
-      this.dialogRef.close();
-      this.snackBar.open('You just joined our opprtunities network!', 'close', {
-        duration: 4000
+      Object.keys(this.formData.controls).forEach(field => {
+        const control = this.formData.get(field);
+        if (control instanceof FormControl) {
+          control.markAsTouched({ onlySelf: true });
+        }
       });
     }
   }
+
 }

@@ -1,14 +1,3 @@
-<div class="cardsContainer">
-  <app-opportunitycard></app-opportunitycard>
-  <app-opportunitycard></app-opportunitycard>
-  <app-opportunitycard></app-opportunitycard>
-  <app-opportunitycard></app-opportunitycard>
-  <app-opportunitycard></app-opportunitycard>
-  <app-opportunitycard></app-opportunitycard>
-  <app-opportunitycard></app-opportunitycard>
-  <app-opportunitycard></app-opportunitycard>
-  <app-opportunitycard></app-opportunitycard>
-  <app-opportunitycard></app-opportunitycard>
-  <app-opportunitycard></app-opportunitycard>
-  <app-opportunitycard></app-opportunitycard>
+<div *ngFor='let opportunity of opportunities'>
+  <app-opportunitycard [opportunity]='opportunity'></app-opportunitycard>
 </div>

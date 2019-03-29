@@ -1,9 +1,32 @@
 <form [formGroup]="createOpportunityForm" (ngSubmit)="formSubmit()">
   <label> Title:</label>
-  <input required class="input" type="text" formControlName="title">
+  <input class="input" type="text" formControlName="name">
+  <p class="alert" *ngIf='createOpportunityForm.get("name").touched && createOpportunityForm.get("name").invalid'>Title must be filled</p>
 
   <label> Description: </label>
-  <textarea required formControlName="description" rows="10" cols="80"> </textarea>
+  <textarea required formControlName="about" rows="10" cols="80"> </textarea>
+  <p class="alert" *ngIf='createOpportunityForm.get("about").touched && createOpportunityForm.get("about").invalid'>Description must be filled</p>
+
+  <label> Location:</label>
+  <input required class="input" type="text" formControlName="location">
+  <p class="alert" *ngIf='createOpportunityForm.get("location").touched && createOpportunityForm.get("location").invalid'>Location must be filled</p>
+
+  <label> Pre Requisites:</label>
+  <mat-form-field class="example-chip-list" >
+    <mat-chip-list #chipList>
+      <mat-chip *ngFor="let value of prerequisitesList" [selectable]="selectable"
+               [removable]="removable" (removed)="remove(value)">
+        {{value}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+  </mat-form-field>
 
   <input class="submit" type="submit">
 </form>
+

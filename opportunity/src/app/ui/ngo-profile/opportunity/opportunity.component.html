@@ -1,15 +1,27 @@
-<div class="leftContainer">
-  <h2>English Teacher</h2>
-  <h3>NGO name</h3>
-  <p>Aliqua in ex excepteur occaecat cupidatat nulla eiusmod eu proident qui. Sunt ipsum anim aute velit. Ex pariatur
-    cupidatat veniam minim qui. Cillum elit irure proident duis non cupidatat anim. Reprehenderit exercitation amet
-    nulla incididunt anim sit laborum ex.</p>
+<div class="opportunity">
+  <div class="leftContainer">
+    <h2>{{opportunity.name}}</h2>
+    <h3 routerLink='/ngo/{{opportunity.ngo.id}}'>{{opportunity.ngo.name}}</h3>
+    <p>{{opportunity.about}}</p>
+    <ul class="prerequisitesList" *ngIf='opportunity.prerequisites.length > 0'>
+      <p class="prerequisitesTitle">Pre-Requisites:</p>
+      <li class="prerequisite" *ngFor='let prerequisite of opportunity.prerequisites'>- {{prerequisite}}</li>
+    </ul>
+  </div>
+
+  <div class="rightContainer">
+    <button class="btn applybtn" (click)='applyClicked()' *ngIf='!applying && !applied && !currentUser.isNgo'>Apply now!</button>
+    <p *ngIf="!applying && applied && !currentUser.isNgo">Applied</p>
+    <img *ngIf="isMe" (click)="editOpportunity()" src="/assets/icons/edit-blue.png" alt="">
+  </div>
 </div>
 
-<div class="rightContainer">
-  <div>
-    <h4>9h</h4>
-    <p>per week</p>
-  </div>
-  <button>Apply now!</button>
+<div *ngIf='applying' class="apply">
+  <form [formGroup]="applyForm" (ngSubmit)="formSubmit()">
+    <label>Tell us, why do you want this opportunity?: </label>
+    <textarea required formControlName="apply" #apply rows="10" cols="80"> </textarea>
+    <p class="alert" *ngIf='applyForm.get("apply").touched && applyForm.get("apply").invalid'>Must be filled and minimum
+      20 characters</p>
+    <input class="btn submit" type="submit">
+  </form>
 </div>

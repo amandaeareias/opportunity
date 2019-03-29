@@ -1,59 +1,62 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { ActionTypes, UserActions } from './user.actions';
+import { Volunteer } from '../data/models/volunteer.model';
+import { NGO } from '../data/models/ngo.model';
 
 export interface UserState {
   isNgo: boolean;
   isLoggedIn: boolean;
-  isRegistered: boolean;
   isAuthed: boolean;
-  user: {
-    displayName?: string;
-    photoURL?: string;
-    logInEmail?: string;
-  };
+  user: Volunteer | NGO;
+  location: any;
 }
 
 export const initialState: UserState = {
+  user: null,
   isNgo: false,
   isLoggedIn: false,
-  isRegistered: false,
   isAuthed: false,
-  user: {
-    displayName: null,
-    photoURL: null,
-    logInEmail: null,
-  },
+  location: null,
 };
 
 export function userReducer(state = initialState, action: UserActions) {
   switch (action.type) {
-    case ActionTypes.LoginWithGoogle_SUCCESS:
+    case ActionTypes.GOOGLE_LOGIN_SUCCESS:
       return {
         ...state,
         isAuthed: true,
       };
 
-    case ActionTypes.LoginWithGoogle_FAIL:
-    case ActionTypes.Logout:
+    case ActionTypes.GOOGLE_LOGIN_FAILURE:
+    case ActionTypes.USER_LOGOUT_SUCCESS:
       return initialState;
 
-    case ActionTypes.FetchUserDetails:
-      return state;
-
-    case ActionTypes.LoadUserDetails:
-      const { displayName, photoURL, logInEmail, isNgo, isRegistered } = action.payload;
+    case ActionTypes.GET_USER_SUCCESS:
+      const { user, isNgo } = action.payload;
       return {
         ...state,
+        user,
         isNgo,
-        isRegistered,
         isLoggedIn: true,
-        user: {
-          displayName,
-          photoURL,
-          logInEmail,
-        }
       };
+    
+    case ActionTypes.UPDATE_USER_SUCCESS:
+      const userData = {
+        ...state.user,
+        ...action.payload,
+      };
+
+      return {
+        ...state,
+        user: userData,
+      };
+    
+    case ActionTypes.GET_USER_LOCATION_SUCCESS:
+      return {
+        ...state,
+        location: action.payload,
+      }
 
     default:
       return state;
@@ -80,27 +83,33 @@ export const isUserLoggedInSelector = createSelector(
   (state: UserState) => state.isLoggedIn,
 );
 
-export const isUserRegisteredSelector = createSelector(
+export const userLocationSelector = createSelector(
   getUserState,
-  (state: UserState) => state.isRegistered,
-);
+  (state: UserState) => state.location,
+)
 
 export const userDetailsSelector = createSelector(
   getUserState,
   (state: UserState) => state.user,
 );
 
+export const isUserCompleteSelector = createSelector(
+  userDetailsSelector,
+  (state: Volunteer | NGO) => state.isComplete,
+);
+
+
 export const userDisplayNameSelector = createSelector(
   userDetailsSelector,
-  (state: { displayName: string, logInEmail: string, photoURL: string }) => state.displayName,
+  (state: Volunteer | NGO) => state.name,
 );
 
 export const userEmailSelector = createSelector(
   userDetailsSelector,
-  (state: { displayName: string, logInEmail: string, photoURL: string }) => state.logInEmail,
+  (state: Volunteer | NGO) => state.username,
 );
 
 export const userPhotoUrlSelector = createSelector(
   userDetailsSelector,
-  (state: { displayName: string, logInEmail: string, photoURL: string }) => state.photoURL,
+  (state: Volunteer | NGO) => state.image,
 );

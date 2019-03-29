@@ -1,17 +1,1 @@
-<div class="ngoCardsContainer">
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-  <app-ngocard></app-ngocard>
-</div>
+<app-ngocard *ngFor='let ngo of ngos' [ngo]='ngo'></app-ngocard>

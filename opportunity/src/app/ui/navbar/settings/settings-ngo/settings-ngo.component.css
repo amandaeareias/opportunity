@@ -1,0 +1,236 @@
+.userContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 70vw;
+  max-width: 980px;
+  overflow: scroll;
+}
+
+.userActions {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.profilePicture {
+  width: 100%;
+  height: 230px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 3px;
+  box-shadow: 6px 12px 16px -12px rgba(0, 0, 0, 0.35),
+  -6px -6px 16px -12px rgba(0, 0, 0, 0.35);
+  position: relative;
+}
+
+.profilePicture .fileInput {
+  position: absolute;
+  bottom: 3px;
+  left: 3px;
+  outline: none;
+  border: none;
+}
+
+.profilePicture .timer {
+  position: absolute;
+  bottom: -20px;
+}
+
+.profilePicture .fileTooBig {
+  position: absolute;
+  bottom: -40px;
+}
+
+.profilePicture .wrongFormat {
+  position: absolute;
+  bottom: -40px;
+  right: 0;
+}
+
+.delete {
+  color: #B40000;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  width: 130px;
+  outline: none;
+}
+
+.delete:hover {
+  color: rgb(104, 2, 2);
+}
+
+.delete img{
+  height: 20px;
+  margin-right: 10px;
+}
+
+/* RIGHT SIDE */
+
+.userInfo {
+  width: 60%;
+}
+
+.userInfo input {
+  width: 100%;
+}
+
+h4 {
+  margin-top: 10px;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  margin-bottom: 15px;
+}
+
+select {
+  border: none;
+  height: 30px;
+}
+
+#contactContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+#contactContainer .element {
+  width: 47%;
+}
+
+#addressContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.addressUp, .addressDown {
+  display: flex;
+  justify-content: space-between;
+}
+
+.addressUp .element {
+  width: 47%;
+}
+
+.element {
+  display: flex;
+  flex-direction: column;
+  width: 32%;
+  margin-right: 15px;
+}
+
+.elementDescription {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: space-between;
+}
+
+label {
+  margin: 6px 0;
+}
+
+.input {
+  height: 35px;
+  width: 100%;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+  margin-top: 20px;
+}
+
+.cancel {
+  height: 40px;
+  width: 100px;
+  outline: none;
+  color: #F4A42C;
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-right: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.cancel:hover {
+  color: rgb(180, 108, 0);
+}
+
+.submit {
+  color: white;
+  background-color: #0E3D5E;
+  box-shadow: 6px 12px 16px -12px rgba(0,0,0,0.35), -6px -6px 16px -12px rgba(0,0,0,0.35);
+  /* margin-top: 20px; */
+  height: 40px;
+  width: 100px;
+  border-radius: 5px;
+  font-size: 16px;
+  align-self: flex-end;
+  outline: none;
+}
+
+.alert {
+  color: red;
+  font-size: 12px;
+}
+
+
+@media (min-width: 630px) and (max-width: 780px) {
+  label {
+    font-size: 11px;
+  }
+  .container {
+    margin-bottom: 10px;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 630px) {
+  .userContainer {
+    flex-direction: column;
+  }
+  .userActions {
+    width: 50%;
+    align-self: center;
+  }
+  .userInfo {
+    width: 100%;
+  }
+
+  .userContainer {
+    position: relative;
+  }
+
+  .delete {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+
+

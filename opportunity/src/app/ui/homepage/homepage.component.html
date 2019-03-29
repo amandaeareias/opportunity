@@ -1,3 +1,5 @@
 <app-cover></app-cover>
-<app-ngolist></app-ngolist>
-<app-opportunitieslist></app-opportunitieslist>
+<app-google-maps [ngos]='ngos'></app-google-maps>
+<app-categories-list (chosenCategory)='onCategoryChange($event)'></app-categories-list>
+<app-ngolist [ngos]='ngos' [ngStyle]='displayNgoListOnHP'></app-ngolist>
+<app-opportunitieslist [opportunities]='opportunities'></app-opportunitieslist>

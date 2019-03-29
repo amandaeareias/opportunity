@@ -1,88 +1,85 @@
-<button mat-mini-fab class="close-button" (click)="close()">
-  <mat-icon>close</mat-icon>
-</button>
-<form [formGroup]="ngoProfile" (ngSubmit)="submitNGO()">
-  <h1 mat-dialog-title>You are almost our member :)</h1>
-  <mat-dialog-content class="table-container">
-    <mat-form-field>
-      <input
-        matInput
-        type="text"
-        formControlName="orgNameForm"
-        placeholder="ONG name"
-        #orgNameForm
-        required
-      />
-      <mat-error *ngIf="orgNameForm.required">
-        Please enter your organization name
-      </mat-error>
-      <mat-error *ngIf="descriptionForm.minLength"
-      >The name must have minimum 2 characters</mat-error
-    >
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
-        placeholder="about"
-        type="text"
-        formControlName="descriptionForm"
-        #descriptionForm
-        required
-      />
-      <mat-error *ngIf="descriptionForm.required"
-        >Please enter your description</mat-error
-      >
-      <mat-error *ngIf="descriptionForm.minLength"
-      >Please enter a text with a length of minimum 20</mat-error
-    >
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
-        type="text"
-        placeholder="website"
-        formControlName="websiteForm"
-      />
-    </mat-form-field>
-    <h3>Your contact data</h3>
-    <mat-form-field>
-      <input
-        matInput
-        type="text"
-        placeholder="address"
-        formControlName="addressForm"
-        #addressForm
-        required
-      />
-      <mat-error *ngIf="addressForm.required"
-        >Please enter your address</mat-error
-      >
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
-        type="text"
-        placeholder="email"
-        #email
-        formControlName="emailForm"
-        required
-      />
-      <mat-error *ngIf="email.required">Please enter your email</mat-error>
-      <mat-error *ngIf="email.email">You entered an invalid email</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
-        type="text"
-        placeholder="phone number"
-        formControlName="phoneForm"
-        required
-        #phone
-      />
-      <mat-error *ngIf="phone.required">Please enter your phone number</mat-error>
-    </mat-form-field>
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-raised-button color="primary" type="submit">Submit</button>
-  </mat-dialog-actions>
+<form *ngIf="currentUser" [formGroup]="formData" (ngSubmit)="submitNGO()">
+  <h1 mat-dialog-title>You almost our member!</h1>
+
+  <div id="nameAndCategoryContainer" class="container">
+    <div class="element">
+      <label>NGO name: *</label>
+      <input class="input" type="text" formControlName="orgName">
+    </div>
+    <div class="element">
+      <label>Category: *</label>
+      <select formControlName="category">
+        <option *ngFor='let category of categoriesList' value='{{category}}'>{{category}}</option>
+      </select>
+      <p class="alert" *ngIf='formData.get("category").touched && formData.get("category").invalid'>Category must be chosen</p>
+    </div>
+  </div>
+
+  <div id="descriptionContainer" class="container">
+    <div class="elementDescription">
+      <label>Description: *</label>
+      <textarea formControlName="description" rows="10" cols="80"></textarea>
+      <p class="alert" *ngIf='formData.get("description").touched && formData.get("description").invalid'>Description must be filled and minimum 20 characters</p>
+    </div>
+  </div>
+
+  <div id="contactContainer" class="container">
+    <div class="element">
+      <label>Website:</label>
+      <input class="input" type="text" formControlName="website">
+    </div>
+
+    <div class="element">
+      <label>E-mail: *</label>
+      <input class="input" type="text" formControlName="email">
+      <p class="alert" *ngIf='formData.get("email").touched && formData.get("email").invalid'>E-mail must be filled</p>
+    </div>
+
+    <div class="element">
+      <label>Phone number:</label>
+      <input class="input" type="text" formControlName="phone">
+    </div>
+  </div>
+
+  <h4>Address*</h4>
+  <div formGroupName="address" id="addressContainer">
+
+    <div class="addressUp">
+      <div class="element">
+        <label>Country: *</label>
+        <select type="text" formControlName="country">
+          <option *ngFor="let country of countries" [ngValue]="country">{{ country }}</option>
+        </select>
+        <p class="alert" *ngIf='formData.get("address").get("country").touched && formData.get("address").get("country").invalid'>Country must be filled</p>
+      </div>
+
+      <div class="element">
+        <label>State/Region: *</label>
+        <input type="text" class='input' formControlName="region">
+        <p class="alert" *ngIf='formData.get("address").get("region").touched && formData.get("address").get("region").invalid'>State/Region must be filled</p>
+      </div>
+    </div>
+
+    <div class="addressDown">
+      <div class="element">
+        <label>City: *</label>
+        <input type="text" class='input' formControlName="city">
+        <p class="alert" *ngIf='formData.get("address").get("city").touched && formData.get("address").get("city").invalid'>City must be filled</p>
+      </div>
+
+      <div class="element">
+        <label>Street: *</label>
+        <input type="text" class='input' formControlName="street">
+        <p class="alert" *ngIf='formData.get("address").get("street").touched && formData.get("address").get("street").invalid'>Street must be filled</p>
+      </div>
+
+      <div class="element">
+        <label>Postal code:</label>
+        <input type="text" class='input' formControlName="postalCode">
+        <p class="alert" *ngIf='formData.get("address").get("postalCode").touched && formData.get("address").get("postalCode").invalid'>Postal code must be filled</p>
+      </div>
+    </div>
+  </div>
+
+  <input class="submit" type="submit">
 </form>

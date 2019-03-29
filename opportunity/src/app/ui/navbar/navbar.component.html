@@ -1,17 +1,40 @@
 <mat-toolbar color="none">
-  <img class='logo' src="/assets/logoBlue.png" alt="" routerLink=''>
-  <div *ngIf="(userDetails$ | async) as user" class="userNavbar">
-    <div [ngStyle]="{'background-image': 'url(' + user.photoURL + ')'}" class="profilePicNavBar"></div>
-    <p>{{ user.displayName }}</p>
-    <img mat-button [matMenuTriggerFor]="menu" src="/assets/icons/down.png" alt="">
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item routerLink='volunteer'>Profile</button>
-      <button mat-menu-item>Settings</button>
-      <button mat-menu-item>Log-out</button>
-    </mat-menu>
+  <div class="leftSideNav">
+    <img class='logo' src="/assets/logoBlue.png" alt="" routerLink=''>
+    <div class="search">
+      <img src="/assets/icons/search.png" alt="">
+      <input class="searchInput" type="text" placeholder='Search' (keyup)='keyUp$.next($event)' [(ngModel)]='searchPath'>
+    </div>
   </div>
-  <app-login *ngIf="!(userDetails$ | async)"></app-login>
+  <div class="rightSideNav">
+    <p class="all" routerLink='/all-opportunities'>All Opportunities</p>
+    <p class="all" routerLink='/all-ngos'>All NGOs</p>
+    <div *ngIf="currentUser.isLoggedIn" class="userNavbar">
+      <div [ngStyle]="{'background-image': 'url(' + currentUser.user.image + ')'}" class="profilePicNavBar"></div>
+      <p [matMenuTriggerFor]="menu">{{ currentUser.user.name }}</p>
+      <img mat-button [matMenuTriggerFor]="menu" src="/assets/icons/down.png" alt="">
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item *ngIf='currentUser.isNgo' routerLink='/ngo/{{currentUser.user.id}}'>Profile</button>
+        <button mat-menu-item *ngIf='!currentUser.isNgo'
+          routerLink='/volunteer/{{currentUser.user.id}}'>Profile</button>
+        <button mat-menu-item (click)='openSettings()'>Settings</button>
+        <button mat-menu-item (click)='logOut()'>Log-out</button>
+      </mat-menu>
+    </div>
+    <app-login *ngIf="!currentUser.isLoggedIn"></app-login>
+  </div>
+  <div class="rightSideNavHamb">
+    <img src="/assets/icons/menu.png" alt="" [matMenuTriggerFor]="menuHamb">
+    <mat-menu #menuHamb="matMenu">
+
+        <button mat-menu-item routerLink='/all-opportunities' >All Opportunities</button>
+        <button mat-menu-item routerLink='/all-ngos'>All NGOs</button>
+
+        <button mat-menu-item *ngIf='currentUser.isLoggedIn && currentUser.isNgo' routerLink='/ngo/{{currentUser.user.id}}'>Profile</button>
+        <button mat-menu-item *ngIf='currentUser.isLoggedIn && !currentUser.isNgo' routerLink='/volunteer/{{currentUser.user.id}}'>Profile</button>
+        <button mat-menu-item *ngIf='currentUser.isLoggedIn' (click)='openSettings()'>Settings</button>
+        <button mat-menu-item *ngIf='currentUser.isLoggedIn' (click)='logOut()'>Log-out</button>
+
+      </mat-menu>
+  </div>
 </mat-toolbar>
-
-
-

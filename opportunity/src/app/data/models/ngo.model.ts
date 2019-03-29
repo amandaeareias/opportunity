@@ -1,19 +1,40 @@
-import { Opportunity } from './opportunity.model';
+import { Review } from './review.model';
 
 export class NGO {
   id?: string;
   name: string;
   username: string;
   image?: string;
-  about: string;
+  about?: string;
   rating?: number;
-  contact: {
+  contact?: {
     website?: string;
-    address: string;
+    address: any;
     publicEmail: string;
     phone: string;
   };
-  opportunity?: Object;
+  location?: any;
+  opportunitiesCount?: number;
+  isComplete?: boolean;
+  category?: string;
+  reviews?: Review[];
+
+  constructor() {
+    this.name = null;
+    this.username = null;
+    this.image = null;
+    this.about = null;
+    this.rating = null;
+    this.contact = {
+      website: null,
+      address: null,
+      publicEmail: null,
+      phone: null,
+    };
+    this.opportunitiesCount = 0;
+    this.isComplete = false;
+  }
 }
 
 export const NgoCollection = 'ngos';
+export type UserRecord = Pick<NGO, 'name' |'about' |'contact'>

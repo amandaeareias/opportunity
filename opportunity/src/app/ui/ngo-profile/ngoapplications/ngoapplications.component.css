@@ -1,0 +1,34 @@
+.applicationsContainer {
+  width: 60vw;
+}
+
+.applicationCard {
+  display: flex;
+}
+
+.volunteerPic {
+  height: 50px;
+  width: 50px;
+  min-width: 50px;
+  border-radius: 3px;
+  margin-right: 20px;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  outline: none;
+}
+
+.volunteerName {
+  font-size: 18px;
+  margin-bottom: 7px;
+  cursor: pointer;
+  outline: none;
+}
+
+.volunteerName:hover {
+  text-decoration: underline;
+}
+
+.volunteerText {
+  font-size: 12px;
+}

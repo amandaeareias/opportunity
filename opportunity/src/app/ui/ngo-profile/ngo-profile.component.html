@@ -1,26 +1,61 @@
 <div class="blueCover">
 </div>
 
-<div class="profile">
+<div class="profile" *ngIf="ngo">
   <div class="upperContainer">
-    <div class="profilePicture"></div>
-    <div class='ngoInfo'>
-      <h2 class="name">Namengo</h2>
-      <p>www.website.com</p>
-      <p>+34 592 509</p>
-      <p>Carrer D'Ávila</p>
+    <div class="profilePicture" [ngStyle]="{'background-image': 'url(' + ngo.image + ')'}"></div>
+    <div class="ngoInfo">
+      <h2 class="name">{{ ngo.name }}</h2>
+      <app-review-stars
+        *ngIf="currentUser"
+        [rating]="ngo.rating"
+        [enabled]="true"
+        [isMe]="isMe"
+        [currentUser]="currentUser"
+      ></app-review-stars>
+      <a *ngIf="ngo.contact" href="{{ ngo.contact.website }}">{{ ngo.contact.website }}</a>
+      <p *ngIf="ngo.contact">{{ ngo.contact.phone }}</p>
+      <p *ngIf="ngo.location">{{ ngo.location.formattedAddress }}</p>
     </div>
   </div>
 
-  <p class="description">Dolor aute et sunt pariatur proident eu commodo pariatur dolor proident. Sint laborum aute non Lorem nulla excepteur aute ullamco eu magna deserunt. Cupidatat velit enim reprehenderit tempor irure ullamco esse cillum labore. Minim minim esse anim in excepteur magna proident ipsum culpa esse aute. Ipsum ad qui do ea veniam labore. Do dolor reprehenderit nostrud occaecat deserunt Lorem. Cillum laborum Lorem aliqua elit labore irure ad eu Lorem cillum velit eiusmod eu. Officia reprehenderit officia ad fugiat ut proident officia velit laborum deserunt officia cupidatat.</p>
+  <p class="description" *ngIf="ngo.about">{{ ngo.about }}</p>
 
-  <div class="opportunitiesList">
-    <div class="createNewOpportunity" (click)='openCreateOpportunity()'>+</div>
-    <app-opportunity-card-admin></app-opportunity-card-admin>
-    <app-opportunity-card-admin></app-opportunity-card-admin>
-    <app-opportunity-card-admin></app-opportunity-card-admin>
-    <app-opportunity-card-admin></app-opportunity-card-admin>
-    <app-opportunity-card-admin></app-opportunity-card-admin>
-    <app-opportunity-card-admin></app-opportunity-card-admin>
+  <div
+    class="createNewOpportunity"
+    (newOpportunity)="newOpportunity()"
+    (click)="createOpportunity()"
+    *ngIf="isMe"
+  >ADD OPPORTUNITY</div>
+
+  <div class="opportunities">
+    <div class="opportunitiesList" *ngIf="opportunities.length > 0">
+      <div *ngFor="let opportunity of opportunities">
+        <app-opportunity-card-admin
+          *ngIf="isMe"
+          #opp
+          (click)="editOpportunity(opp)"
+          [opportunity]="opportunity"
+        ></app-opportunity-card-admin>
+        <app-opportunitycard *ngIf="!isMe" [opportunity]="opportunity"></app-opportunitycard>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="reviews" *ngIf='reviews && reviews.length > 0'>
+  <h3>{{reviews.length}} Reviews</h3>
+  <div class="reviewsContainer">
+    <div class="review" *ngFor="let review of reviews">
+      <div class="volunteerInfo">
+        <div class="picture" [ngStyle]="{'background-image': 'url(' + review.volunteerImage + ')'}"></div>
+        <p class="volunteer" routerLink="/volunteer/{{review.volunteerId}}">{{ review.volunteerName }}</p>
+      </div>
+      <div class="reviewInfo">
+        <app-review-stars [rating]="review.rating" [enabled]="false"></app-review-stars>
+        <p class="date">{{ review.timeCreated | date:'shortDate' }}</p>
+        <p class="text">{{ review.text }}</p>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,4 +1,11 @@
-<div class="opportunityCard" (click)='openOpportunity()'>
-  <h4>Title Opportunity</h4>
-  <p>name NGO</p>
+<div class="opportunityCard" (click)='openOpportunity()'
+  [ngStyle]="{'background-image': 'url(' + opportunity.ngo.image + ')'}">
+  <div class="opacityLayer" (click)='openOpportunity()'></div>
+  <div class="oppInfo">
+    <h3>{{opportunity.name}}</h3>
+    <p class="ngo" routerLink='/ngo/{{opportunity.ngo.id}}'>{{opportunity.ngo.name}}</p>
+    <h5>{{opportunity.about | summary:130}}</h5>
+    <p class="location">{{opportunity.location}}</p>
+    <p class="created">Created on: <span class="date">{{opportunity.timeCreated | date:'shortDate'}}</span></p>
+  </div>
 </div>

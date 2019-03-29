@@ -1,0 +1,68 @@
+agm-map {
+  height: 350px;
+  width: 80vw;
+}
+
+:host {
+  margin-top: 50px;
+  border-radius: 10px;
+  background-color: rgb(237, 237, 237);
+  box-shadow: 6px 12px 16px -12px rgba(0, 0, 0, 0.35),
+    -6px -6px 16px -12px rgba(0, 0, 0, 0.35);
+  text-align: center;
+}
+
+.mapContainer {
+  position: relative;
+}
+
+.search {
+  background-color: white;
+  color:black;
+  position: absolute;
+  z-index: 2;
+  top: 7px;
+  left: 7px;
+  width: 220px;
+  height: 40px;
+  border: none;
+  box-shadow: 6px 12px 16px -12px rgba(0, 0, 0, 0.35),
+    -6px -6px 16px -12px rgba(0, 0, 0, 0.35);
+  padding-left: 10px;
+  border-radius: 3px;
+}
+
+input{
+  color:black;
+}
+
+.full-width{
+  width: 100%;
+}
+
+.loc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  position: absolute;
+  z-index: 3;
+  top: 7px;
+  right: 7px;
+  height: 40px;
+  width: 40px;
+  border-radius: 3px;
+  box-shadow: 6px 12px 16px -12px rgba(0, 0, 0, 0.35),
+    -6px -6px 16px -12px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+
+.loc img {
+  height: 30px;
+}
+
+@media (min-width: 0px) and (max-width: 940px) {
+  agm-map {
+    height: 250px;
+  }
+}
