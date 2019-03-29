@@ -1,13 +1,12 @@
-<div *ngIf='applications.length > 0' class="applicationsContainer">
-  <div *ngFor='let application of applications' class="applicationCard">
-    <app-singleapplication [application]='application'></app-singleapplication>
+<mat-dialog-content>
+  <div *ngIf='applications.length > 0' class="applicationsContainer">
+    <div *ngFor='let application of applications' class="applicationCard">
+      <app-singleapplication [application]='application'></app-singleapplication>
+    </div>
   </div>
-</div>
 
-<div *ngIf='applications.length == 0' class="noApplications">
-  No applications yet :(
-  <p (click)='closeDialog()' routerLink='/all-opportunities'>See all opportunities</p>
-</div>
-
-
-
+  <div *ngIf='applications.length == 0' class="noApplications">
+    No applications yet :(
+    <p (click)='closeDialog()' routerLink='/all-opportunities'>See all opportunities</p>
+  </div>
+</mat-dialog-content>

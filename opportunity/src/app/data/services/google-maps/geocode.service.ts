@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 })
 export class GeocodeService {
   private GOOGLE_MAPS_API_HOST = 'https://maps.googleapis.com/maps/api/geocode';
-  private GOOGLE_MAPS_API_KEY = environment.googleMapsApiKey;
+  private GOOGLE_MAPS_API_KEY = 'AIzaSyCbTNiLmcxWkKURNIpg874BWDPacgm7qYA';
 
   constructor(
     private http: HttpClient,

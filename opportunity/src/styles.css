@@ -8,7 +8,6 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
-  /* transition: 1s ease all; */
 }
 
 input, textarea{
@@ -16,9 +15,4 @@ input, textarea{
   outline: none;
   border-radius: 3px;
   padding: 7px;
-}
-
-p,
-h5 {
-  word-break: break-all;
 }

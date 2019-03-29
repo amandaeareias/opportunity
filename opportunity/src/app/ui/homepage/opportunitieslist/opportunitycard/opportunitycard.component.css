@@ -15,7 +15,7 @@
 }
 
 .opacityLayer {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
   height: 100%;
   width: 100%;
   z-index: 1;
@@ -100,8 +100,8 @@ img {
 
 @media (min-width: 0px) and (max-width: 710px) {
   .opportunityCard {
-    height: 173px;
-    width: 153px;
+    height: 156px;
+    width: 138px;
     margin: 0 3px 6px 3px;
   }
   h3 {

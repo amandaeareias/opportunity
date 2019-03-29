@@ -1,34 +1,37 @@
-<div class="userContainer">
-  <div class="userActions">
+<mat-dialog-content>
+  <div class="userContainer">
+    <div class="userActions">
 
-    <div class="profilePicture" [style.backgroundImage]="'url('+ selectedImage +')'">
-      <input type="file" class="fileInput" (change)="uploadFile($event)">
-      <div class="timer">{{ uploadPercent | async }}</div>
-      <div class="alert fileTooBig" *ngIf='fileTooBig'>Max size: 10MB</div>
-      <div class="alert wrongFormat" *ngIf='wrongFormat'>Wrong Format</div>
-    </div>
-
-
-    <button class="delete" (click)='deleteProfile()' type="button">
-      <img src="/assets/icons/trash-red.png" alt="">
-      Delete Profile
-    </button>
-  </div>
-  <div class="userInfo">
-    <form [formGroup]="settingsForm" (ngSubmit)="formSubmit()">
-      <label>Name:</label>
-      <input class='input' formControlName="name" type="text">
-      <p class="alert" *ngIf='settingsForm.get("name").touched && settingsForm.get("name").invalid'>Name must be filled
-      </p>
-
-      <label class="about">About:</label>
-      <textarea formControlName="about" rows="10" cols="80"> </textarea>
-
-      <div class="buttons">
-        <p class="cancel" (click)='cancel()'>Cancel</p>
-        <input class="submit" type="submit">
+      <div class="profilePicture" [style.backgroundImage]="'url('+ selectedImage +')'">
+        <input type="file" class="fileInput" (change)="uploadFile($event)">
+        <div class="timer">{{ uploadPercent | async }}</div>
+        <div class="alert fileTooBig" *ngIf='fileTooBig'>Max size: 10MB</div>
+        <div class="alert wrongFormat" *ngIf='wrongFormat'>Wrong Format</div>
       </div>
 
-    </form>
+
+      <button class="delete" (click)='deleteProfile()' type="button">
+        <img src="/assets/icons/trash-red.png" alt="">
+        Delete Profile
+      </button>
+    </div>
+    <div class="userInfo">
+      <form [formGroup]="settingsForm" (ngSubmit)="formSubmit()">
+        <label>Name:</label>
+        <input class='input' formControlName="name" type="text">
+        <p class="alert" *ngIf='settingsForm.get("name").touched && settingsForm.get("name").invalid'>Name must be
+          filled
+        </p>
+
+        <label class="about">About:</label>
+        <textarea formControlName="about" rows="10" cols="80"> </textarea>
+
+        <div class="buttons">
+          <p class="cancel" (click)='cancel()'>Cancel</p>
+          <input class="submit" type="submit">
+        </div>
+
+      </form>
+    </div>
   </div>
-</div>
+</mat-dialog-content>

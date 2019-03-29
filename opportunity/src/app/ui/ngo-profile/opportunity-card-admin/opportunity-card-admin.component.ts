@@ -18,7 +18,7 @@ export class OpportunityCardAdminComponent implements OnInit, OnDestroy {
   public opportunity: Opportunity;
   private dbApplicationsSubscription: Subscription;
   public applications: Application[];
-  
+
   constructor(
     private db: FirebaseCrudService,
     private dialog: MatDialog,

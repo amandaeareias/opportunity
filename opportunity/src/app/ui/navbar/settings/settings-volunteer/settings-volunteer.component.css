@@ -143,7 +143,7 @@ label {
     flex-direction: column;
   }
   .userActions {
-    width: 60%;
+    width: 90%;
     align-self: center;
   }
   .userInfo {
@@ -163,5 +163,20 @@ label {
   .cancel {
     margin-right: 0px;
     width: 70px;
+  }
+
+  label {
+    font-size: 9px;
+  }
+
+  .submit, .cancel, .delete {
+    height: 32px;
+    width: 60px;
+    font-size: 12px;
+  }
+
+  .delete img{
+    height: 15px;
+    margin-right: 1px;
   }
 }

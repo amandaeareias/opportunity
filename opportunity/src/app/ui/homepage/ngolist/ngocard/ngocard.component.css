@@ -13,7 +13,7 @@
 }
 
 .opacityLayer {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
   height: 100%;
   width: 100%;
   z-index: 2;
@@ -72,8 +72,8 @@
 
 @media (min-width: 0px) and (max-width: 600px) {
   .ngoCard {
-    height: 132px;
-    width: 188px;
+    height: 108px;
+    width: 153px;
     margin: 0 2px;
   }
   .info {

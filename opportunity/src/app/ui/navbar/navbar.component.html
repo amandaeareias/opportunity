@@ -21,14 +21,17 @@
         <button mat-menu-item (click)='logOut()'>Log-out</button>
       </mat-menu>
     </div>
-    <app-login *ngIf="!currentUser.isLoggedIn"></app-login>
+    <app-login class="buttons" *ngIf="!currentUser.isLoggedIn"></app-login>
   </div>
   <div class="rightSideNavHamb">
     <img src="/assets/icons/menu.png" alt="" [matMenuTriggerFor]="menuHamb">
     <mat-menu #menuHamb="matMenu">
 
+        <app-login *ngIf="!currentUser.isLoggedIn"></app-login>
+
         <button mat-menu-item routerLink='/all-opportunities' >All Opportunities</button>
         <button mat-menu-item routerLink='/all-ngos'>All NGOs</button>
+
 
         <button mat-menu-item *ngIf='currentUser.isLoggedIn && currentUser.isNgo' routerLink='/ngo/{{currentUser.user.id}}'>Profile</button>
         <button mat-menu-item *ngIf='currentUser.isLoggedIn && !currentUser.isNgo' routerLink='/volunteer/{{currentUser.user.id}}'>Profile</button>

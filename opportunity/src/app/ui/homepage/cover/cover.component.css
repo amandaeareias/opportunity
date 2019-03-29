@@ -96,7 +96,8 @@
 
 .slogan {
   width: 450px;
-  bottom: 10%;
+  bottom: calc(100vh - 90vh);
+  /* bottom:  calc(var(--vh, 1vh) * 100); */
   /* bottom: 90px; */
   left: 70px;
   position: absolute;
@@ -152,7 +153,6 @@
   }
 
   .slogan {
-    bottom: 0;
     left: 0;
     margin: 0 auto;
     position: relative;

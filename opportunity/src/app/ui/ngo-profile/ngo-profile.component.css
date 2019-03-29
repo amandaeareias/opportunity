@@ -4,10 +4,6 @@
   align-items: center;
 }
 
-p {
-  word-break: break-all;
-}
-
 .blueCover {
   height: 300px;
   width: 100vw;
@@ -38,6 +34,7 @@ p {
   border-radius: 5px;
   box-shadow: 6px 12px 16px -12px rgba(0,0,0,0.35), -6px -6px 16px -12px rgba(0,0,0,0.35);
   height: 250px;
+  max-height: 30vh;
   width: 55%;
   background-size: cover;
   background-position: center center;
@@ -49,7 +46,6 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* border: 1px solid green; */
 }
 
 .ngoInfo h2{
@@ -92,7 +88,6 @@ app-review-stars {
   text-align: center;
   font-size: 18px;
   align-self: center;
-  margin-right: 50px;
   margin-top: 50px;
   cursor: pointer;
   padding: 5px;
@@ -114,20 +109,17 @@ app-review-stars {
   margin-top: 40px;
   width: 100%;
   background-color: rgb(251, 255, 255);
-  /* padding-top: 30px; */
   padding: 40px 0;
 }
 
 .reviews h3 {
-  /* margin-top: 40px; */
   font-family: 'Roboto Condensed', sans-serif;
   color: #0E3D5E;
-  /* text-align: center; */
 }
+
 .reviewsContainer {
   display: flex;
   flex-direction: column;
-  /* width: 100%; */
   padding-top: 30px;
   width: 80%;
   max-width: 1000px;
@@ -137,7 +129,6 @@ app-review-stars {
   display: flex;
   justify-content: center;
   margin-bottom: 30px;
-  /* border: 1px solid pink; */
 }
 
 .volunteerInfo {
@@ -147,7 +138,6 @@ app-review-stars {
   justify-content: flex-start;
   width: 13%;
   margin-right: 20px;
-  /* border: 1px solid green; */
 }
 
 .review .picture {
@@ -157,13 +147,13 @@ app-review-stars {
   background-position: center;
   background-size: cover;
   margin-bottom: 10px;
-  /* border: 1px solid blue; */
 }
 
 .volunteer {
   font-size: 14px;
   cursor: pointer;
   text-align: center;
+  width: 100%;
 }
 
 .volunteer:hover {
@@ -172,7 +162,6 @@ app-review-stars {
 
 .reviewInfo {
   width: 83%;
-  /* border: 1px solid green; */
 }
 
 .date {
@@ -202,4 +191,25 @@ app-review-stars {
     font-size: 14px;
   }
 
+  .description {
+    margin-top: 20px;
+    font-size: 13px;
+  }
+
+  .volunteer {
+    font-size: 10px;
+  }
+
+  .volunteerInfo {
+    width: 22%;
+  }
+
+  .date {
+    font-size: 11px;
+  }
+
+  .reviewInfo {
+    width: 73%;
+    font-size: 13px;
+  }
 }

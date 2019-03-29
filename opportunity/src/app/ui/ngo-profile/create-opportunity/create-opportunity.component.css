@@ -28,3 +28,11 @@ label {
   color: red;
   font-size: 12px;
 }
+
+@media (min-width: 0px) and (max-width: 630px) {
+  .submit {
+    height: 32px;
+    width: 70px;
+    font-size: 13px;
+  }
+}

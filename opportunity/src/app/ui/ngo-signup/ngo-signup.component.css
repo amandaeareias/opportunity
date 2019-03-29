@@ -78,3 +78,13 @@ textarea {
   color: red;
   font-size: 12px;
 }
+
+@media (min-width: 0px) and (max-width: 630px) {
+
+  label {
+    font-size: 9px;
+  }
+
+
+}
+

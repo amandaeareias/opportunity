@@ -212,23 +212,35 @@ textarea {
 @media (min-width: 0px) and (max-width: 630px) {
   .userContainer {
     flex-direction: column;
+    position: relative;
   }
   .userActions {
-    width: 50%;
+    width: 90%;
     align-self: center;
   }
   .userInfo {
-    width: 100%;
+    width: 90%;
   }
 
-  .userContainer {
-    position: relative;
+  label {
+    font-size: 9px;
+  }
+
+  .submit, .cancel, .delete {
+    height: 32px;
+    width: 60px;
+    font-size: 12px;
   }
 
   .delete {
     position: absolute;
     bottom: 0;
     left: 0;
+  }
+
+  .delete img{
+    height: 15px;
+    margin-right: 1px;
   }
 }
 

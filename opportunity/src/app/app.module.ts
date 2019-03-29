@@ -129,7 +129,14 @@ import { SearchComponent } from './ui/navbar/search/search.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp( {
+      apiKey: 'AIzaSyAPCTL47JhArZuABlom6w35uxgIwhVUz9Q',
+      authDomain: 'opportunity-2b39f.firebaseapp.com',
+      databaseURL: 'https://opportunity-2b39f.firebaseio.com',
+      projectId: 'opportunity-2b39f',
+      storageBucket: 'opportunity-2b39f.appspot.com',
+      messagingSenderId: '316945367100'
+    }),
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
@@ -156,7 +163,7 @@ import { SearchComponent } from './ui/navbar/search/search.component';
     MatOptionModule,
     EffectsModule.forRoot([ UserEffects ]),
     AgmCoreModule.forRoot({
-      apiKey: environment.googleMapsApiKey,
+      apiKey: 'AIzaSyCbTNiLmcxWkKURNIpg874BWDPacgm7qYA',
       libraries: ['places']
     }),
     StoreDevtoolsModule.instrument({

@@ -9,8 +9,8 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class IpGeoLocationService {
-  private API_KEY = environment.ipgeolocationApiKey;
-  
+  private API_KEY = '47bb4db9f03d403c829329e9129277cc';
+
   constructor(
     private http: HttpClient,
   ) {}

@@ -10,6 +10,7 @@ label {
 .input {
   height: 40px;
   width: 520px;
+  max-width: 100%;
 }
 
 .buttons {
@@ -79,3 +80,22 @@ label {
   color: red;
   font-size: 12px;
 }
+
+@media (min-width: 0px) and (max-width: 630px) {
+  .submit, .cancel {
+    height: 32px;
+    width: 70px;
+    font-size: 13px;
+  }
+
+  .delete {
+    height: 32px;
+    font-size: 13px;
+  }
+  .delete img{
+    height: 15px;
+    margin-right: 1px;
+  }
+}
+
+

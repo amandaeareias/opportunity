@@ -17,6 +17,10 @@ label {
   width: 100%;
 }
 
+textarea {
+  max-width: 100%;
+}
+
 .submit {
   color: white;
   background-color: #0E3D5E;
