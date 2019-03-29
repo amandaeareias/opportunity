@@ -32,6 +32,17 @@
   bottom: -20px;
 }
 
+.profilePicture .fileTooBig {
+  position: absolute;
+  bottom: -40px;
+}
+
+.profilePicture .wrongFormat {
+  position: absolute;
+  bottom: -40px;
+  right: 0;
+}
+
 .userInfo {
   width: 60%;
 }

@@ -28,7 +28,7 @@ export class GeocodeService {
                 formattedAddress: results[0].formatted_address,
                 geoPin: results[0].geometry.location,
                 placeId: results[0].place_id,
-                plusCode: results[0].plus_code,
+                // plusCode: results[0].plus_code,
               };
             }
           }),

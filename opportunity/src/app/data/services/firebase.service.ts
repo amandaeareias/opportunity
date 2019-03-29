@@ -98,9 +98,9 @@ export class FirebaseCrudService {
   /* Please note: create functions use type constructor in order */
   /* to enforce fixed document structure in the DB */
   createVolunteer = (volunteer: Volunteer) => this.db.collection('volunteers').add({ ...new Volunteer(), ...volunteer })
-  
+
   createNGO = (ngo: NGO) => this.db.collection('ngos').add({ ...new NGO(), ...ngo });
-  
+
   createOpportunity = (opportunity: Opportunity) => {
     this.getOneNGO(opportunity.ngo.id).pipe(first()).subscribe(
       async (fullNgoData: NGO) => {
@@ -188,7 +188,8 @@ export class FirebaseCrudService {
 
   updateNGO = (ngoId: string, data: any) => {
     //1. check for updates relevant for the opportunities of this ngo
-    const {name, image, category} = data;
+    console.log('---------')
+    const {name, image, category, contact} = data;
     const ngoData: any = {ngo: {id: ngoId}}
     if (name) {
       ngoData.ngo.name = name;
@@ -199,8 +200,12 @@ export class FirebaseCrudService {
     if (category) {
       ngoData.ngo.category = category;
     }
+    if (contact) {
+      ngoData.ngo.contact = contact;
+    }
     console.log(ngoId)
 
+    console.log('contact: ', ngoData.ngo)
     //2. get all opportunities of this ngo
     this.getAllOpportunitiesOfNGO(ngoId).pipe(first()).subscribe(
       (opportunitiesArray) => {
