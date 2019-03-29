@@ -55,21 +55,24 @@ export class UserEffects {
           )
       }),
     );
-  
+
   @Effect()
   updateUser$ = this.actions$
     .pipe(
       ofType(ActionTypes.UPDATE_USER_PENDING),
       switchMap(({ payload }) => {
         const { id, isNgo, data } = payload;
+        console.log('payload: ', payload)
         const update$ = isNgo ? from(this.db.updateNGO(id, data)) : from(this.db.updateVolunteer(id, data));
         return update$
           .pipe(
-            map(() => new UPDATE_USER_SUCCESS(data)),
+            map(() => {
+              console.log('data: ', data)
+              return new UPDATE_USER_SUCCESS(data)}),
           )
       }),
     );
-  
+
   @Effect()
   getUserLocation = this.actions$
     .pipe(
@@ -81,7 +84,7 @@ export class UserEffects {
           )
       }),
     );
-  
+
   @Effect()
   deleteUserLogout = this.actions$
     .pipe(
@@ -97,7 +100,7 @@ export class UserEffects {
           )
       }),
     );
-  
+
   @Effect()
   deleteUser = this.actions$
     .pipe(
