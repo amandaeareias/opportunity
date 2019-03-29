@@ -55,7 +55,7 @@ export class UserEffects {
           )
       }),
     );
-  
+
   @Effect()
   updateUser$ = this.actions$
     .pipe(
@@ -65,11 +65,12 @@ export class UserEffects {
         const update$ = isNgo ? from(this.db.updateNGO(id, data)) : from(this.db.updateVolunteer(id, data));
         return update$
           .pipe(
-            map(() => new UPDATE_USER_SUCCESS(data)),
+            map(() => {
+              return new UPDATE_USER_SUCCESS(data)}),
           )
       }),
     );
-  
+
   @Effect()
   getUserLocation = this.actions$
     .pipe(
@@ -81,7 +82,7 @@ export class UserEffects {
           )
       }),
     );
-  
+
   @Effect()
   deleteUserLogout = this.actions$
     .pipe(
@@ -97,7 +98,7 @@ export class UserEffects {
           )
       }),
     );
-  
+
   @Effect()
   deleteUser = this.actions$
     .pipe(

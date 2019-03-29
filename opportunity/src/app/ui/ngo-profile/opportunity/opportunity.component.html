@@ -9,7 +9,7 @@
     </ul>
   </div>
 
-  <div class="rightContainer" *ngIf="applied !== undefined">
+  <div class="rightContainer">
     <button class="btn applybtn" (click)='applyClicked()' *ngIf='!applying && !applied && !currentUser.isNgo'>Apply now!</button>
     <p *ngIf="!applying && applied && !currentUser.isNgo">Applied</p>
     <img *ngIf="isMe" (click)="editOpportunity()" src="/assets/icons/edit-blue.png" alt="">
