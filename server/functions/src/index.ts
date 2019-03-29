@@ -5,11 +5,10 @@ const nodemailer = require('nodemailer');
 /* Initialize cloud functions */
 try {
   admin.initializeApp();
-  console.log('Functions running...')
 } catch (e) {
   console.log('db failure', e);
 }
-    
+
 /* Firebase environment variables used */
 /* More: https://firebase.google.com/docs/functions/config-env */
 const gmailUser = functions.config().gmail.user;
@@ -29,7 +28,7 @@ module.exports.emailFunction = functions.firestore.document('/applications/{appl
     const application: any = snapshot.data();
     return sendEmail(application);
   });
-    
+
 async function sendEmail(application: any) {
   const db = admin.firestore();
   const opportunityRef = await db.collection('opportunities').doc(application.opportunityId).get();
@@ -43,9 +42,6 @@ async function sendEmail(application: any) {
     const volunteerRef = await db.collection('volunteers').doc(application.volunteerId).get();
     const volunteer: any = volunteerRef.data();
     const { about, username, name, dateOfBirth } = volunteer;
-
-    console.log('NGO', ngo);
-    console.log('Volunteer', volunteer);
 
     const mailOpts = {
       from: `Team Opportunity <${functions.config().gmail.user}>`,
@@ -61,7 +57,7 @@ async function sendEmail(application: any) {
           <li>About volunteer: ${about}</li>
           <li>Date of birth: ${dateOfBirth}</li>
         </ul>
-      `,      
+      `,
     };
     let result;
 

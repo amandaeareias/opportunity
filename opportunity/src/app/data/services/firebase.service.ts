@@ -188,7 +188,6 @@ export class FirebaseCrudService {
 
   updateNGO = (ngoId: string, data: any) => {
     //1. check for updates relevant for the opportunities of this ngo
-    console.log('---------')
     const {name, image, category, contact} = data;
     const ngoData: any = {ngo: {id: ngoId}}
     if (name) {
@@ -203,17 +202,13 @@ export class FirebaseCrudService {
     if (contact) {
       ngoData.ngo.contact = contact;
     }
-    console.log(ngoId)
 
-    console.log('contact: ', ngoData.ngo)
     //2. get all opportunities of this ngo
     this.getAllOpportunitiesOfNGO(ngoId).pipe(first()).subscribe(
       (opportunitiesArray) => {
         //and then update them
-        console.log(opportunitiesArray)
         Promise.all(opportunitiesArray.map(
           (opportunity: any) => {
-            console.log('entered opp update')
             this.updateOpportunity(opportunity.id, ngoData)}))
           .then(() => console.log('updated opportunities'))
       }
@@ -253,13 +248,11 @@ export class FirebaseCrudService {
     if (about) {
       oppData.opportunityData.about = about;
     };
-    console.log(oppData)
 
 
     //2. get all applications of this opportunity
     this.getAllApplicationsOfOpportunity(oppId).pipe(first()).subscribe(
       (applicationsArray) => {
-        console.log(oppData)
         //and then update them
         Promise.all(applicationsArray.map((application: any) => this.updateApplication(application.id, oppData)))
           .then(() => console.log('updated'))

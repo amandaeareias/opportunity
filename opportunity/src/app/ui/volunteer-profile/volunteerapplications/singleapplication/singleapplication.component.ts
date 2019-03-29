@@ -25,7 +25,6 @@ export class SingleapplicationComponent implements OnInit {
 
   ngOnInit() {
     if(this.application) {
-      console.log(this.application)
       this.editApplicationForm = new FormGroup({
         text: new FormControl(this.application.text, [Validators.required, Validators.minLength(20)]),
       });
