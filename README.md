@@ -6,8 +6,8 @@ In most cities, there are usually two or three famous NGOs that everyone knows. 
 
 ## Technologies
 - [Angular](https://angular.io/)
-- [NGRX] (www.ngrx.io/)
-- [Firebase] (www.firebase.google.com/)
+- [NGRX](https://ngrx.io/)
+- [Firebase](https://firebase.google.com/)
 
 ## Showcase
 You can find our app online 🤸‍[here] (https://bit.ly/2uByUoy). *(Notice that the app was deployed only for showcase purposes, although it is working and ready to be used, all the data inside was randomly created and it is not real.)*
