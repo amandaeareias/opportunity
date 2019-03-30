@@ -10,5 +10,5 @@ In most cities, there are usually two or three famous NGOs that everyone knows. 
 - [Firebase](https://firebase.google.com/)
 
 ## Showcase
-You can find our app online 🤸‍[here] (https://bit.ly/2uByUoy). *(Notice that the app was deployed only for showcase purposes, although it is working and ready to be used, all the data inside was randomly created and it is not real.)*
+You can find our app online 🤸‍[here](https://bit.ly/2uByUoy). *(Notice that the app was deployed only for showcase purposes, although it is working and ready to be used, all the data inside was randomly created and it is not real.)*
 ![AppMockUp](https://drive.google.com/uc?export=view&id=1ihn_HsTaYyY7FOLP-xLZB3D4u2s9YCTQ)
