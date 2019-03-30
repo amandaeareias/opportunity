@@ -5,7 +5,6 @@ export class Application {
   timeCreated: string;
   active: boolean;
   text: string;
-  //the following two data-objects are being passed by cloud function "appendApplicationData"
   volunteerData?: { 
     name: string;
     image: string;
@@ -13,20 +12,10 @@ export class Application {
   opportunityData?: {
     ngoName: string;
     ngoImage: string;
-    name: string; //from here all regarding opportunity itself
+    name: string;
     about: string;
     location: string;
     prerequisites?: string[];
     active: boolean;
   };
-
-  constructor() {
-    this.volunteerId = null;
-    this.opportunityId = null;
-    this.timeCreated = null;
-    this.active = null;
-    this.text = null;
-    this.volunteerData = null;
-    this.opportunityData = null;
-  }
 }

@@ -1,7 +1,7 @@
 export interface PostalAddress {
   street?: string;
   postOfficeBoxNumber?: string;
-  locality: string;
+  city: string;
   postalCode: string;
   region: string;
   country: string;

@@ -2,6 +2,7 @@ const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const nodemailer = require('nodemailer');
 
+
 /* Initialize cloud functions */
 try {
   admin.initializeApp();
@@ -23,8 +24,8 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-module.exports.emailFunction = functions.firestore.document('/applications/{applicationId}')
-  .onCreate((snapshot: any, context: any) => {
+module.exports.applicationNotification = functions.firestore.document('/applications/{applicationId}')
+  .onCreate((snapshot: any) => {
     const application: any = snapshot.data();
     return sendEmail(application);
   });

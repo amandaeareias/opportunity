@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { getUserState, UserState } from './user/user.reducers';
 import { getUIState, UIState } from './ui/ui.reducers';
 import { GOOGLE_LOGIN_SUCCESS, GET_USER_PENDING, GET_USER_LOCATION_PENDING } from './user/user.actions';
-import { TOGGLE_GLOBAL_PLACEHOLDER } from './ui/ui.actions';
+import { FirebaseCrudService } from './data/services/firebase.service';
 
 
 @Component({
@@ -25,6 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private auth: AngularFireAuth,
     private store: Store<any>,
+    private db: FirebaseCrudService,
   ) {}
 
   ngOnInit() {

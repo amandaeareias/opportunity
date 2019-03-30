@@ -52,11 +52,11 @@ export class SearchComponent implements OnInit, OnDestroy {
     if (this.newPath.length < 1) {
       this.router.navigate(['']);
     } else {
-      this.dbNgosSubscription = this.db.searchByName('ngos', this.newPath)
+      this.dbNgosSubscription = this.db.search('ngos', 'name', this.newPath)
         .subscribe((result: NGO[]) => {
           this.ngos = result;
         })
-      this.dbOpportunitiesSubscription = this.db.searchByName('opportunities', this.newPath)
+      this.dbOpportunitiesSubscription = this.db.search('opportunities', 'name',this.newPath)
         .subscribe((result: Opportunity[]) => {
           this.opportunities = result;
         })

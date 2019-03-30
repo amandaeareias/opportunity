@@ -30,6 +30,7 @@ export class NgoProfileComponent implements OnInit {
   public ngo: NGO;
   public opportunities: Opportunity[] = [];
   public reviews: Review[] = [];
+  public ngoRating: number;
   public isMe: boolean;
 
   constructor(
@@ -68,7 +69,7 @@ export class NgoProfileComponent implements OnInit {
   getProfile() {
     const id = this.route.snapshot.paramMap.get('id');
     this.dbNgoSubscription = this.db.getOne('ngos', id)
-      .subscribe((ngo: NGO) => {
+      .subscribe((ngo: any) => {
         this.ngo = ngo;
         this.isMe = this.currentUser.user && this.currentUser.user.id === id;
       });
@@ -78,11 +79,11 @@ export class NgoProfileComponent implements OnInit {
         this.opportunities = opportunities;
       });
     
-    this.dbReviewsSubscription = this.db.getAllReviewOfNGO(id)
-      .subscribe((reviews: Review[]) => {
+    this.dbReviewsSubscription = this.db.getAllReviewsOfNGO(id)
+      .subscribe((reviews: any[]) => {
         reviews.map((review: Review) => {
           this.db.getOne('volunteers', review.volunteerId)
-            .subscribe((volunteer: Volunteer) => {
+            .subscribe((volunteer: any) => {
               if (volunteer) {
                 const { name, image } = volunteer;
                 review.volunteerName = name;
@@ -91,6 +92,7 @@ export class NgoProfileComponent implements OnInit {
             });
         });
         this.reviews = reviews;
+        this.ngoRating = Math.round(reviews.reduce((acc, { rating }) => acc + rating, 0) / reviews.length);
         this.reviews = this.reviews
           .sort((a: Review, b: Review) => new Date(b.timeCreated).getTime() - new Date(a.timeCreated).getTime());
       });

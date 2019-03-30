@@ -53,21 +53,17 @@ export class MappingService {
     }
   }
 
-  mapReviewInputToProps({ ngoId, volunteerId, rating, text }) {
+  mapReviewInputToProps(data) {
     return {
-      ngoId,
-      volunteerId,
-      rating: +rating,
-      text,
+      ...data,
+      rating: +data.rating,
       timeCreated: new Date().toISOString(),
     }
   }
 
-  mapApplicationInputToProps({volunteerId, opportunityId, text}) {
+  mapApplicationInputToProps(data) {
     return {
-      volunteerId,
-      opportunityId,
-      text,
+      ...data,
       timeCreated: new Date().toISOString(),
       active: true,
     }
