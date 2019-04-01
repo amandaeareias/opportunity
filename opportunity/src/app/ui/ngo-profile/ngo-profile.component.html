@@ -7,8 +7,8 @@
     <div class="ngoInfo">
       <h2 class="name">{{ ngo.name }}</h2>
       <app-review-stars
-        *ngIf="currentUser"
-        [rating]="ngo.rating"
+        *ngIf="currentUser && ngoRating !== undefined"
+        [rating]="ngoRating"
         [enabled]="true"
         [isMe]="isMe"
         [currentUser]="currentUser"
