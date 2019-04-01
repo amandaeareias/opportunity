@@ -81,11 +81,13 @@ export class OpportunityComponent implements OnInit, OnDestroy {
     if (this.applyForm.valid) {
       const data = this.mappingService.mapApplicationInputToProps({
         volunteerId: this.currentUser.user.id,
+        volunteerName: this.currentUser.user.name,
+        volunteerImage: this.currentUser.user.image,
         opportunityId: this.opportunity.id,
         text: this.applyForm.value.apply
       });
       try {
-        await this.db.createApplication(data);
+        await this.db.addApplication(data);
       } catch (err) {
         console.error(err);
       }

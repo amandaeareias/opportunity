@@ -51,12 +51,12 @@ export class LoginService {
         default:
         let user;
         isNgo
-          ? user = await this.db.createNGO({
+          ? user = await this.db.addNGO({
               name: displayName,
               username: logInEmail,
               image: photoURL,
             })
-          : user = await this.db.createVolunteer({
+          : user = await this.db.addVolunteer({
               name: displayName,
               username: logInEmail,
               image: photoURL,

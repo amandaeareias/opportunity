@@ -15,7 +15,7 @@ import { FirebaseCrudService } from '../../../data/services/firebase.service'
   templateUrl: './create-opportunity.component.html',
   styleUrls: ['./create-opportunity.component.css']
 })
-export class CreateOpportunityComponent implements OnInit {
+export class CreateOpportunityComponent {
 
   visible = true;
   selectable = true;
@@ -35,11 +35,8 @@ export class CreateOpportunityComponent implements OnInit {
     private dialog: MatDialogRef<CreateOpportunityComponent>,
     private snackBar: MatSnackBar,
     private mappingService: MappingService,
-    private fbService: FirebaseCrudService,
+    private db: FirebaseCrudService,
   ) { }
-
-  ngOnInit() {
-  }
 
   formSubmit() {
     if (this.createOpportunityForm.valid) {
@@ -53,7 +50,7 @@ export class CreateOpportunityComponent implements OnInit {
         duration: 3000,
       });
       const data = this.mappingService.mapOpportunityInputToProps(this.currentUser, newOpportunity)
-      this.fbService.createOpportunity(data)
+      this.db.addOpportunity(data)
       this.dialog.close();
     }
   }

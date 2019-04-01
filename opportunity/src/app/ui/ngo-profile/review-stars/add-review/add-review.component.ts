@@ -15,6 +15,8 @@ import { NGO } from 'src/app/data/models/ngo.model';
 })
 export class AddReviewComponent {
   public userId: string = this.dialogData.user.id;
+  public userImage: string = this.dialogData.user.image;
+  public userName: string = this.dialogData.user.name;
   public ngoId: string = this.dialogData.id;
   public reviewForm: FormGroup = new FormGroup({
     star5: new FormControl(),
@@ -44,12 +46,14 @@ export class AddReviewComponent {
       .mapReviewInputToProps({
         ngoId: this.ngoId,
         volunteerId: this.userId,
+        volunteerImage: this.userImage,
+        volunteerName: this.userName,
         rating,
         text: this.reviewForm.value.review,
       });
     this.dialog.close();
     try {
-      this.db.createReview(data);
+      this.db.addReview(data);
     } catch (err) {
       console.error(err);
     }

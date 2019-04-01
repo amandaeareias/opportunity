@@ -1,14 +1,15 @@
 import { ContactHours } from './contactHours';
-import { Location } from '@angular/common';
+import { PostalAddress } from './postalAddress';
 
 export interface ContactPoint {
+  address: PostalAddress;
   availableHours?: ContactHours[];
   availableIn?: string[];
   availableLanguage?: string[];
   description?: string;
-  email?: string;
+  publicEmail: string;
   featuredImage?: string;
-  location?: Location;
-  telephone?: string[];
+  phone?: string;
   title?: string;
+  website?: string;
 }
