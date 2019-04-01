@@ -84,7 +84,8 @@ export class OpportunityComponent implements OnInit, OnDestroy {
         volunteerName: this.currentUser.user.name,
         volunteerImage: this.currentUser.user.image,
         opportunityId: this.opportunity.id,
-        text: this.applyForm.value.apply
+        text: this.applyForm.value.apply,
+        opportunityData: this.opportunity
       });
       try {
         await this.db.addApplication(data);

@@ -35,18 +35,18 @@ export class VolunteerProfileComponent implements OnInit {
   ngOnInit() {
     /* Invoiking getProfile() inside subscription */
     /* to make sure we've got user to compare */
-    
+
     this.route.params.subscribe(() => {
       this.getCurrentUser();
     });
   }
-  
+
   ngOnDestroy() {
     this.userDetailsSubscription && this.userDetailsSubscription.unsubscribe();
     this.dbVolunteerSubscription && this.dbVolunteerSubscription.unsubscribe();
     this.dbApplicationsSubscription && this.dbApplicationsSubscription.unsubscribe();
   }
-  
+
   getCurrentUser() {
     this.userDetailsSubscription && this.userDetailsSubscription.unsubscribe();
     this.userDetailsSubscription = this.store.select(userDetailsSelector)
@@ -59,7 +59,7 @@ export class VolunteerProfileComponent implements OnInit {
   getProfile(): void {
     const id = this.route.snapshot.paramMap.get('id');
     this.dbVolunteerSubscription = this.db.getOne('volunteers', id)
-      .subscribe((volunteer: Volunteer) => {
+      .subscribe((volunteer: any) => {
         this.volunteer = volunteer;
         this.isMe = this.currentUser && this.currentUser.id === id;
       })

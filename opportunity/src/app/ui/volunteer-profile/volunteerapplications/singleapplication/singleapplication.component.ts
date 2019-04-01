@@ -24,6 +24,8 @@ export class SingleapplicationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('---')
+    console.log('application: ', this.application)
     if(this.application) {
       this.editApplicationForm = new FormGroup({
         text: new FormControl(this.application.text, [Validators.required, Validators.minLength(20)]),
@@ -39,7 +41,7 @@ export class SingleapplicationComponent implements OnInit {
   deleteApplication(application) {
     let confirmation = confirm("Are you sure you want to delete this application?");
     if (confirmation) {
-      this.fbService.deleteApplication(application.id, application.volunteerId, application.opportunityId).then(res => this.dialog.close())
+      this.fbService.deleteApplication(application.id).then(res => this.dialog.close())
     }
   }
 

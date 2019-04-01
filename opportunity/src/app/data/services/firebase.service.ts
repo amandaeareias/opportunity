@@ -22,7 +22,7 @@ export class FirebaseCrudService {
         map(data => ({ id, ...data })),
       );
   }
-  
+
   /* getMany uses optional QueryFn type for querying DB: */
   /* QueryFn: (ref) => ref.where('fieldName', 'operator', 'fieldValue') */
   getMany<T>(collection: string, queryFn?: QueryFn) {
@@ -61,7 +61,7 @@ export class FirebaseCrudService {
   deleteOne(collection: string, id: string) {
     return this.db.collection(collection).doc(id).delete();
   }
-  
+
   /*********** Model-specific methods *************/
   /*                                              */
   /*                    NGO                       */
@@ -84,6 +84,7 @@ export class FirebaseCrudService {
           this.updateOne('ngos', id, this.trimDataInput(data));
         });
       });
+      return true;
   }
 
   deleteNGO(id: string) {
@@ -115,9 +116,10 @@ export class FirebaseCrudService {
   addVolunteer(volunteer: Volunteer) {
     return this.addOne('volunteers', volunteer);
   }
-  
+
   updateVolunteer(id: string, data: any) {
-    return this.updateOne('volunteers', id, this.trimDataInput(data));
+    this.updateOne('volunteers', id, this.trimDataInput(data));
+    return true
   }
 
   deleteVolunteer(id: string) {
@@ -131,7 +133,7 @@ export class FirebaseCrudService {
         });
       });
   }
-  
+
   getAllApplicationsOfVolunteer(id: string) {
     return this.getMany('applications', ref => ref.where('volunteerId', '==', id));
   }
@@ -163,15 +165,16 @@ export class FirebaseCrudService {
   deleteOpportunity(id: string) {
     const subscription = this.getAllApplicationsOfOpportunity(id)
       .subscribe((applications) => {
+        console.log(applications)
         Promise.all(applications.map((application: any) => {
           return this.deleteApplication(application.id);
         })).then(() => {
           subscription.unsubscribe();
-          this.deleteOne('opportunity', id);
+          this.deleteOne('opportunities', id);
         });
       });
   }
-  
+
   getAllApplicationsOfOpportunity(id: string) {
     return this.getMany('applications', ref => ref.where('opportunityId', '==', id));
   }
@@ -185,7 +188,7 @@ export class FirebaseCrudService {
   addApplication(application: Application) {
     return this.addOne(`applications`, application);
   }
-  
+
   updateApplication(id: string, data: any) {
     return this.updateOne('applications', id, this.trimDataInput(data));
   }

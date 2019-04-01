@@ -62,7 +62,7 @@ export class UserEffects {
       ofType(ActionTypes.UPDATE_USER_PENDING),
       switchMap(({ payload }) => {
         const { id, isNgo, data } = payload;
-        const update$ = isNgo ? from(this.db.updateNGO(id, data)) : from(this.db.updateVolunteer(id, data));
+        const update$ = isNgo ? of(this.db.updateNGO(id, data)) : of(this.db.updateVolunteer(id, data));
         return update$
           .pipe(
             map(() => {

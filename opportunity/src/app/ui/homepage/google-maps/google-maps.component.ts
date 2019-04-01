@@ -9,7 +9,7 @@ import { FirebaseCrudService } from 'src/app/data/services/firebase.service';
 import { GoogleSearchService } from "./google-search.service";
 import { userLocationSelector } from '../../../user/user.reducers';
 
-import { GeoPin } from 'src/app/data/local/interface/geoPin';
+import { GeoPin } from 'src/app/data/interface/geoPin';
 import { NGO } from 'src/app/data/models/ngo.model';
 
 @Component({
@@ -47,7 +47,7 @@ export class GoogleMapsComponent implements OnInit, OnDestroy {
         debounceTime(300),
         distinctUntilChanged(),
       ).subscribe(value => this.loadGooglePlaces(value));
-    
+
     this.userLocationSubscription = this.store.select(userLocationSelector)
       .subscribe(location => {
         if (location) {

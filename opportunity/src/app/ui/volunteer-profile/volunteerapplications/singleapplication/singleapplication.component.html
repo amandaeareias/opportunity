@@ -1,7 +1,7 @@
 <div class="leftSide">
   <div class="opportunityInfo">
     <p class="opportunityName">{{application.opportunityData.name}}</p>
-    <p class="ngoName">{{application.opportunityData.ngoName}}</p>
+    <p class="ngoName">{{application.opportunityData.ngo.name}}</p>
     <p *ngIf='!editTemplate' class="applicationText">{{application.text}}</p>
     <div *ngIf='editTemplate' class="apply">
       <form [formGroup]="editApplicationForm" (ngSubmit)="formSubmit()">
