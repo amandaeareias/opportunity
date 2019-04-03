@@ -42,12 +42,12 @@ export class NgoProfileComponent implements OnInit {
   ngOnInit() {
     /* Invoiking getProfile() inside subscription */
     /* to make sure we've got user to compare */
-    
+
     this.route.params.subscribe(() => {
       this.getCurrentUser();
     });
   }
-  
+
   ngOnDestroy() {
     this.userDetailsSubscription && this.userDetailsSubscription.unsubscribe();
     this.dbNgoSubscription && this.dbNgoSubscription.unsubscribe();
@@ -55,7 +55,7 @@ export class NgoProfileComponent implements OnInit {
     this.dbReviewsSubscription && this.dbReviewsSubscription.unsubscribe();
     this.dbVolunteerSubscription && this.dbVolunteerSubscription.unsubscribe();
   }
-  
+
   getCurrentUser() {
     this.userDetailsSubscription && this.userDetailsSubscription.unsubscribe();
     this.userDetailsSubscription = this.store.select(getUserState)
@@ -77,7 +77,7 @@ export class NgoProfileComponent implements OnInit {
       .subscribe((opportunities: any) => {
         this.opportunities = opportunities;
       });
-    
+
     this.dbReviewsSubscription = this.db.getAllReviewOfNGO(id)
       .subscribe((reviews: Review[]) => {
         reviews.map((review: Review) => {
@@ -104,7 +104,7 @@ export class NgoProfileComponent implements OnInit {
   }
 
   editOpportunity(card) {
-    let opportunity = card.opportunity;
+    const opportunity = card.opportunity;
     this.dialog.open(EditOpportunityComponent, { data: opportunity });
   }
 

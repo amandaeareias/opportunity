@@ -20,18 +20,18 @@ export class GeocodeService {
     const query = this.formatAddress(addressObject).query;
     return this.http
       .get<any>(`${this.GOOGLE_MAPS_API_HOST}/json?address=${query}&key=${this.GOOGLE_MAPS_API_KEY}`)
-        .pipe(
-          map(({ results, status }) => {
-            if (status === 'OK') {
-              return {
-                formattedAddress: results[0].formatted_address,
-                geoPin: results[0].geometry.location,
-                placeId: results[0].place_id,
-                // plusCode: results[0].plus_code,
-              };
-            }
-          }),
-        );
+      .pipe(
+        map(({ results, status }) => {
+          if (status === 'OK') {
+            return {
+              formattedAddress: results[0].formatted_address,
+              geoPin: results[0].geometry.location,
+              placeId: results[0].place_id,
+              // plusCode: results[0].plus_code,
+            };
+          }
+        }),
+      );
   }
 
   formatAddress(addressObject) {
@@ -39,6 +39,6 @@ export class GeocodeService {
     return {
       inline: `${street}, ${city}, ${region} ${postalCode}, ${country}`,
       query: `${street},+${city},+${region}+${postalCode},+${country}`,
-    }
+    };
   }
 }

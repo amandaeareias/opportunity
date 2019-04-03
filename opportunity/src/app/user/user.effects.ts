@@ -20,7 +20,6 @@ import { TOGGLE_GLOBAL_PLACEHOLDER } from '../ui/ui.actions';
 
 @Injectable()
 export class UserEffects {
-
   @Effect()
   fetchUserData$ = this.actions$
     .pipe(
@@ -32,9 +31,9 @@ export class UserEffects {
           photoURL,
           displayName,
         }, isNgo)
-        /* Pipe result of registerUser to get only the first response */
-        /* This fixes a bug of double-response triggered by real-time DB */
-        /* @TODO: Add catchError logic instead of returning EMPTY */
+          /* Pipe result of registerUser to get only the first response */
+          /* This fixes a bug of double-response triggered by real-time DB */
+          /* @TODO: Add catchError logic instead of returning EMPTY */
           .pipe(
             first(),
             map(({ user, isNgo }) => new GET_USER_SUCCESS({ user, isNgo })),
@@ -52,7 +51,7 @@ export class UserEffects {
           .pipe(
             map(() => new USER_LOGOUT_SUCCESS()),
             // catchError((err) => new USER_LOGOUT_FAILURE(err)),
-          )
+          );
       }),
     );
 
@@ -66,7 +65,8 @@ export class UserEffects {
         return update$
           .pipe(
             map(() => {
-              return new UPDATE_USER_SUCCESS(data)}),
+              return new UPDATE_USER_SUCCESS(data)
+            }),
           )
       }),
     );
@@ -123,6 +123,6 @@ export class UserEffects {
     private db: FirebaseCrudService,
     private ipGeoLocation: IpGeoLocationService,
     private store: Store<any>,
-  ) {}
+  ) { }
 
 }

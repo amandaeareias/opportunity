@@ -34,7 +34,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private router: Router,
     private maps: GeocodeService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.userStateSubscription = this.store.select(getUserState).subscribe(user => {
@@ -44,6 +44,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         if (!user.user.isComplete) {
           const dialogRef = this.openSignUpForm(user.isNgo ? NgoSignupComponent : VolunteerSignupComponent);
 
+          // REVIEW: This obsrevable callback goes into a service, as it's not related to the
+          //          ui [separation of concerns]
           this.signupFormSubscription = dialogRef.afterClosed()
             .subscribe((data = {}) => {
               if (user.isNgo) {
@@ -68,7 +70,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     });
     this.keyUpSubscription = this.keyUp$
       .pipe(
-        map((e:any) => e.target.value),
+        map((e: any) => e.target.value),
         debounceTime(400),
         distinctUntilChanged(),
         mergeMap(searchValue => of(searchValue)
@@ -77,7 +79,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
           )),
       ).subscribe(() => {
         this.keyUpSearch();
-      })
+      });
   }
 
   ngOnDestroy() {
@@ -93,7 +95,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   openSettings() {
-    if(this.currentUser.isNgo){
+    if (this.currentUser.isNgo) {
       this.dialog.open(SettingsNgoComponent, { data: this.currentUser })
     } else {
       this.dialog.open(SettingsVolunteerComponent, { data: this.currentUser })

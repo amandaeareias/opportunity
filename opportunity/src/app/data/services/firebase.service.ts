@@ -12,62 +12,51 @@ import { map, first } from 'rxjs/operators'
   providedIn: 'root'
 })
 export class FirebaseCrudService {
-  constructor(public db: AngularFirestore) {}
+  constructor(public db: AngularFirestore) { }
 
   /* Search */
+  // REVIEW: Why the generic? You're not using it.
   searchByName<T>(collection: string, word: string) {
     return this.db.collection<T>(collection).snapshotChanges().pipe(
       map(actions => {
-        let result:any = actions.map(action => {
-        const data = action.payload.doc.data()
-        const id = action.payload.doc.id;
-        return {id, ...data};
-        })
-        return result = result.filter((el:any) => {return el.name.toLowerCase().includes(word.toLowerCase())})
+        return actions
+          .map(action => {
+            const data = action.payload.doc.data()
+            const id = action.payload.doc.id;
+            return { id, ...data };
+          })
+          .filter((el: any) => el.name.toLowerCase().includes(word.toLowerCase()));
       }),
+    );
+  }
+
+  // REVIEW: same function with different parameters
+
+  getAllEntities(id: string, collection: string, matchingProp?: string) {
+    const query = matchingProp ? ref => ref.where(matchingProp, '==', id) : undefined;
+    return this.db.collection(collection, query).snapshotChanges().pipe(
+      map(actions => actions.map(action => {
+        const data = action.payload.doc.data();
+        return { id: action.payload.doc.id, ...data };
+      })),
     );
   }
 
   /* Getters */
   getAllOpportunitiesOfNGO(id: string) {
-    return this.db.collection('opportunities', ref => ref.where('ngo.id', '==', id)).snapshotChanges().pipe(
-      map(actions => actions.map(action => {
-        const data = action.payload.doc.data()
-        const id = action.payload.doc.id;
-        return {id, ...data};
-      })),
-    );
+    return this.getAllEntities(id, 'opportunities', 'ngo.id');
   }
 
   getAllApplicationsOfOpportunity(id: string) {
-    return this.db.collection('applications', ref => ref.where('opportunityId', '==', id)).snapshotChanges().pipe(
-      map(actions => actions.map(action => {
-        const data = action.payload.doc.data()
-        const id = action.payload.doc.id;
-        return {id, ...data};
-      })),
-    );
+    return this.getAllEntities(id, 'applications', 'opportunityId');
   }
 
   getAllApplicationsOfVolunteer(id: string) {
-    return this.db.collection('applications', ref => ref.where('volunteerId', '==', id)).snapshotChanges().pipe(
-      map(actions => actions.map(action => {
-        const data = action.payload.doc.data()
-        const id = action.payload.doc.id;
-        return {id, ...data};
-      })),
-    );
+    return this.getAllEntities(id, 'applications', 'volunteerId');
   }
 
   getAllReviewOfNGO(ngoId: string) {
-    return this.db.collection('ngos/'+ngoId+'/reviews').snapshotChanges().pipe(
-      map(actions => actions.map(action => {
-        const data: any = action.payload.doc.data()
-        const id = action.payload.doc.id;
-        data.id = id;
-        return data;
-      })),
-    );
+    return this.getAllEntities(ngoId, 'ngos/' + ngoId + '/reviews');
   }
 
   /* generic getters */
@@ -89,10 +78,10 @@ export class FirebaseCrudService {
         map(actions => actions.map(action => {
           const data = action.payload.doc.data()
           const id = action.payload.doc.id;
-          return {id, ...data};
+          return { id, ...data };
         }),
-      ),
-    );
+        ),
+      );
   }
 
   /* Please note: create functions use type constructor in order */
@@ -105,7 +94,7 @@ export class FirebaseCrudService {
     this.getOneNGO(opportunity.ngo.id).pipe(first()).subscribe(
       async (fullNgoData: NGO) => {
         const opportunitiesCountNgo = fullNgoData.opportunitiesCount || 0;
-        await this.db.collection('ngos').doc(opportunity.ngo.id).update({opportunitiesCount: opportunitiesCountNgo+1})
+        await this.db.collection('ngos').doc(opportunity.ngo.id).update({ opportunitiesCount: opportunitiesCountNgo + 1 })
         return this.db.collection('opportunities').add({ ...new Opportunity(), ...opportunity });
       }
     )
@@ -117,13 +106,13 @@ export class FirebaseCrudService {
       async (fullVolunteerData: Volunteer) => {
         review.volunteerName = fullVolunteerData.name;
         review.volunteerImage = fullVolunteerData.image;
-        const path = 'ngos/'+ review.ngoId
+        const path = 'ngos/' + review.ngoId
         await this.db.doc(path).collection('reviews').add({ ...new Review(), ...review })
         const path2 = path + '/reviews'
         return this.getMany(path2).subscribe(
           (reviewsArray: any) => {
-            const average = Math.round(reviewsArray.reduce((a,b) => { return a+(b.rating || 0) }, 0)/reviewsArray.length);
-            return this.db.collection('ngos').doc(review.ngoId).update({rating: average})
+            const average = Math.round(reviewsArray.reduce((a, b) => { return a + (b.rating || 0) }, 0) / reviewsArray.length);
+            return this.db.collection('ngos').doc(review.ngoId).update({ rating: average })
           }
         )
 
@@ -155,8 +144,8 @@ export class FirebaseCrudService {
             const applicationsCountVol = fullVolunteerData.applicationsCount || 0;
             const applicationsCountOpp = fullOpportunityData.applicationsCount || 0;
 
-            await this.db.collection('volunteers').doc(volunteerId).update({applicationsCount: applicationsCountVol+1})
-            await this.db.collection('opportunities').doc(opportunityId).update({applicationsCount: applicationsCountOpp+1})
+            await this.db.collection('volunteers').doc(volunteerId).update({ applicationsCount: applicationsCountVol + 1 })
+            await this.db.collection('opportunities').doc(opportunityId).update({ applicationsCount: applicationsCountOpp + 1 })
             return this.db.collection('applications').add({ ...new Application(), ...application, ...addedData });
           }
         )
@@ -166,8 +155,8 @@ export class FirebaseCrudService {
 
   updateVolunteer = (volId: string, data: any) => {
     //1. check for updates relevant for the applications of this volunteer
-    const {name, image} = data;
-    const volData: any = {volunteerData: {}};
+    const { name, image } = data;
+    const volData: any = { volunteerData: {} };
     if (name) {
       volData.volunteerData.name = name;
     }
@@ -188,8 +177,8 @@ export class FirebaseCrudService {
 
   updateNGO = (ngoId: string, data: any) => {
     //1. check for updates relevant for the opportunities of this ngo
-    const {name, image, category, contact} = data;
-    const ngoData: any = {ngo: {id: ngoId}}
+    const { name, image, category, contact } = data;
+    const ngoData: any = { ngo: { id: ngoId } }
     if (name) {
       ngoData.ngo.name = name;
     }
@@ -209,7 +198,8 @@ export class FirebaseCrudService {
         //and then update them
         Promise.all(opportunitiesArray.map(
           (opportunity: any) => {
-            this.updateOpportunity(opportunity.id, ngoData)}))
+            this.updateOpportunity(opportunity.id, ngoData)
+          }))
           .then(() => console.log('updated opportunities'))
       }
     );
@@ -218,9 +208,9 @@ export class FirebaseCrudService {
 
   updateOpportunity = (oppId: string, data: any) => {
     //1. check for updates relevant for the applications of this opportunity
-    console.log('Updating opportunity '+oppId+' with '+data)
-    const {ngo, name, about, location, prerequisites, active} = data;
-    const oppData: any = {opportunityData: {}};
+    console.log('Updating opportunity ' + oppId + ' with ' + data)
+    const { ngo, name, about, location, prerequisites, active } = data;
+    const oppData: any = { opportunityData: {} };
     if (ngo) {
       oppData.opportunityData.ngo = {};
     };
@@ -306,28 +296,28 @@ export class FirebaseCrudService {
       async (fullNGOData: NGO) => {
         const opportunitiesCountNGO = fullNGOData.opportunitiesCount || 0;
         //update the count of opportunities on ngo
-        await this.db.collection('ngos').doc(ngoId).update({opportunitiesCount: opportunitiesCountNGO-1})
+        await this.db.collection('ngos').doc(ngoId).update({ opportunitiesCount: opportunitiesCountNGO - 1 })
 
         //2. get all applications of this opportunity
         return this.getAllApplicationsOfOpportunity(oppId).pipe(first()).subscribe(
-        (applicationsArray) => {
-          //and then delete them
-          const promisesArray = [];
-          applicationsArray.map((application: any) => {
-            const { id, volunteerId } = application;
-            promisesArray.push(this.deleteApplication(id, volunteerId, oppId))
-          })
-          return Promise.all(promisesArray).then(() =>
-            //3. delete the object from opportunities collection
-            this.db.collection('opportunities').doc(oppId).delete()
-          )
-        }
-      );
+          (applicationsArray) => {
+            //and then delete them
+            const promisesArray = [];
+            applicationsArray.map((application: any) => {
+              const { id, volunteerId } = application;
+              promisesArray.push(this.deleteApplication(id, volunteerId, oppId))
+            })
+            return Promise.all(promisesArray).then(() =>
+              //3. delete the object from opportunities collection
+              this.db.collection('opportunities').doc(oppId).delete()
+            )
+          }
+        );
       }
     );
   }
 
-  deleteApplication =  async (appId: string, volId: string, oppId: string) => {
+  deleteApplication = async (appId: string, volId: string, oppId: string) => {
     //This version of delete is syncronous (just for the fun of it)
 
     //get volunteer data, in particular count of applications
@@ -335,13 +325,13 @@ export class FirebaseCrudService {
       async (fullVolData: Volunteer) => {
         const applicationsCountVol = fullVolData.applicationsCount || 0;
         //update the count of applications on volunteer
-        await this.db.collection('volunteers').doc(volId).update({applicationsCount: applicationsCountVol-1});
+        await this.db.collection('volunteers').doc(volId).update({ applicationsCount: applicationsCountVol - 1 });
         //get opportunities data
         return this.getOne('opportunities', oppId).pipe(first()).subscribe(
           async (fullOppData: Opportunity) => {
             const applicationsCountOpp = fullOppData.applicationsCount || 0;
             //update the count of applications on opportunity
-            await this.db.collection('opportunities').doc(oppId).update({applicationsCount: applicationsCountOpp-1});
+            await this.db.collection('opportunities').doc(oppId).update({ applicationsCount: applicationsCountOpp - 1 });
             //delete the object from applications-collection
             return this.db.collection('applications').doc(appId).delete()
           }

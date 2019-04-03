@@ -19,6 +19,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   public ngos: NGO[];
   public opportunities: Opportunity[];
 
+  // REVIEW: Why this styles are in here? You're not changing them. Move to CSS.
   displayNgoListOnHP = {
     'margin-top': '50px',
     'display': 'flex',

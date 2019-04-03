@@ -19,6 +19,9 @@ export class HomepageComponent implements OnInit, OnDestroy {
   public ngos: NGO[];
   public opportunities: Opportunity[];
   /* Pass css styles to NGOList Component */
+  // REVIEW: Ok, I see what you're doing here. Why not defining it in the css with
+  // the selector ":host > app-ngolist" (the "app-ngolist" element as a child of
+  // the host);
   public displayNgoListOnHP: any = {
     'margin-top': '50px',
     'display': 'flex',
@@ -38,7 +41,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
         this._ngoCache = ngos;
         this.ngos = ngos;
       });
-    
+
     this.opportunitiesSubscription = this.db.getMany('opportunities')
       .subscribe((opportunities: any) => {
         this._opportunityCache = opportunities;
