@@ -38,6 +38,9 @@ export class OpportunityComponent implements OnInit, OnDestroy {
     private dialogEdit: MatDialog,
     private mappingService: MappingService,
     private snackBar: MatSnackBar,
+    // REVIEW: Don't treat a component as a service. Instantiate one below and
+    // reference it with @ViewChild or communicate with another one (existing in 
+    // the DOM tree) via a service.
     private LoginComponent: LoginComponent,
   ) { }
 
@@ -57,7 +60,7 @@ export class OpportunityComponent implements OnInit, OnDestroy {
         this.isMe = user.user && user.user.id === this.opportunity.ngo.id;
         if (user.user && !user.isNgo) {
           this.dbApplicationsSubscription = this.db.getAllApplicationsOfVolunteer(this.currentUser.user.id)
-          .subscribe((res: any[]) => {
+            .subscribe((res: any[]) => {
               this.applied = res.filter((app: Application) => {
                 return app.opportunityId === this.opportunity.id;
               }).length !== 0;
@@ -92,12 +95,12 @@ export class OpportunityComponent implements OnInit, OnDestroy {
       this.snackBar.openFromComponent(SnackbarComponent, {
         duration: 3000,
       });
-      this.dialogOpp.close()
+      this.dialogOpp.close();
     }
   }
 
   editOpportunity() {
-    this.dialogOpp.close()
+    this.dialogOpp.close();
     this.dialogEdit.open(EditOpportunityComponent, { data: this.opportunity })
   }
 

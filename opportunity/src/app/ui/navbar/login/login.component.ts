@@ -14,9 +14,11 @@ export class LoginComponent {
   constructor(
     private store: Store<UIState>,
     private auth: LoginService
-  ) {}
+  ) { }
 
   loginGoogle(isNgo: boolean) {
+    // REVIEW: I'd do a single action "LoginWithGoogle", then the effects can orchestrate
+    // different actions. Even the `LoginService.loginWithGoogle(isNGO)` can be handled by it.
     this.store.dispatch(new UpdateLoadingState({
       component: 'navbar',
       loadingState: true,

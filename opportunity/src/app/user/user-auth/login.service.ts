@@ -21,10 +21,11 @@ export class LoginService {
 
   registerUser(userLoginData: { logInEmail: string, photoURL: string, displayName: string }, isNgo: boolean) {
     const { logInEmail, photoURL, displayName } = userLoginData;
-    
+
     /* Subject observable is used to append db responses */
-    let subject$ = new Subject();
-    
+    // REVIEW: `const` never reassigned
+    const subject$ = new Subject();
+
     /* Fetch list of volunteers and NGO's and check which one(s) is empty */
     /* with combineLatest method */
     const vol$ = this.db.getMany('volunteers', (ref) => ref.where('username', '==', logInEmail));
@@ -38,7 +39,7 @@ export class LoginService {
           ? { type: 'ngo', data: ngo[0] }
           : { type: '404' }
     ).subscribe(async (res) => {
-      switch(res.type) {
+      switch (res.type) {
         case 'volunteer':
         case 'ngo':
           subject$.next({
@@ -49,22 +50,18 @@ export class LoginService {
 
         case '404':
         default:
-        let user;
-        isNgo
-          ? user = await this.db.createNGO({
-              name: displayName,
-              username: logInEmail,
-              image: photoURL,
-            })
-          : user = await this.db.createVolunteer({
-              name: displayName,
-              username: logInEmail,
-              image: photoURL,
-            });
-        subject$.next({
-          isNgo,
-          user,
-        });
+          const create = isNgo
+            ? this.db.createNGO
+            : this.db.createVolunteer;
+          const user = await create({
+            name: displayName,
+            username: logInEmail,
+            image: photoURL,
+          });
+          subject$.next({
+            isNgo,
+            user,
+          });
       }
     });
 
@@ -72,7 +69,7 @@ export class LoginService {
   }
 
   signOut() {
-    return this.firebaseAuth.auth.signOut();
     this.loginSubscription.unsubscribe();
+    return this.firebaseAuth.auth.signOut();
   }
 }

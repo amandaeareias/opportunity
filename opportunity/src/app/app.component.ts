@@ -5,9 +5,12 @@ import { Subscription } from 'rxjs';
 
 import { getUserState, UserState } from './user/user.reducers';
 import { getUIState, UIState } from './ui/ui.reducers';
-import { GOOGLE_LOGIN_SUCCESS, GET_USER_PENDING, GET_USER_LOCATION_PENDING } from './user/user.actions';
+import {
+  GOOGLE_LOGIN_SUCCESS,
+  GET_USER_PENDING,
+  GET_USER_LOCATION_PENDING
+} from './user/user.actions';
 import { TOGGLE_GLOBAL_PLACEHOLDER } from './ui/ui.actions';
-
 
 @Component({
   selector: 'app-root',
@@ -20,15 +23,14 @@ export class AppComponent implements OnInit, OnDestroy {
   private authStateSubscription: Subscription;
   private uiStateSubscription: Subscription;
   private navbarUIState: string;
-  public displayApp: boolean = true;
+  public displayApp = true;
 
-  constructor(
-    private auth: AngularFireAuth,
-    private store: Store<any>,
-  ) {}
+  constructor(private auth: AngularFireAuth, private store: Store<any>) { }
 
   ngOnInit() {
-    this.userStateSubscription = this.store.select(getUserState)
+    // REVIEW: use `createSelector` for mixing different selectors and subscribing only once.
+    this.userStateSubscription = this.store
+      .select(getUserState)
       .subscribe(user => {
         this.me = user;
         if (!user.location) {
@@ -36,7 +38,8 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.uiStateSubscription = this.store.select(getUIState)
+    this.uiStateSubscription = this.store
+      .select(getUIState)
       .subscribe((uiState: UIState) => {
         this.navbarUIState = uiState.navbar.uiState;
         this.displayApp = uiState.global.displayApp;
@@ -44,14 +47,18 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.authStateSubscription = this.auth.authState.subscribe(authResponse => {
       if (authResponse) {
+        // REVIEW: better to be handled with a side-effect.
         this.store.dispatch(new GOOGLE_LOGIN_SUCCESS());
         if (!this.me.isLoggedIn) {
-          this.store.dispatch(new GET_USER_PENDING({
-            logInEmail: authResponse.email,
-            displayName: authResponse.displayName,
-            photoURL: authResponse.photoURL,
-            isNgo: this.parseNgoUIState(this.navbarUIState),
-          }));
+          // REVIEW: You dispatch GET_USER and let the side-effect manage the pending, success and failure statuses.
+          this.store.dispatch(
+            new GET_USER_PENDING({
+              logInEmail: authResponse.email,
+              displayName: authResponse.displayName,
+              photoURL: authResponse.photoURL,
+              isNgo: this.parseNgoUIState(this.navbarUIState)
+            })
+          );
         }
       }
     });
@@ -68,6 +75,4 @@ export class AppComponent implements OnInit, OnDestroy {
   parseNgoUIState(uiState: string): boolean {
     return /^NGO/i.test(uiState);
   }
-
 }
-

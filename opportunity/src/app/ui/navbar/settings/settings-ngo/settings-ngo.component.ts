@@ -124,7 +124,7 @@ export class SettingsNgoComponent implements OnDestroy {
   }
 
   deleteProfile() {
-    let confirmation = confirm('Are you sure you want to delete your account?');
+    const confirmation = confirm('Are you sure you want to delete your account?');
     if (confirmation) {
       this.dialog.close();
       this.store.dispatch(new DELETE_USER_LOGOUT({

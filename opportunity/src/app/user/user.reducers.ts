@@ -40,7 +40,7 @@ export function userReducer(state = initialState, action: UserActions) {
         isNgo,
         isLoggedIn: true,
       };
-    
+
     case ActionTypes.UPDATE_USER_SUCCESS:
       const userData = {
         ...state.user,
@@ -51,7 +51,7 @@ export function userReducer(state = initialState, action: UserActions) {
         ...state,
         user: userData,
       };
-    
+
     case ActionTypes.GET_USER_LOCATION_SUCCESS:
       return {
         ...state,
